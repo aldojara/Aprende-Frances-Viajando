@@ -26,6 +26,15 @@
       background-clip:text;
       color:transparent;
     }
+    @keyframes text-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-text-gradient {
+  background-size: 200% auto;
+  animation: text-gradient 6s ease infinite;
+}
   </style>
   <script>
   // Redirección automática si el usuario visita index.html directamente
@@ -79,8 +88,8 @@
 
   <!-- Contenido -->
   <div class="relative max-w-6xl mx-auto px-4 py-28 text-center text-slate-100">
-    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-lg">
-      Aprende francés con Inteligencia Artificial
+    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow animate-text-gradient bg-gradient-to-r from-sky-400 via-sky-200 to-sky-500 bg-clip-text text-transparent">
+  Aprende francés con Inteligencia Artificial
     </h1>
     <p class="mt-6 text-slate-200 md:text-lg max-w-2xl mx-auto drop-shadow-md">
       Una plataforma para aprender francés con el poder de la Inteligencia Artificial.
