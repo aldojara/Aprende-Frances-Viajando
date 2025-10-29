@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aprende Francés Viajando</title>
+  <meta name="description" content="Una plataforma para aprender francés con el poder de la Inteligencia Artificial." />
+  <meta name="author" content="Aldo Jara" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    .glass {
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.06);
+    }
+    .gradient-text {
+      background: linear-gradient(90deg,#06b6d4,#3b82f6,#22c55e);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-100 selection:bg-sky-300/20">
+
+  <!-- Navbar -->
+  <header class="sticky top-0 z-50 bg-slate-950/80 glass border-b border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="#" class="font-extrabold tracking-tight text-lg">Aprende <span class="text-sky-400">Francés</span> Viajando</a>
+      <nav class="hidden md:flex gap-6 text-sm">
+        <a href="#inicio" class="hover:text-sky-400">Inicio</a>
+        <a href="#cursos" class="hover:text-sky-400">Cursos</a>
+        <a href="#ejercicios" class="hover:text-sky-400">Ejercicios (IA)</a>
+        <a href="#recursos" class="hover:text-sky-400">Recursos</a>
+        <a href="#publicaciones" class="hover:text-sky-400">Publicaciones</a>
+        <a href="#contacto" class="hover:text-sky-400">Contacto</a>
+      </nav>
+      <button id="menuBtn" class="md:hidden p-2 rounded-lg border border-slate-700" aria-label="Abrir menú">☰</button>
+    </div>
+    <div id="mobileMenu" class="md:hidden hidden border-t border-slate-800">
+      <div class="px-4 py-3 space-y-2">
+        <a href="#inicio" class="block">Inicio</a>
+        <a href="#cursos" class="block">Cursos</a>
+        <a href="#ejercicios" class="block">Ejercicios (IA)</a>
+        <a href="#recursos" class="block">Recursos</a>
+        <a href="#publicaciones" class="block">Publicaciones</a>
+        <a href="#contacto" class="block">Contacto</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="inicio" class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-sky-950/80 via-slate-950 to-slate-950"></div>
+    <div class="relative max-w-6xl mx-auto px-4 py-20 md:py-28 text-center">
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight gradient-text">
+        Aprende francés con Inteligencia Artificial
+      </h1>
+      <p class="mt-6 text-slate-300 md:text-lg max-w-2xl mx-auto">
+        Una plataforma para aprender francés con el poder de la Inteligencia Artificial.
+      </p>
+      <div class="mt-8 flex justify-center gap-3">
+        <a href="#cursos" class="px-5 py-3 rounded-2xl bg-sky-500 hover:bg-sky-400 font-semibold text-slate-950">Explorar cursos</a>
+        <a href="#contacto" class="px-5 py-3 rounded-2xl border border-slate-700 hover:border-sky-500">Contacto</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Placeholder Sections -->
+  <section id="cursos" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold mb-4">Cursos</h2>
+    <p class="text-slate-400">Próximamente encontrarás aquí los módulos de aprendizaje guiado.</p>
+  </section>
+
+  <section id="ejercicios" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold mb-4">Ejercicios (IA)</h2>
+    <p class="text-slate-400">Próximamente podrás practicar con ejercicios generados por IA.</p>
+  </section>
+
+  <section id="recursos" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold mb-4">Recursos</h2>
+    <p class="text-slate-400">Guías, mapas mentales y materiales complementarios.</p>
+  </section>
+
+  <section id="publicaciones" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold mb-4">Publicaciones</h2>
+    <p class="text-slate-400">Artículos y reflexiones sobre el aprendizaje del francés con IA.</p>
+  </section>
+
+  <section id="contacto" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold mb-4">Contacto</h2>
+    <p class="text-slate-400">¿Tienes preguntas o ideas? Muy pronto podrás contactarme desde aquí.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800 mt-10">
+    <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-400 text-center">
+      © 2025 Aldo Jara — Aprende Francés Viajando
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('menuBtn')?.addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>
