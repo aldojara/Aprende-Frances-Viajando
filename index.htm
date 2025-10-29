@@ -30,31 +30,35 @@
 
 <body class="bg-slate-950 text-slate-100 selection:bg-sky-300/20">
 
-  <!-- Navbar -->
-  <header class="sticky top-0 z-50 bg-slate-950/80 glass border-b border-slate-800">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="#" class="font-extrabold tracking-tight text-lg">Aprende <span class="text-sky-400">Francés</span> Viajando</a>
-      <nav class="hidden md:flex gap-6 text-sm">
-        <a href="#inicio" class="hover:text-sky-400">Inicio</a>
-        <a href="#cursos" class="hover:text-sky-400">Cursos</a>
-        <a href="#ejercicios" class="hover:text-sky-400">Ejercicios (IA)</a>
-        <a href="#recursos" class="hover:text-sky-400">Recursos</a>
-        <a href="#publicaciones" class="hover:text-sky-400">Publicaciones</a>
-        <a href="#contacto" class="hover:text-sky-400">Contacto</a>
-      </nav>
-      <button id="menuBtn" class="md:hidden p-2 rounded-lg border border-slate-700" aria-label="Abrir menú">☰</button>
+<!-- Navbar -->
+<header class="sticky top-0 z-50 bg-slate-950/80 glass border-b border-slate-800">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="index.html" class="font-extrabold tracking-tight text-lg">
+      Aprende <span class="text-sky-400">Francés</span> Viajando
+    </a>
+    <nav class="hidden md:flex gap-6 text-sm">
+      <a href="index.html" class="text-sky-400 font-semibold">Inicio</a>
+      <a href="cursos.html" class="hover:text-sky-400">Cursos</a>
+      <a href="ejercicios.html" class="hover:text-sky-400">Ejercicios (IA)</a>
+      <a href="recursos.html" class="hover:text-sky-400">Recursos</a>
+      <a href="publicaciones.html" class="hover:text-sky-400">Publicaciones</a>
+      <a href="contacto.html" class="hover:text-sky-400">Contacto</a>
+    </nav>
+    <button id="menuBtn" class="md:hidden p-2 rounded-lg border border-slate-700" aria-label="Abrir menú">☰</button>
+  </div>
+
+  <!-- Menú móvil -->
+  <div id="mobileMenu" class="md:hidden hidden border-t border-slate-800">
+    <div class="px-4 py-3 space-y-2">
+      <a href="index.html" class="block">Inicio</a>
+      <a href="cursos.html" class="block">Cursos</a>
+      <a href="ejercicios.html" class="block">Ejercicios (IA)</a>
+      <a href="recursos.html" class="block">Recursos</a>
+      <a href="publicaciones.html" class="block">Publicaciones</a>
+      <a href="contacto.html" class="block">Contacto</a>
     </div>
-    <div id="mobileMenu" class="md:hidden hidden border-t border-slate-800">
-      <div class="px-4 py-3 space-y-2">
-        <a href="#inicio" class="block">Inicio</a>
-        <a href="#cursos" class="block">Cursos</a>
-        <a href="#ejercicios" class="block">Ejercicios (IA)</a>
-        <a href="#recursos" class="block">Recursos</a>
-        <a href="#publicaciones" class="block">Publicaciones</a>
-        <a href="#contacto" class="block">Contacto</a>
-      </div>
-    </div>
-  </header>
+  </div>
+</header>
 
   <!-- Hero -->
   <section id="inicio" class="relative overflow-hidden">
