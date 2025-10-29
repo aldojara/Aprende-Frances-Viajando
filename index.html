@@ -33,6 +33,15 @@
       .hero-wrap { min-height: 70vh !important; }
       .hero-content { padding-top: 5rem !important; padding-bottom: 5rem !important; }
     }
+    @keyframes text-gradient-france {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-text-gradient-france {
+  background-size: 200% auto;
+  animation: text-gradient-france 8s ease infinite;
+}
   </style>
   <script>
     // Redirección automática si el usuario visita index.html directamente
@@ -93,9 +102,10 @@
     "
   >
     <div class="hero-content max-w-3xl text-slate-100 py-28 md:py-32">
-      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight md:leading-[1.15] drop-shadow-lg animate-text-gradient bg-gradient-to-r from-sky-400 via-sky-200 to-sky-500 bg-clip-text text-transparent">
-        Aprende francés Viajando
-      </h1>
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight md:leading-[1.15] drop-shadow-lg animate-text-gradient-france bg-gradient-to-r from-[#0055A4] via-[#FFFFFF] to-[#EF4135] bg-clip-text text-transparent">
+  Aprende francés <br class="md:hidden" /> Viajando
+    </h1>
+
       <p class="mt-6 text-slate-100 md:text-lg drop-shadow-md">
         Una plataforma basada totalmente en Inteligencia Artificial.
       </p>
