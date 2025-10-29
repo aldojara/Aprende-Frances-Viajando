@@ -26,6 +26,14 @@
       color:transparent;
     }
   </style>
+  <script>
+  // Redirección automática si el usuario visita index.html directamente
+  const current = window.location.href;
+  if (current.includes("index.html")) {
+    const clean = current.replace("index.html", "");
+    window.location.replace(clean);
+  }
+</script>
 </head>
 
 <body class="bg-slate-950 text-slate-100 selection:bg-sky-300/20">
