@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html> 
 <html lang="es">
 <head>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -16,34 +16,32 @@
     body {
       font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     }
-    .glass {
-      backdrop-filter: blur(10px);
-      background: rgba(255,255,255,0.06);
-    }
+    .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,0.06); }
     .gradient-text {
       background: linear-gradient(90deg,#06b6d4,#3b82f6,#22c55e);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
+      -webkit-background-clip:text; background-clip:text; color:transparent;
     }
     @keyframes text-gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-.animate-text-gradient {
-  background-size: 200% auto;
-  animation: text-gradient 6s ease infinite;
-}
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animate-text-gradient { background-size: 200% auto; animation: text-gradient 6s ease infinite; }
+
+    /* Ajustes responsivos del hero para mejorar el encuadre en móvil */
+    @media (max-width: 640px) {
+      .hero-wrap { min-height: 70vh !important; }
+      .hero-content { padding-top: 5rem !important; padding-bottom: 5rem !important; }
+    }
   </style>
   <script>
-  // Redirección automática si el usuario visita index.html directamente
-  const current = window.location.href;
-  if (current.includes("index.html")) {
-    const clean = current.replace("index.html", "");
-    window.location.replace(clean);
-  }
-</script>
+    // Redirección automática si el usuario visita index.html directamente
+    const current = window.location.href;
+    if (current.includes("index.html")) {
+      const clean = current.replace("index.html", "");
+      window.location.replace(clean);
+    }
+  </script>
 </head>
 
 <body class="bg-slate-950 text-slate-100 selection:bg-sky-300/20">
@@ -78,66 +76,80 @@
   </div>
 </header>
 
-  <!-- Hero con imagen -->
-<section id="inicio" class="relative overflow-hidden">
-  <!-- Imagen de fondo -->
-  <div class="absolute inset-0">
-    <img src="hero-paris.jpg" alt="Aprender francés en París" class="w-full h-full object-cover opacity-80" />
-    <div class="absolute inset-0 bg-slate-950/60"></div>
-  </div>
-
-  <!-- Contenido -->
-  <div class="relative max-w-6xl mx-auto px-4 py-28 text-center text-slate-100">
-    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow animate-text-gradient bg-gradient-to-r from-sky-400 via-sky-200 to-sky-500 bg-clip-text text-transparent">
-  Aprende francés con Inteligencia Artificial
-    </h1>
-    <p class="mt-6 text-slate-200 md:text-lg max-w-2xl mx-auto drop-shadow-md">
-      Una plataforma para aprender francés con el poder de la Inteligencia Artificial.
-    </p>
-    <div class="mt-8 flex justify-center gap-3">
-      <a href="cursos.html" class="px-5 py-3 rounded-2xl bg-sky-500 hover:bg-sky-400 font-semibold text-slate-950 shadow-lg">Explorar cursos</a>
-      <a href="contacto.html" class="px-5 py-3 rounded-2xl border border-slate-100/60 hover:border-sky-400 shadow-lg">Contacto</a>
+<!-- Hero con imagen optimizada -->
+<section id="inicio" class="relative">
+  <div
+    class="hero-wrap w-full min-h-[75vh] flex items-center justify-center text-center px-4"
+    style="
+      background-image:
+        linear-gradient(to bottom, rgba(2,6,23,0.45), rgba(2,6,23,0.60)),
+        url('./hero-paris.jpg');
+      background-size: cover;
+      /* Subimos ligeramente el encuadre para ganar manos/teclado y escena */
+      background-position: center 20%;
+      background-repeat: no-repeat;
+      /* Imagen más clara y con un poco más de contraste */
+      filter: brightness(1.15) contrast(1.05);
+    "
+  >
+    <div class="hero-content max-w-3xl text-slate-100">
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-lg animate-text-gradient bg-gradient-to-r from-sky-400 via-sky-200 to-sky-500 bg-clip-text text-transparent">
+        Aprende francés con Inteligencia Artificial
+      </h1>
+      <p class="mt-6 text-slate-100 md:text-lg drop-shadow-md">
+        Una plataforma para aprender francés con el poder de la Inteligencia Artificial.
+      </p>
+      <div class="mt-8 flex justify-center gap-3">
+        <a href="cursos.html"
+           class="px-5 py-3 rounded-2xl bg-sky-500 hover:bg-sky-400 font-semibold text-slate-950 shadow-lg transition">
+          Explorar cursos
+        </a>
+        <a href="contacto.html"
+           class="px-5 py-3 rounded-2xl border border-slate-100/60 hover:border-sky-400 shadow-lg transition">
+          Contacto
+        </a>
+      </div>
     </div>
   </div>
 </section>
 
-  <!-- Placeholder Sections -->
-  <section id="cursos" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
-    <h2 class="text-2xl md:text-3xl font-bold mb-4">Cursos</h2>
-    <p class="text-slate-400">Próximamente encontrarás aquí los módulos de aprendizaje guiado.</p>
-  </section>
+<!-- Placeholder Sections -->
+<section id="cursos" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
+  <h2 class="text-2xl md:text-3xl font-bold mb-4">Cursos</h2>
+  <p class="text-slate-400">Próximamente encontrarás aquí los módulos de aprendizaje guiado.</p>
+</section>
 
-  <section id="ejercicios" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
-    <h2 class="text-2xl md:text-3xl font-bold mb-4">Ejercicios (IA)</h2>
-    <p class="text-slate-400">Próximamente podrás practicar con ejercicios generados por IA.</p>
-  </section>
+<section id="ejercicios" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
+  <h2 class="text-2xl md:text-3xl font-bold mb-4">Ejercicios (IA)</h2>
+  <p class="text-slate-400">Próximamente podrás practicar con ejercicios generados por IA.</p>
+</section>
 
-  <section id="recursos" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
-    <h2 class="text-2xl md:text-3xl font-bold mb-4">Recursos</h2>
-    <p class="text-slate-400">Guías, mapas mentales y materiales complementarios.</p>
-  </section>
+<section id="recursos" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
+  <h2 class="text-2xl md:text-3xl font-bold mb-4">Recursos</h2>
+  <p class="text-slate-400">Guías, mapas mentales y materiales complementarios.</p>
+</section>
 
-  <section id="publicaciones" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
-    <h2 class="text-2xl md:text-3xl font-bold mb-4">Publicaciones</h2>
-    <p class="text-slate-400">Artículos y reflexiones sobre el aprendizaje del francés con IA.</p>
-  </section>
+<section id="publicaciones" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
+  <h2 class="text-2xl md:text-3xl font-bold mb-4">Publicaciones</h2>
+  <p class="text-slate-400">Artículos y reflexiones sobre el aprendizaje del francés con IA.</p>
+</section>
 
-  <section id="contacto" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
-    <h2 class="text-2xl md:text-3xl font-bold mb-4">Contacto</h2>
-    <p class="text-slate-400">¿Tienes preguntas o ideas? Muy pronto podrás contactarme desde aquí.</p>
-  </section>
+<section id="contacto" class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-800 text-center">
+  <h2 class="text-2xl md:text-3xl font-bold mb-4">Contacto</h2>
+  <p class="text-slate-400">¿Tienes preguntas o ideas? Muy pronto podrás contactarme desde aquí.</p>
+</section>
 
-  <!-- Footer -->
-  <footer class="border-t border-slate-800 mt-10">
-    <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-400 text-center">
-      © 2025 Aldo Jara — Aprende Francés Viajando
-    </div>
-  </footer>
+<!-- Footer -->
+<footer class="border-t border-slate-800 mt-10">
+  <div class="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-400 text-center">
+    © 2025 Aldo Jara — Aprende Francés Viajando
+  </div>
+</footer>
 
-  <script>
-    document.getElementById('menuBtn')?.addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
-    });
-  </script>
+<script>
+  document.getElementById('menuBtn')?.addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.toggle('hidden');
+  });
+</script>
 </body>
 </html>
