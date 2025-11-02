@@ -1,0 +1,49 @@
+name: Generar sitemap automáticamente
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.html'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Generar sitemap.xml
+        run: |
+          echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
+          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
+
+          # URL base del sitio
+          BASE_URL="https://aldojara.github.io/Aprende-Frances-Viajando"
+
+          # Agrega la página principal
+          echo "  <url><loc>${BASE_URL}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>" >> sitemap.xml
+
+          # Recorre todos los HTML del repositorio, excepto los de 'infografias' y '.github'
+          find . -type f -name "*.html" \
+            ! -path "./.github/*" \
+            ! -path "*/infografias/*" \
+            ! -path "./node_modules/*" \
+            ! -name "index.html" \
+            | sort | while read FILE; do
+              FILE_PATH="${FILE#./}"
+              URL="${BASE_URL}/${FILE_PATH}"
+              echo "  <url><loc>${URL}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>" >> sitemap.xml
+            done
+
+          echo '</urlset>' >> sitemap.xml
+
+      - name: Confirmar y subir cambios
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add sitemap.xml
+          git commit -m "Actualización automática del sitemap.xml" || echo "Sin cambios que confirmar"
+          git push
