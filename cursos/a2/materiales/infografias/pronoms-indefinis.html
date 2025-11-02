@@ -10,23 +10,41 @@
 </head>
 
 <body class="bg-slate-950 text-slate-100">
+  <!-- Navbar -->
   <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="https://aldojara.github.io/Aprende-Frances-Viajando/" class="font-extrabold tracking-tight text-lg">
         Aprende <span class="text-sky-400">Francés</span> Viajando
       </a>
+      <nav class="hidden md:flex gap-6 text-sm">
+        <a href="https://aldojara.github.io/Aprende-Frances-Viajando/cursos.html" class="hover:text-sky-400">Cursos</a>
+        <a href="https://aldojara.github.io/Aprende-Frances-Viajando/ejercicios.html" class="hover:text-sky-400">Ejercicios (IA)</a>
+        <a href="https://aldojara.github.io/Aprende-Frances-Viajando/recursos.html" class="hover:text-sky-400">Recursos</a>
+      </nav>
     </div>
   </header>
 
+  <!-- 🔹 Breadcrumb -->
+  <section class="bg-slate-950 border-b border-slate-800">
+    <div class="max-w-6xl mx-auto px-6 py-4 text-sm text-slate-300">
+      <a href="https://aldojara.github.io/Aprende-Frances-Viajando/cursos.html" class="text-sky-400 hover:text-sky-300">Cursos</a> /
+      <a href="https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/index.html" class="text-sky-400 hover:text-sky-300">Nivel A2</a> /
+      <a href="https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/unidad-7.html" class="text-sky-400 hover:text-sky-300 font-semibold">Unidad 7</a> /
+      <span class="text-slate-400">Infografía 2</span>
+    </div>
+  </section>
+
+  <!-- Contenido -->
   <main class="max-w-4xl mx-auto bg-white text-slate-900 shadow-2xl rounded-xl overflow-hidden mt-6 mb-12">
     <header class="bg-violet-700 p-8 text-white rounded-t-xl">
       <h1 class="text-3xl font-extrabold mb-2">Les pronoms indéfinis</h1>
-      <p class="text-violet-100 text-sm md:text-base">Hablar de forma general o imprecisa: <em>quelqu’un, quelque chose, tout, aucun...</em></p>
+      <p class="text-violet-100 text-sm md:text-base">Hablar de manera general o imprecisa: <em>quelqu’un, quelque chose, tout, aucun...</em></p>
     </header>
 
     <section class="p-6 md:p-10 space-y-6">
-      <p>Los pronombres indefinidos se usan cuando no se especifica una persona o cosa concreta.</p>
+      <p>Los pronombres indefinidos permiten referirse a personas o cosas sin especificarlas. Se usan con frecuencia para generalizar.</p>
 
+      <!-- Tabla -->
       <div class="overflow-x-auto shadow-md rounded-lg">
         <table class="min-w-full border-collapse">
           <thead>
@@ -45,7 +63,17 @@
             <tr>
               <td class="py-3 px-4"><em>quelque chose</em></td>
               <td class="py-3 px-4">algo</td>
-              <td class="py-3 px-4 italic">J’ai vu quelque chose d’étrange.</td>
+              <td class="py-3 px-4 italic">J’ai oublié quelque chose chez moi.</td>
+            </tr>
+            <tr class="bg-violet-50">
+              <td class="py-3 px-4"><em>personne</em></td>
+              <td class="py-3 px-4">nadie</td>
+              <td class="py-3 px-4 italic">Je n’ai vu personne dans la rue.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4"><em>rien</em></td>
+              <td class="py-3 px-4">nada</td>
+              <td class="py-3 px-4 italic">Je ne veux rien manger.</td>
             </tr>
             <tr class="bg-violet-50">
               <td class="py-3 px-4"><em>tout le monde</em></td>
@@ -56,12 +84,13 @@
         </table>
       </div>
 
+      <!-- Nota -->
       <div class="bg-violet-100 border-l-4 border-violet-500 p-4 rounded-md">
         <p class="font-semibold text-violet-900 mb-1">💡 Nota práctica:</p>
-        <ul class="text-sm text-violet-800 list-disc list-inside space-y-1">
-          <li>Algunos pronombres son invariables (<em>personne, rien</em>).</li>
-          <li><em>Personne</em> y <em>rien</em> se usan con negación:  
-            <em>Je n’ai vu personne.</em> / <em>Je n’ai rien compris.</em></li>
+        <ul class="list-disc list-inside text-sm text-violet-800 space-y-1">
+          <li><em>Personne</em> y <em>rien</em> se usan con negación (<em>ne... personne</em>, <em>ne... rien</em>).</li>
+          <li>Algunos pronombres son invariables: no cambian de forma.</li>
+          <li><em>Tout le monde</em> se conjuga en singular: <em>Tout le monde est prêt.</em></li>
         </ul>
       </div>
 
