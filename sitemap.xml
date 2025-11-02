@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- PÁGINAS PRINCIPALES -->
+  <url>
+    <loc>https://aldojara.github.io/Aprende-Frances-Viajando/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://aldojara.github.io/Aprende-Frances-Viajando/recursos.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aldojara.github.io/Aprende-Frances-Viajando/ejercicios.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aldojara.github.io/Aprende-Frances-Viajando/publicaciones.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://aldojara.github.io/Aprende-Frances-Viajando/contacto.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- CURSOS NIVEL A2 -->
+  <url>
+    <loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/index.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/unidad-1.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/unidad-2.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/unidad-3.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/unidad-4.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/unidad-5.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/unidad-6.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/unidad-7.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/unidad-9.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- CURSOS NIVEL B1 -->
+  <url>
+    <loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/b1/index.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/b1/unidad-1.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/b1/unidad-2.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/b1/unidad-3.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/b1/unidad-4.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/b1/unidad-5.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/b1/unidad-6.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/b1/unidad-7.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/b1/unidad-8.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aldojara.github.io/Aprende-Frances-Viajando/cursos/b1/unidad-9.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+</urlset>
