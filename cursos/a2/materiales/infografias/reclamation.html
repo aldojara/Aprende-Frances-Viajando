@@ -3,22 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Faire une réclamation — Exprimer une plainte</title>
+  <title>Faire une réclamation — Exprimer une plainte avec politesse</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
   <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 
 <body class="bg-slate-950 text-slate-100">
+  <!-- Navbar -->
+  <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="https://aldojara.github.io/Aprende-Frances-Viajando/" class="font-extrabold tracking-tight text-lg">
+        Aprende <span class="text-sky-400">Francés</span> Viajando
+      </a>
+      <nav class="hidden md:flex gap-6 text-sm">
+        <a href="https://aldojara.github.io/Aprende-Frances-Viajando/cursos.html" class="hover:text-sky-400">Cursos</a>
+        <a href="https://aldojara.github.io/Aprende-Frances-Viajando/ejercicios.html" class="hover:text-sky-400">Ejercicios (IA)</a>
+        <a href="https://aldojara.github.io/Aprende-Frances-Viajando/recursos.html" class="hover:text-sky-400">Recursos</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 🔹 Breadcrumb -->
+  <section class="bg-slate-950 border-b border-slate-800">
+    <div class="max-w-6xl mx-auto px-6 py-4 text-sm text-slate-300">
+      <a href="https://aldojara.github.io/Aprende-Frances-Viajando/cursos.html" class="text-sky-400 hover:text-sky-300">Cursos</a> /
+      <a href="https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/index.html" class="text-sky-400 hover:text-sky-300">Nivel A2</a> /
+      <a href="https://aldojara.github.io/Aprende-Frances-Viajando/cursos/a2/unidad-7.html" class="text-sky-400 hover:text-sky-300 font-semibold">Unidad 7</a> /
+      <span class="text-slate-400">Infografía 4</span>
+    </div>
+  </section>
+
+  <!-- Contenido -->
   <main class="max-w-4xl mx-auto bg-white text-slate-900 shadow-2xl rounded-xl overflow-hidden mt-6 mb-12">
     <header class="bg-rose-700 p-8 text-white rounded-t-xl">
       <h1 class="text-3xl font-extrabold mb-2">Faire une réclamation</h1>
-      <p class="text-rose-100 text-sm md:text-base">Redactar una carta o correo para expresar una queja o pedir solución a un problema.</p>
+      <p class="text-rose-100 text-sm md:text-base">Aprende a redactar una queja o reclamación con cortesía y eficacia.</p>
     </header>
 
     <section class="p-6 md:p-10 space-y-6">
-      <p>En francés, una reclamación se expresa con cortesía, claridad y argumentos concretos. Se usa en contextos administrativos, comerciales o de servicio.</p>
+      <p>En francés, redactar una <strong>réclamation</strong> requiere claridad, respeto y un tono formal. Este tipo de carta o correo se usa para expresar un problema y solicitar una solución sin agresividad.</p>
 
+      <!-- Tabla -->
       <div class="overflow-x-auto shadow-md rounded-lg">
         <table class="min-w-full border-collapse">
           <thead>
@@ -44,19 +70,37 @@
               <td class="py-3 px-4 italic">Je vous prie de bien vouloir...</td>
               <td class="py-3 px-4">Le ruego tenga la amabilidad de...</td>
             </tr>
+            <tr>
+              <td class="py-3 px-4 font-semibold">Cierre y cortesía</td>
+              <td class="py-3 px-4 italic">Veuillez agréer, Madame, Monsieur, l’expression de mes salutations distinguées.</td>
+              <td class="py-3 px-4">Atentamente / Le saluda cordialmente.</td>
+            </tr>
           </tbody>
         </table>
       </div>
 
+      <!-- Nota -->
       <div class="bg-rose-100 border-l-4 border-rose-500 p-4 rounded-md">
-        <p class="font-semibold text-rose-900 mb-1">💡 Consejo:</p>
+        <p class="font-semibold text-rose-900 mb-1">💡 Consejos de redacción:</p>
         <ul class="list-disc list-inside text-sm text-rose-800 space-y-1">
-          <li>Evita un tono agresivo: usa fórmulas de cortesía (<em>Je vous remercie par avance...</em>).</li>
-          <li>Finaliza con una despedida formal:  
-            <em>Veuillez agréer, Madame, Monsieur, l’expression de mes salutations distinguées.</em></li>
+          <li>Evita un tono agresivo; mantén la cortesía y la precisión.</li>
+          <li>Utiliza conectores lógicos: <em>en effet, cependant, par conséquent...</em></li>
+          <li>Termina con una fórmula de cortesía adecuada al registro formal.</li>
         </ul>
       </div>
 
+      <!-- Ejemplo -->
+      <section>
+        <h2 class="text-lg font-bold text-rose-700 mb-2">✉️ Ejemplo de reclamación breve</h2>
+        <p class="text-gray-700 italic">
+          Madame, Monsieur,<br>
+          Je me permets de vous écrire car ma commande n°4587, reçue le 3 avril, est incomplète.  
+          Je vous prie de bien vouloir m’envoyer les articles manquants dans les plus brefs délais.<br>
+          Veuillez agréer, Madame, Monsieur, l’expression de mes salutations distinguées.
+        </p>
+      </section>
+
+      <!-- Navegación -->
       <div class="flex justify-between mt-12 pt-8 border-t border-gray-200 text-sm">
         <a href="forme-impersonnelle.html" class="text-amber-600 hover:text-amber-400">← Infografía anterior</a>
         <span></span>
