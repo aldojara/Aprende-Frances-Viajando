@@ -1,180 +1,371 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Durée et action dans le futur — Aprende Francés Viajando</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    .section-header {
-      @apply text-lg md:text-xl font-bold text-sky-300 border-b border-sky-500 pb-1 mb-3 mt-8;
-    }
-    table th, table td { padding: 0.75rem 1rem; }
-    table th { background-color: #0369a1; color: white; }
-    table tr:nth-child(even) { background-color: rgba(255,255,255,0.05); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Referencia Completa: El Futuro Simple en Francés</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc; /* Tailwind bg-gray-50 */
+        }
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #1e40af; /* Tailwind text-blue-800 */
+            border-bottom: 2px solid #60a5fa; /* Tailwind border-blue-400 */
+            padding-bottom: 0.25rem;
+        }
+        .note-box {
+            background-color: #fefcbf; /* Tailwind bg-yellow-100 */
+            border-left: 4px solid #f59e0b; /* Tailwind border-amber-500 */
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-top: 1rem;
+            color: #92400e; /* Tailwind text-amber-900 */
+        }
+        .table-stripe tr:nth-child(even) {
+            background-color: #f3f4f6; /* Tailwind bg-gray-100 */
+        }
+        .table-stripe th {
+            background-color: #1d4ed8; /* Tailwind bg-blue-700 */
+            color: white;
+            padding: 0.75rem 1rem;
+            text-align: left;
+        }
+        .table-stripe td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb; /* Tailwind border-gray-200 */
+        }
+        .irregular-table th {
+            background-color: #dc2626; /* Tailwind bg-red-600 */
+            color: white;
+        }
+    </style>
 </head>
+<body class="p-4 sm:p-8">
 
-<body class="bg-slate-950 text-slate-100 leading-relaxed">
+    <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-xl overflow-hidden">
+        
+        <!-- Header -->
+        <header class="bg-blue-700 p-8 text-white rounded-t-xl">
+            <h1 class="text-4xl font-extrabold mb-2">Guía Completa: El Futuro Simple en Francés (Futur Simple)</h1>
+            <p class="text-blue-200 text-lg">Dominando la expresión de la certeza y la formalidad a largo plazo.</p>
+        </header>
 
-  <!-- HEADER -->
-  <header class="bg-gradient-to-r from-blue-800 via-white to-red-600 text-center text-slate-900 py-10">
-    <h1 class="text-3xl md:text-4xl font-extrabold">Guía Completa: El Futuro Simple en Francés (Futur Simple)</h1>
-    <p class="text-sm md:text-base mt-2 text-slate-800">Dominando la expresión de la certeza y la formalidad a largo plazo.</p>
-  </header>
+        <main class="p-6 lg:p-10">
 
-  <!-- CONTENEDOR PRINCIPAL -->
-  <main class="max-w-5xl mx-auto px-6 py-10">
+            <!-- 1.0 Introducción -->
+            <h2 class="section-header">1.0 Introducción: Formas de Expresar el Futuro</h2>
+            <p class="mb-4 text-gray-700">Comprender las distintas formas de expresar el futuro en francés es fundamental para lograr una comunicación precisa y matizada. La elección entre una u otra estructura no es arbitraria; depende del contexto, el registro lingüístico (formal o informal), la inmediatez de la acción y la intención del hablante.</p>
 
-    <div class="mb-6">
-      <a href="../../../unidad-2.html" class="text-sky-400 hover:text-sky-300 text-sm">← Volver a la Unidad 2</a>
+            <p class="font-semibold text-gray-800 mt-4 mb-3">Las tres herramientas principales para proyectar acciones:</p>
+            
+            <!-- Future Comparison Table -->
+            <div class="overflow-x-auto shadow-md rounded-lg">
+                <table class="min-w-full table-auto table-stripe border-collapse">
+                    <thead>
+                        <tr>
+                            <th>Forma</th>
+                            <th>Estructura</th>
+                            <th>Uso principal</th>
+                            <th>Ejemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Présent de l’indicatif</td>
+                            <td>Verbo conjugado en presente</td>
+                            <td>Acción futura próxima o planificada</td>
+                            <td><em class="font-mono text-sm">Demain, il part pour Lyon.</em></td>
+                        </tr>
+                        <tr>
+                            <td>Futur proche</td>
+                            <td><em class="font-mono text-sm">aller (presente) + infinitivo</em></td>
+                            <td>Acción inminente o intención inmediata</td>
+                            <td><em class="font-mono text-sm">Je vais étudier ce soir.</em></td>
+                        </tr>
+                        <tr>
+                            <td>Futur simple</td>
+                            <td>Radical + terminaciones (<em class="font-mono text-sm">-ai, -as, -a, -ons, -ez, -ont</em>)</td>
+                            <td>Acción futura no inmediata o de tono formal</td>
+                            <td><em class="font-mono text-sm">J’étudierai demain matin.</em></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="mt-4 text-gray-700 border-l-4 border-blue-500 pl-3 italic bg-blue-50 p-2 rounded-md">El <strong class="text-blue-700">futur simple</strong> es el tiempo verbal de la proyección, la formalidad y la certeza a largo plazo. Su uso es característico del lenguaje formal y literario, siendo predominante en textos periodísticos, discursos oficiales, contratos y obras literarias.</p>
+
+
+            <!-- 2.0 Regla General -->
+            <h2 class="section-header">2.0 La Regla General: Formación del Futur Simple</h2>
+            <p class="mb-4 text-gray-700">La regla fundamental es simple y consistente: se construye a partir de un <strong class="text-blue-700">radical verbal</strong> al que se le añade un conjunto de <strong class="text-blue-700">terminaciones fijas</strong>.</p>
+
+            <p class="font-semibold text-gray-800 mt-4 mb-3">Terminaciones Universales del Futur Simple:</p>
+            
+            <!-- Terminations Table -->
+            <div class="overflow-x-auto shadow-md rounded-lg">
+                <table class="min-w-full table-auto table-stripe border-collapse">
+                    <thead>
+                        <tr>
+                            <th>Pronombre</th>
+                            <th>Terminación</th>
+                            <th>Ejemplo con <em class="font-mono">parler</em> (hablar)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>je / j’</td><td>-ai</td><td>je parlerai</td></tr>
+                        <tr><td>tu</td><td>-as</td><td>tu parleras</td></tr>
+                        <tr><td>il / elle / on</td><td>-a</td><td>il parlera</td></tr>
+                        <tr><td>nous</td><td>-ons</td><td>nous parlerons</td></tr>
+                        <tr><td>vous</td><td>-ez</td><td>vous parlerez</td></tr>
+                        <tr><td>ils / elles</td><td>-ont</td><td>ils parleront</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="note-box">
+                <p class="font-bold">💡 Nota Fonética:</p>
+                <p>La pronunciación es regular y rítmica. La sílaba final se pronuncia consistentemente:</p>
+                <ul class="list-disc list-inside mt-2">
+                    <li><code class="font-mono">Je parlerai</code> [<em class="text-red-600">ʒə paʁləʁe</em>]</li>
+                    <li><code class="font-mono">Nous finirons</code> [<em class="text-red-600">nu finiʁɔ̃</em>]</li>
+                </ul>
+            </div>
+
+
+            <!-- 3.0 Conjugación de Verbos Regulares -->
+            <h2 class="section-header">3.0 Conjugación de Verbos Regulares por Grupo</h2>
+            
+            <h3 class="font-bold mt-4 text-gray-800">3.1 Verbos del Primer Grupo (<code class="font-mono">-ER</code>)</h3>
+            <p class="text-gray-700 mb-2">El radical es el <strong class="text-blue-700">infinitivo completo</strong>.</p>
+            <div class="bg-gray-100 p-3 rounded-md border border-gray-300">
+                <p class="font-mono text-sm">aimer (amar): j’aimerai, tu aimeras, il aimera, nous aimerons, vous aimerez, ils aimeront.</p>
+                <p class="text-sm mt-1">Otros ejemplos: je travaillerai, tu regarderas, nous écouterons, ils danseront.</p>
+            </div>
+
+            <h3 class="font-bold mt-4 text-gray-800">3.2 Verbos del Segundo Grupo (<code class="font-mono">-IR</code>)</h3>
+            <p class="text-gray-700 mb-2">El radical es el <strong class="text-blue-700">infinitivo completo</strong>.</p>
+            <div class="bg-gray-100 p-3 rounded-md border border-gray-300">
+                <p class="font-mono text-sm">finir (terminar): je finirai, tu finiras, il finira, nous finirons, vous finirez, ils finiront.</p>
+                <p class="text-sm mt-1">Otros ejemplos: tu choisiras, il réussira, nous applaudirons.</p>
+            </div>
+
+            <h3 class="font-bold mt-4 text-gray-800">3.3 Verbos del Tercer Grupo (<code class="font-mono">-RE</code>)</h3>
+            <p class="text-gray-700 mb-2">Se <strong class="text-red-600">elimina la <code class="font-mono">-e</code> final</strong> del infinitivo antes de añadir las terminaciones.</p>
+            <div class="bg-gray-100 p-3 rounded-md border border-gray-300">
+                <p class="font-mono text-sm">vendre <span class="text-red-600 line-through">e</span> → je vendrai</p>
+                <p class="text-sm mt-1">Otros ejemplos: tu attendras, il entendra, nous prendrons, ils mettront.</p>
+            </div>
+
+
+            <!-- 4.0 Modificaciones Ortográficas -->
+            <h2 class="section-header">4.0 Modificaciones Ortográficas y Fonéticas del Radical</h2>
+            <p class="mb-4 text-gray-700">Ajustes necesarios para preservar la pronunciación correcta.</p>
+
+            <h3 class="font-bold mt-4 text-gray-800">4.1 Verbos con <em class="italic">e caduc</em> (e muda)</h3>
+            <ul class="list-disc list-inside ml-4 space-y-2">
+                <li>
+                    <p class="font-semibold">Cambio de <code class="font-mono">e → è</code>:</p>
+                    <p class="text-gray-600 ml-4"><code class="font-mono">acheter</code> → j’achèterai, <code class="font-mono">se lever</code> → je me lèverai.</p>
+                    <div class="note-box text-sm mt-1 p-2">
+                        <p class="font-bold">Regla práctica:</p>
+                        <p>Si la vocal cambia a <code class="font-mono">è</code> en la 1ª persona del Presente (<em class="italic">j’achète</em>), el cambio ocurre en el Futuro.</p>
+                    </div>
+                </li>
+                <li>
+                    <p class="font-semibold">Duplicación de consonante (<code class="font-mono">l → ll</code>, <code class="font-mono">t → tt</code>):</p>
+                    <p class="text-gray-600 ml-4"><code class="font-mono">appeler</code> → j’appellerai, <code class="font-mono">jeter</code> → je jetterai.</p>
+                </li>
+            </ul>
+
+            <h3 class="font-bold mt-4 text-gray-800">4.2 Verbos terminados en <code class="font-mono">-YER</code></h3>
+            <p class="text-gray-700 mb-2">La <code class="font-mono">y</code> se transforma en <code class="font-mono">i</code> (forma preferida):</p>
+            <div class="bg-gray-100 p-3 rounded-md border border-gray-300">
+                <p class="font-mono text-sm">payer → je paierai (<em class="italic">también se acepta je payerai</em>)</p>
+                <p class="font-mono text-sm">essayer → j’essaierai, nettoyer → je nettoierai.</p>
+            </div>
+            <p class="text-red-600 italic text-sm mt-2 font-semibold">⚠️ Advertencia: <code class="font-mono">envoyer</code> es irregular (<code class="font-mono">enverr-</code>).</p>
+
+            <h3 class="font-bold mt-4 text-gray-800">4.3 Verbos terminados en <code class="font-mono">-GER</code> y <code class="font-mono">-CER</code></h3>
+            <p class="text-gray-700 mb-2">No requieren ajustes en el futuro (el infinitivo se mantiene intacto).</p>
+            <ul class="list-disc list-inside ml-4 space-y-1 text-gray-600">
+                <li><code class="font-mono">manger</code> (comer): je mangerai, nous mangerons</li>
+                <li><code class="font-mono">commencer</code> (comenzar): nous commencerons</li>
+            </ul>
+
+
+            <!-- 5.0 Verbos Irregulares -->
+            <h2 class="section-header text-red-700 border-red-400">5.0 Verbos con Radical Totalmente Irregular</h2>
+            <p class="mb-4 text-gray-700">¡Estos radicales deben ser memorizados! La buena noticia es que las terminaciones (<code class="font-mono">-ai, -as, -a, ...</code>) siguen siendo las mismas.</p>
+
+            <!-- Irregular Verbs Table -->
+            <div class="overflow-x-auto shadow-xl rounded-lg mt-4">
+                <table class="min-w-full table-auto table-stripe border-collapse irregular-table">
+                    <thead>
+                        <tr>
+                            <th>Infinitivo</th>
+                            <th>Radical del Futuro</th>
+                            <th>Ejemplo</th>
+                            <th>Traducción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>être</td><td>ser-</td><td>je serai</td><td>seré / estaré</td></tr>
+                        <tr><td>avoir</td><td>aur-</td><td>j’aurai</td><td>tendré</td></tr>
+                        <tr><td>aller</td><td>ir-</td><td>j’irai</td><td>iré</td></tr>
+                        <tr><td>faire</td><td>fer-</td><td>je ferai</td><td>haré</td></tr>
+                        <tr><td>venir</td><td>viendr-</td><td>je viendrai</td><td>vendré</td></tr>
+                        <tr><td>voir</td><td>verr-</td><td>je verrai</td><td>veré</td></tr>
+                        <tr><td>savoir</td><td>saur-</td><td>je saurai</td><td>sabré</td></tr>
+                        <tr><td>pouvoir</td><td>pourr-</td><td>je pourrai</td><td>podré</td></tr>
+                        <tr><td>vouloir</td><td>voudr-</td><td>je voudrai</td><td>querré</td></tr>
+                        <tr><td>devoir</td><td>devr-</td><td>je devrai</td><td>deberé</td></tr>
+                        <tr><td>envoyer</td><td>enverr-</td><td>j’enverrai</td><td>enviaré</td></tr>
+                        <tr><td>falloir</td><td>faudr-</td><td>il faudra</td><td>será necesario (impersonal)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p class="font-semibold text-gray-800 mt-4 mb-2">Ejemplos en contexto:</p>
+            <ul class="list-disc list-inside ml-4 space-y-1 text-gray-700 text-sm">
+                <li>Demain, j’aurai un entretien important.</li>
+                <li>Il faudra travailler davantage.</li>
+                <li>Nous verrons bien ce qui se passera.</li>
+            </ul>
+
+            <!-- 6.0 Verbos Pronominales -->
+            <h2 class="section-header">6.0 El Futur Simple en Verbos Pronominales</h2>
+            <p class="mb-4 text-gray-700">Los verbos reflexivos siguen las mismas reglas. El pronombre reflexivo se ajusta a la persona gramatical.</p>
+
+            <p class="font-semibold text-gray-800 mb-2">Estructura:</p>
+            <div class="bg-green-50 p-3 rounded-md border border-green-300 text-green-800 font-mono text-sm">
+                PRONOMBRE REFLEXIVO + VERBO CONJUGADO EN FUTURO SIMPLE
+            </div>
+
+            <ul class="list-disc list-inside ml-4 mt-2 space-y-1 text-gray-700">
+                <li><code class="font-mono">se lever</code> (levantarse): <strong class="text-blue-700">je me lèverai</strong></li>
+                <li><code class="font-mono">s’habiller</code> (vestirse): <strong class="text-blue-700">tu t’habilleras</strong></li>
+            </ul>
+
+            <p class="font-semibold text-gray-800 mt-4">Nota sobre la negación:</p>
+            <p class="text-gray-700 italic">La estructura <code class="font-mono">ne...pas</code> rodea al bloque completo:</p>
+            <p class="font-mono bg-gray-100 p-2 rounded-md mt-1 text-sm">Je <strong class="text-red-600">ne</strong> me lèverai <strong class="text-red-600">pas</strong> tôt demain.</p>
+
+
+            <!-- 7.0 Valor y Usos -->
+            <h2 class="section-header">7.0 Valor y Usos del Futur Simple</h2>
+            <p class="mb-4 text-gray-700">Este tiempo trasciende lo temporal, añadiendo matices de intención y modalidad.</p>
+
+            <ul class="space-y-3">
+                <li>
+                    <strong class="text-blue-700">7.1 Acción futura literal:</strong>
+                    <p class="text-gray-700 ml-4 italic">Demain, il pleuvra sur la côte. (Mañana lloverá en la costa.)</p>
+                </li>
+                <li>
+                    <strong class="text-blue-700">7.2 Predicción o suposición (futuro conjetural):</strong>
+                    <p class="text-gray-700 ml-4 italic">Il sera déjà arrivé. (Ya habrá llegado.)</p>
+                </li>
+                <li>
+                    <strong class="text-blue-700">7.3 Orden o promesa solemne:</strong>
+                    <p class="text-gray-700 ml-4 italic">Tu feras tes devoirs tout de suite. (Harás tus deberes enseguida.)</p>
+                </li>
+                <li>
+                    <strong class="text-blue-700">7.5 En oraciones subordinadas temporales o condicionales:</strong>
+                    <p class="text-gray-700 ml-4 italic">Después de <code class="font-mono">quand</code>, <code class="font-mono">dès que</code>, etc., si la acción principal es futura:</p>
+                    <p class="text-gray-700 ml-4 font-semibold italic">Quand tu <u class="text-red-600">arriveras</u>, nous <u class="text-red-600">dînerons</u>.</p>
+                </li>
+            </ul>
+
+
+            <!-- 8.0 Diferencias Clave -->
+            <h2 class="section-header">8.0 Diferencias Clave: Futur Simple vs. Futur Proche</h2>
+            <p class="mb-4 text-gray-700">La elección depende del registro, la inmediatez y la intención.</p>
+
+            <!-- Comparison Table -->
+            <div class="overflow-x-auto shadow-md rounded-lg mt-4">
+                <table class="min-w-full table-auto table-stripe border-collapse">
+                    <thead>
+                        <tr>
+                            <th>Criterio</th>
+                            <th>Futur proche</th>
+                            <th>Futur simple</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Estructura</td><td><code class="font-mono">aller</code> + infinitivo</td><td>Radical + Terminaciones</td></tr>
+                        <tr><td>Uso</td><td>Acción inminente, intención</td><td>Acción lejana, formal o segura</td></tr>
+                        <tr><td>Registro</td><td>Oral, cotidiano</td><td>Formal, literario, escrito</td></tr>
+                        <tr><td>Ejemplo</td><td>Je <em class="text-green-700">vais partir</em> maintenant.</td><td>Je <em class="text-blue-700">partirai</em> demain matin.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- 9.0 Expresiones Temporales -->
+            <h2 class="section-header">9.0 Expresiones Temporales Comunes</h2>
+            <p class="mb-4 text-gray-700">Estos marcadores refuerzan la elección del tiempo verbal.</p>
+
+            <!-- Temporal Expressions Table -->
+            <div class="overflow-x-auto shadow-md rounded-lg mt-4 max-h-64 overflow-y-auto">
+                <table class="min-w-full table-auto table-stripe border-collapse">
+                    <thead>
+                        <tr>
+                            <th>Expresión (Francés)</th>
+                            <th>Traducción (Español)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>demain</td><td>mañana</td></tr>
+                        <tr><td>après-demain</td><td>pasado mañana</td></tr>
+                        <tr><td>tout à l’heure</td><td>dentro de un rato</td></tr>
+                        <tr><td>bientôt</td><td>pronto</td></tr>
+                        <tr><td>la semaine prochaine</td><td>la próxima semana</td></tr>
+                        <tr><td>le mois prochain</td><td>el próximo mes</td></tr>
+                        <tr><td>dans deux jours</td><td>en dos días</td></tr>
+                        <tr><td>dans quinze jours</td><td>en quince días</td></tr>
+                        <tr><td>d’ici peu</td><td>en poco tiempo</td></tr>
+                        <tr><td>un jour</td><td>algún día</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- 10.0 Conclusión -->
+            <h2 class="section-header">10.0 Conclusión: Síntesis para Dominar el Futur Simple</h2>
+            <p class="mb-4 text-gray-700">El dominio de este tiempo es un indicador de un nivel avanzado. Concéntrate en estos cuatro pilares:</p>
+
+            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                <div class="p-4 bg-blue-100 border-l-4 border-blue-500 rounded-lg">
+                    <p class="font-bold text-blue-800">1. Terminaciones</p>
+                    <p class="text-sm">Memoriza el conjunto universal: <code class="font-mono">-ai, -as, -a, -ons, -ez, -ont</code>.</p>
+                </div>
+                <div class="p-4 bg-blue-100 border-l-4 border-blue-500 rounded-lg">
+                    <p class="font-bold text-blue-800">2. Modificaciones</p>
+                    <p class="text-sm">Entiende el porqué de los cambios en <code class="font-mono">-e caduc</code> (ej. <code class="font-mono">achèterai</code>) y <code class="font-mono">-YER</code>.</p>
+                </div>
+                <div class="p-4 bg-blue-100 border-l-4 border-blue-500 rounded-lg">
+                    <p class="font-bold text-blue-800">3. Irregulares</p>
+                    <p class="text-sm">Aprende de memoria los radicales de alta frecuencia: <code class="font-mono">être (ser-)</code>, <code class="font-mono">avoir (aur-)</code>, <code class="font-mono">aller (ir-)</code>, <code class="font-mono">faire (fer-)</code>.</p>
+                </div>
+                <div class="p-4 bg-blue-100 border-l-4 border-blue-500 rounded-lg">
+                    <p class="font-bold text-blue-800">4. Contexto</p>
+                    <p class="text-sm">Úsalo apropiadamente en contextos formales y después de conjunciones como <code class="font-mono">quand</code>.</p>
+                </div>
+            </div>
+            
+        </main>
+
+        <footer class="bg-blue-800 p-4 text-center text-white text-sm rounded-b-xl mt-8">
+            <p>Guía de Referencia Francesa | Creado para el aprendizaje preciso.</p>
+        </footer>
+
     </div>
-
-    <!-- 1.0 INTRODUCCIÓN -->
-    <h2 class="section-header">1.0 Introducción: Formas de Expresar el Futuro</h2>
-    <p class="mb-4 text-slate-300">Comprender las distintas formas de expresar el futuro en francés es fundamental para lograr una comunicación precisa y matizada. La elección depende del contexto, el registro (formal o informal), la inmediatez de la acción y la intención del hablante.</p>
-    <p class="font-semibold text-sky-300 mt-4 mb-3">Las tres herramientas principales para proyectar acciones:</p>
-
-    <div class="overflow-x-auto rounded-xl border border-slate-700 shadow-md">
-      <table class="min-w-full table-auto border-collapse text-sm">
-        <thead>
-          <tr>
-            <th>Forma</th>
-            <th>Estructura</th>
-            <th>Uso principal</th>
-            <th>Ejemplo</th>
-          </tr>
-        </thead>
-        <tbody class="text-slate-300">
-          <tr><td>Présent de l’indicatif</td><td>Verbo conjugado en presente</td><td>Acción futura próxima</td><td><em>Demain, il part pour Lyon.</em></td></tr>
-          <tr><td>Futur proche</td><td><em>aller (presente) + infinitivo</em></td><td>Acción inminente</td><td><em>Je vais étudier ce soir.</em></td></tr>
-          <tr><td>Futur simple</td><td>Radical + terminaciones (-ai, -as, -a, -ons, -ez, -ont)</td><td>Acción futura lejana</td><td><em>J’étudierai demain matin.</em></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p class="mt-4 text-slate-200 border-l-4 border-sky-500 pl-4 italic bg-slate-800/40 p-3 rounded-md">El <strong>futur simple</strong> es el tiempo de la proyección, la formalidad y la certeza a largo plazo. Se usa en contextos formales, literarios y periodísticos.</p>
-
-    <!-- 2.0 LA REGLA GENERAL -->
-    <h2 class="section-header">2.0 La Regla General: Formación del Futur Simple</h2>
-    <p class="text-slate-300 mb-4">Se forma a partir del <strong>radical verbal</strong> más las <strong>terminaciones fijas</strong>.</p>
-
-    <div class="overflow-x-auto rounded-xl border border-slate-700 shadow-md">
-      <table class="min-w-full table-auto border-collapse text-sm">
-        <thead><tr><th>Pronombre</th><th>Terminación</th><th>Ejemplo con parler</th></tr></thead>
-        <tbody class="text-slate-300">
-          <tr><td>je / j’</td><td>-ai</td><td>je parlerai</td></tr>
-          <tr><td>tu</td><td>-as</td><td>tu parleras</td></tr>
-          <tr><td>il / elle / on</td><td>-a</td><td>il parlera</td></tr>
-          <tr><td>nous</td><td>-ons</td><td>nous parlerons</td></tr>
-          <tr><td>vous</td><td>-ez</td><td>vous parlerez</td></tr>
-          <tr><td>ils / elles</td><td>-ont</td><td>ils parleront</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="bg-amber-100/90 border-l-4 border-amber-500 p-4 text-amber-900 rounded-md mt-5 text-sm">
-      💡 <strong>Nota fonética:</strong> la terminación <em>-ai</em> se pronuncia [e]; <em>-ons</em> como [ɔ̃].
-    </div>
-
-    <!-- 3.0 CONJUGACIÓN REGULAR -->
-    <h2 class="section-header">3.0 Conjugación de Verbos Regulares</h2>
-    <div class="space-y-4 text-slate-300 text-sm">
-      <p><strong>-ER:</strong> aimer → j’aimerai, tu aimeras, il aimera…</p>
-      <p><strong>-IR:</strong> finir → je finirai, tu finiras, il finira…</p>
-      <p><strong>-RE:</strong> quitar la <em>e</em> final: vendre → je vendrai.</p>
-    </div>
-
-    <!-- 4.0 MODIFICACIONES -->
-    <h2 class="section-header">4.0 Modificaciones Ortográficas</h2>
-    <p class="text-slate-300">Ajustes para conservar la pronunciación correcta.</p>
-    <ul class="list-disc list-inside ml-4 text-slate-400 text-sm space-y-2 mt-3">
-      <li><strong>e → è</strong> : acheter → j’achèterai</li>
-      <li><strong>ll / tt</strong> : appeler → j’appellerai</li>
-      <li><strong>y → i</strong> : payer → je paierai</li>
-    </ul>
-
-    <!-- 5.0 IRREGULARES -->
-    <h2 class="section-header text-red-400 border-red-500">5.0 Verbos con Radical Irregular</h2>
-    <div class="overflow-x-auto border border-slate-700 rounded-xl shadow-md mt-3">
-      <table class="min-w-full table-auto border-collapse text-sm">
-        <thead><tr><th>Infinitivo</th><th>Radical</th><th>Ejemplo</th><th>Traducción</th></tr></thead>
-        <tbody class="text-slate-300">
-          <tr><td>être</td><td>ser-</td><td>je serai</td><td>seré / estaré</td></tr>
-          <tr><td>avoir</td><td>aur-</td><td>j’aurai</td><td>tendré</td></tr>
-          <tr><td>aller</td><td>ir-</td><td>j’irai</td><td>iré</td></tr>
-          <tr><td>faire</td><td>fer-</td><td>je ferai</td><td>haré</td></tr>
-          <tr><td>venir</td><td>viendr-</td><td>je viendrai</td><td>vendré</td></tr>
-          <tr><td>voir</td><td>verr-</td><td>je verrai</td><td>veré</td></tr>
-          <tr><td>pouvoir</td><td>pourr-</td><td>je pourrai</td><td>podré</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p class="mt-3 text-sm text-slate-300 italic">Ejemplo: Demain, j’aurai un entretien important. / Nous verrons ce qui se passera.</p>
-
-    <!-- 6.0 PRONOMINALES -->
-    <h2 class="section-header">6.0 Verbos Pronominales</h2>
-    <p class="text-slate-300 mb-2">Estructura: <code class="font-mono text-sky-400">pronombre + verbo en futur simple</code></p>
-    <p class="text-sm italic text-slate-400">Ej: je me lèverai, tu t’habilleras.</p>
-
-    <!-- 7.0 USOS -->
-    <h2 class="section-header">7.0 Usos del Futur Simple</h2>
-    <ul class="list-disc list-inside ml-4 text-slate-300 text-sm space-y-2">
-      <li><strong>Acción futura literal:</strong> Demain, il pleuvra.</li>
-      <li><strong>Predicción:</strong> Il sera déjà arrivé.</li>
-      <li><strong>Orden o promesa:</strong> Tu feras tes devoirs.</li>
-      <li><strong>Tras “quand” o “dès que”:</strong> Quand tu arriveras, nous dînerons.</li>
-    </ul>
-
-    <!-- 8.0 DIFERENCIAS -->
-    <h2 class="section-header">8.0 Futur Simple vs Futur Proche</h2>
-    <div class="overflow-x-auto border border-slate-700 rounded-xl shadow-md mt-4">
-      <table class="min-w-full table-auto text-sm border-collapse">
-        <thead><tr><th>Criterio</th><th>Futur proche</th><th>Futur simple</th></tr></thead>
-        <tbody class="text-slate-300">
-          <tr><td>Estructura</td><td>aller + infinitivo</td><td>Radical + terminaciones</td></tr>
-          <tr><td>Uso</td><td>Acción inminente</td><td>Acción lejana o formal</td></tr>
-          <tr><td>Registro</td><td>Oral</td><td>Formal o escrito</td></tr>
-          <tr><td>Ejemplo</td><td>Je vais partir maintenant.</td><td>Je partirai demain matin.</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 9.0 EXPRESIONES TEMPORALES -->
-    <h2 class="section-header">9.0 Expresiones Temporales Comunes</h2>
-    <div class="overflow-x-auto border border-slate-700 rounded-xl shadow-md mt-4">
-      <table class="min-w-full table-auto text-sm">
-        <thead><tr><th>Francés</th><th>Español</th></tr></thead>
-        <tbody class="text-slate-300">
-          <tr><td>demain</td><td>mañana</td></tr>
-          <tr><td>après-demain</td><td>pasado mañana</td></tr>
-          <tr><td>la semaine prochaine</td><td>la próxima semana</td></tr>
-          <tr><td>dans deux jours</td><td>en dos días</td></tr>
-          <tr><td>d’ici peu</td><td>en poco tiempo</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 10.0 CONCLUSIÓN -->
-    <h2 class="section-header">10.0 Conclusión</h2>
-    <p class="text-slate-300">Domina las terminaciones, los irregulares y el contexto de uso. Practica con oraciones reales para consolidar tu dominio del futuro simple.</p>
-
-    <div class="grid md:grid-cols-2 gap-4 mt-5 text-sm">
-      <div class="p-4 bg-sky-900/40 border-l-4 border-sky-500 rounded-lg"><strong>1️⃣ Terminaciones:</strong> -ai, -as, -a, -ons, -ez, -ont.</div>
-      <div class="p-4 bg-sky-900/40 border-l-4 border-sky-500 rounded-lg"><strong>2️⃣ Irregulares:</strong> ser-, aur-, ir-, fer-, pourr-, voudr-.</div>
-      <div class="p-4 bg-sky-900/40 border-l-4 border-sky-500 rounded-lg"><strong>3️⃣ Pronunciación:</strong> regular y melódica.</div>
-      <div class="p-4 bg-sky-900/40 border-l-4 border-sky-500 rounded-lg"><strong>4️⃣ Contexto:</strong> tras “quand”, “lorsque”, “dès que”.</div>
-    </div>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="border-t border-slate-800 text-center text-slate-400 py-6 text-sm mt-10">
-    © 2025 Aldo Jara — Aprende Francés Viajando
-  </footer>
 
 </body>
 </html>
