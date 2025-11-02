@@ -185,29 +185,39 @@
 
     </div>
 
-    <!-- Script Tabs -->
-    <script>
-      const tabs = document.querySelectorAll('.tab-btn');
-      const contents = document.querySelectorAll('.tab-content');
+<!-- Script Tabs corregido -->
+<script>
+  // Seleccionar todos los botones de pestañas
+  const tabButtons = document.querySelectorAll('.tab-btn');
 
-      tabs.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const tabGroup = btn.dataset.tab.replace(/\d+/, '');
-          const tabNum = btn.dataset.tab.match(/\d+/)[0];
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const tabId = button.dataset.tab;
+      const group = tabId.replace(/[0-9]/g, ''); // "videos" o "infografias"
+      const groupNumber = tabId.match(/\d+/)[0]; // número del grupo (1, 2, 3...)
 
-          document.querySelectorAll('[data-tab^="' + tabGroup + tabNum + '"]').forEach(b => {
-            b.classList.remove('active-tab', 'bg-slate-800/60', 'text-sky-300', 'border-b-2', 'border-sky-400');
-            b.classList.add('text-slate-400');
-          });
+      // Obtener solo los botones de este grupo
+      const groupButtons = document.querySelectorAll(`[data-tab$="${groupNumber}"]`);
 
-          btn.classList.add('active-tab', 'bg-slate-800/60', 'text-sky-300', 'border-b-2', 'border-sky-400');
-          btn.classList.remove('text-slate-400');
-
-          document.querySelectorAll('#tab-' + tabGroup + tabNum).forEach(c => c.classList.add('hidden'));
-          document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
-        });
+      // Resetear solo los botones de este grupo
+      groupButtons.forEach(btn => {
+        btn.classList.remove('active-tab', 'bg-slate-800/60', 'text-sky-300', 'border-b-2', 'border-sky-400');
+        btn.classList.add('text-slate-400');
       });
-    </script>
+
+      // Activar el tab actual
+      button.classList.add('active-tab', 'bg-slate-800/60', 'text-sky-300', 'border-b-2', 'border-sky-400');
+      button.classList.remove('text-slate-400');
+
+      // Ocultar solo los contenidos de este grupo
+      const groupContents = document.querySelectorAll(`#tab-videos${groupNumber}, #tab-infografias${groupNumber}`);
+      groupContents.forEach(content => content.classList.add('hidden'));
+
+      // Mostrar el contenido seleccionado
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+    });
+  });
+</script>
 
     <!-- PDF -->
     <div class="mt-10 text-center">
