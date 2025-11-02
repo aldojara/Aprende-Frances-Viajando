@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aldojara.github.io/Aprende-Frances-Viajando/sitemap.xml
