@@ -1,0 +1,205 @@
+---
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { label: "Inicio", href: "/" },
+  { label: "Niveles", href: "/niveles/" },
+  { label: "Gramática", href: "/gramatica/" },
+  { label: "DELF", href: "/delf/" },
+  { label: "Recursos", href: "/recursos/" },
+  { label: "Proyecto", href: "/proyecto/" },
+];
+
+const isActive = (href: string) => {
+  if (href === "/") {
+    return currentPath === "/";
+  }
+
+  return currentPath.startsWith(href);
+};
+---
+
+<div class="tricolor-bar" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="Ir al inicio">
+      <span class="brand-mark" aria-hidden="true">AFV</span>
+
+      <span class="brand-text">
+        <strong>Aprende Francés</strong>
+        <span>Viajando</span>
+      </span>
+    </a>
+
+    <nav class="main-nav" aria-label="Navegación principal">
+      {
+        navItems.map((item) => (
+          <a
+            class:list={[
+              "nav-link",
+              { "nav-link-active": isActive(item.href) },
+            ]}
+            href={item.href}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="header-actions">
+      <a class="button button-secondary header-explore" href="/contenidos/">
+        Explorar
+      </a>
+
+      <a class="button button-primary" href="/empieza/">
+        Empieza gratis
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .tricolor-bar {
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      var(--color-blue) 0 33.33%,
+      #ffffff 33.33% 66.66%,
+      var(--color-red) 66.66% 100%
+    );
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid var(--color-border);
+    background: rgba(247, 244, 237, 0.94);
+    backdrop-filter: blur(14px);
+  }
+
+  .header-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    min-height: 4.75rem;
+    gap: 2rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: max-content;
+  }
+
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 1px solid rgba(184, 134, 11, 0.35);
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .brand-text {
+    display: grid;
+    color: var(--color-heading);
+    line-height: 1.05;
+  }
+
+  .brand-text strong {
+    font-family: var(--font-display);
+    font-size: 1rem;
+  }
+
+  .brand-text span {
+    margin-top: 0.18rem;
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .main-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.35rem;
+  }
+
+  .nav-link {
+    position: relative;
+    padding-block: 0.45rem;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: color 160ms ease;
+  }
+
+  .nav-link:hover,
+  .nav-link-active {
+    color: var(--color-heading);
+  }
+
+  .nav-link-active::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--color-gold);
+    content: "";
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .header-actions .button {
+    min-height: 2.45rem;
+    padding: 0.58rem 1rem;
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 1024px) {
+    .header-inner {
+      grid-template-columns: auto auto;
+    }
+
+    .main-nav {
+      display: none;
+    }
+
+    .header-actions {
+      justify-self: end;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .header-inner {
+      gap: 1rem;
+    }
+
+    .brand-text {
+      display: none;
+    }
+
+    .header-explore {
+      display: none;
+    }
+  }
+</style>

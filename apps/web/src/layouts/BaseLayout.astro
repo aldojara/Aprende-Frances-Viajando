@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Header from "../components/global/Header.astro";
 
 interface Props {
   title?: string;
@@ -43,7 +44,8 @@ const pageTitle =
     />
   </head>
 
-  <body>
-    <slot />
-  </body>
+<body>
+  <Header />
+  <slot />
+</body>
 </html>
