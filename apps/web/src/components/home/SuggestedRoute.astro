@@ -1,0 +1,338 @@
+---
+import RouteStep from "./RouteStep.astro";
+import { suggestedRoute } from "../../data/suggestedRoute";
+---
+
+<section
+  id="suggested-route"
+  class="section suggested-route"
+  aria-labelledby="suggested-route-heading"
+>
+  <div class="container suggested-route-layout">
+    <div class="suggested-route-intro">
+      <p class="eyebrow">Progresión guiada</p>
+
+      <h2 id="suggested-route-heading">Tu ruta sugerida</h2>
+
+      <p>
+        Explora una secuencia editorial diseñada para avanzar paso a paso según
+        un nivel y un objetivo concreto.
+      </p>
+
+      <p class="suggested-route-note">
+        Esta vista es una demostración. El progreso y la personalización se
+        incorporarán progresivamente.
+      </p>
+    </div>
+
+    <div class="suggested-route-panel">
+      <div class="suggested-route-header">
+        <div>
+          <span class="route-status">{suggestedRoute.status}</span>
+          <h3>{suggestedRoute.title}</h3>
+          <p>{suggestedRoute.description}</p>
+        </div>
+
+        <dl class="route-meta" aria-label="Datos de la ruta editorial">
+          <div>
+            <dt>Nivel</dt>
+            <dd>{suggestedRoute.level}</dd>
+          </div>
+
+          <div>
+            <dt>Objetivo</dt>
+            <dd>{suggestedRoute.objective}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="route-progress-note" role="note">
+        <span aria-hidden="true"></span>
+        <p>
+          Esta ruta es una demostración editorial. Los estados son ejemplos de
+          progresión y el progreso no se guarda todavía.
+        </p>
+      </div>
+
+      <ol class="route-steps" aria-label="Secuencia editorial sugerida">
+        {
+          suggestedRoute.steps.map((step, index) => (
+            <li>
+              <RouteStep
+                step={step}
+                isLast={index === suggestedRoute.steps.length - 1}
+              />
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="route-footer" aria-label="Continuidad de la ruta">
+        <span>Ruta completa en preparación</span>
+        <p>
+          La ruta podrá adaptarse en una fase futura cuando estén disponibles
+          seguimiento persistente y recomendaciones conectadas.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .suggested-route {
+    border-top: 1px solid var(--color-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(247, 244, 237, 0.92)),
+      var(--color-bg);
+  }
+
+  .suggested-route-layout {
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.24fr) minmax(0, 0.76fr);
+    gap: 1.2rem;
+    align-items: stretch;
+  }
+
+  .suggested-route-intro {
+    display: grid;
+    align-content: center;
+  }
+
+  .suggested-route-intro h2 {
+    font-size: clamp(2rem, 3vw, 2.85rem);
+  }
+
+  .suggested-route-intro > p {
+    margin: 0.85rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.98rem;
+  }
+
+  .suggested-route-intro .suggested-route-note {
+    max-width: 19rem;
+    color: var(--color-heading);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .suggested-route-panel {
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid rgba(11, 47, 85, 0.12);
+    border-radius: var(--radius-md);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(239, 237, 232, 0.58)),
+      var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .suggested-route-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .route-status {
+    display: inline-flex;
+    min-height: 1.45rem;
+    align-items: center;
+    padding: 0.16rem 0.5rem;
+    border-radius: 999px;
+    background: #ebf2fb;
+    color: var(--color-blue);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .suggested-route-header h3 {
+    margin-top: 0.52rem;
+    font-size: clamp(1.28rem, 2vw, 1.72rem);
+  }
+
+  .suggested-route-header p {
+    max-width: 43rem;
+    margin: 0.5rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+    line-height: 1.48;
+  }
+
+  .route-meta {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 0.62rem;
+    margin: 0;
+  }
+
+  .route-meta div {
+    min-width: 6.25rem;
+    padding: 0.62rem 0.68rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.74);
+  }
+
+  .route-meta dt {
+    color: var(--color-text-muted);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .route-meta dd {
+    margin: 0.12rem 0 0;
+    color: var(--color-heading);
+    font-size: 0.82rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .route-progress-note {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.9rem;
+    padding: 0.62rem 0.72rem;
+    border: 1px dashed rgba(184, 134, 11, 0.36);
+    border-radius: var(--radius-sm);
+    background: rgba(184, 134, 11, 0.08);
+  }
+
+  .route-progress-note span {
+    display: block;
+    width: 0.68rem;
+    height: 0.68rem;
+    border-radius: 50%;
+    background: var(--color-gold);
+  }
+
+  .route-progress-note p {
+    margin: 0;
+    color: var(--color-heading);
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1.35;
+  }
+
+  .route-steps {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.72rem;
+    padding: 0;
+    margin: 0.9rem 0 0;
+    list-style: none;
+  }
+
+  .route-steps > li {
+    min-width: 0;
+  }
+
+  .route-footer {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 0.92rem;
+    padding-top: 0.86rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .route-footer span {
+    display: inline-flex;
+    min-height: 1.9rem;
+    align-items: center;
+    padding: 0.22rem 0.62rem;
+    border-radius: 999px;
+    background: var(--color-blue-dark);
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .route-footer p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.76rem;
+    line-height: 1.42;
+  }
+
+  @media (max-width: 1120px) {
+    .suggested-route-layout {
+      grid-template-columns: 1fr;
+      gap: 1.35rem;
+    }
+
+    .suggested-route-intro {
+      max-width: 760px;
+      align-content: start;
+    }
+
+    .suggested-route-intro .suggested-route-note {
+      max-width: 34rem;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .suggested-route-header {
+      grid-template-columns: 1fr;
+    }
+
+    .route-meta {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .route-steps {
+      position: relative;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 620px) {
+    .suggested-route-layout {
+      width: 100%;
+    }
+
+    .suggested-route-intro {
+      width: min(100% - 2rem, var(--container-width));
+      margin-inline: auto;
+    }
+
+    .suggested-route-panel {
+      width: min(100% - 2rem, var(--container-width));
+      margin-inline: auto;
+      padding: 0.82rem;
+    }
+
+    .route-meta,
+    .route-footer {
+      grid-template-columns: 1fr;
+    }
+
+    .route-steps {
+      grid-template-columns: 1fr;
+      gap: 0.78rem;
+    }
+
+    .route-steps::before {
+      position: absolute;
+      top: 1rem;
+      bottom: 1rem;
+      left: 1.9rem;
+      width: 1px;
+      background: rgba(11, 47, 85, 0.14);
+      content: "";
+    }
+
+    .route-steps > li {
+      position: relative;
+      z-index: 1;
+    }
+  }
+</style>

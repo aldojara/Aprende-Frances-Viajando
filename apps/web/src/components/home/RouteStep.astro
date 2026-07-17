@@ -1,0 +1,243 @@
+---
+import type { RouteStep } from "../../data/suggestedRoute";
+
+interface Props {
+  step: RouteStep;
+  isLast?: boolean;
+}
+
+const { step, isLast = false } = Astro.props;
+
+const stateClass = {
+  "Ejemplo completado": "is-completed",
+  "Enfoque actual": "is-current",
+  Siguiente: "is-next",
+  Pendiente: "is-pending",
+}[step.state];
+---
+
+<article class={`route-step ${stateClass}`} aria-label={step.ariaLabel}>
+  <div class="route-step-marker" aria-hidden="true">
+    <span>{step.order}</span>
+  </div>
+
+  <div class="route-step-body">
+    <div class="route-step-top">
+      <span class={`route-step-state ${stateClass}`}>{step.state}</span>
+      {step.format && <span class="route-step-format">{step.format}</span>}
+    </div>
+
+    <h3>{step.shortTitle || step.title}</h3>
+
+    <p>{step.description}</p>
+
+    {step.category && <span class="route-step-category">{step.category}</span>}
+  </div>
+
+  {!isLast && <span class="route-step-connector" aria-hidden="true"></span>}
+</article>
+
+<style>
+  .route-step {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    min-width: 0;
+    min-height: 100%;
+    padding: 0.75rem 0.58rem 0.68rem;
+    border: 1px solid rgba(11, 47, 85, 0.11);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.82);
+  }
+
+  .route-step-marker {
+    display: grid;
+    width: 2.35rem;
+    height: 2.35rem;
+    place-items: center;
+    border: 2px solid rgba(11, 47, 85, 0.2);
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .route-step.is-completed .route-step-marker {
+    border-color: rgba(36, 113, 68, 0.28);
+    background: #e8f4ec;
+    color: #247144;
+  }
+
+  .route-step.is-current .route-step-marker {
+    border-color: rgba(184, 134, 11, 0.42);
+    background: #f9e4b4;
+    color: var(--color-heading);
+  }
+
+  .route-step.is-next .route-step-marker {
+    border-color: rgba(0, 85, 164, 0.32);
+    background: #ebf2fb;
+    color: var(--color-blue);
+  }
+
+  .route-step-body {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    min-width: 0;
+    margin-top: 0.68rem;
+  }
+
+  .route-step-top {
+    display: grid;
+    gap: 0.32rem;
+    min-width: 0;
+  }
+
+  .route-step-state,
+  .route-step-format,
+  .route-step-category {
+    display: inline-flex;
+    justify-self: start;
+    align-items: center;
+    border-radius: 999px;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .route-step-state {
+    min-height: 1.32rem;
+    padding: 0.16rem 0.42rem;
+  }
+
+  .route-step-state.is-completed {
+    background: #e8f4ec;
+    color: #247144;
+  }
+
+  .route-step-state.is-current {
+    background: #f9e4b4;
+    color: var(--color-heading);
+  }
+
+  .route-step-state.is-next {
+    background: #ebf2fb;
+    color: var(--color-blue);
+  }
+
+  .route-step-state.is-pending {
+    background: var(--color-surface-soft);
+    color: var(--color-text-muted);
+  }
+
+  .route-step-format {
+    color: var(--color-text-muted);
+  }
+
+  .route-step h3 {
+    margin-top: 0.55rem;
+    font-size: 0.94rem;
+    line-height: 1.18;
+  }
+
+  .route-step p {
+    margin: 0.42rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    line-height: 1.36;
+  }
+
+  .route-step-category {
+    margin-top: 0.62rem;
+    color: var(--color-heading);
+  }
+
+  .route-step-connector {
+    position: absolute;
+    top: 1.9rem;
+    right: -0.82rem;
+    z-index: 2;
+    width: 1rem;
+    height: 1px;
+    background: rgba(11, 47, 85, 0.28);
+  }
+
+  .route-step-connector::after {
+    position: absolute;
+    top: 50%;
+    right: -0.05rem;
+    width: 0.38rem;
+    height: 0.38rem;
+    border-top: 1px solid rgba(11, 47, 85, 0.36);
+    border-right: 1px solid rgba(11, 47, 85, 0.36);
+    content: "";
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  @media (max-width: 1120px) {
+    .route-step {
+      padding-inline: 0.52rem;
+    }
+
+    .route-step h3 {
+      font-size: 0.88rem;
+    }
+
+    .route-step p {
+      font-size: 0.68rem;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .route-step {
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto;
+      gap: 0.75rem;
+      padding: 0.78rem;
+    }
+
+    .route-step-body {
+      margin-top: 0;
+    }
+
+    .route-step-top {
+      grid-template-columns: repeat(2, max-content);
+      align-items: center;
+    }
+
+    .route-step h3 {
+      font-size: 1rem;
+    }
+
+    .route-step p {
+      font-size: 0.78rem;
+    }
+
+    .route-step-connector {
+      display: none;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .route-step {
+      gap: 0.68rem;
+      padding: 0.76rem;
+    }
+
+    .route-step-marker {
+      width: 2.15rem;
+      height: 2.15rem;
+      font-size: 0.94rem;
+    }
+
+    .route-step-top {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
+  }
+</style>
