@@ -1,0 +1,371 @@
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-content">
+      <p class="eyebrow">Aprendizaje de francés por niveles</p>
+
+      <h1>
+        Aprende francés con rutas, práctica guiada y apoyo de inteligencia artificial
+      </h1>
+
+      <p class="hero-description">
+        Explora contenidos desde A1 hasta C1, prepara el DELF y avanza mediante
+        recursos visuales, ejercicios, videos y rutas organizadas.
+      </p>
+
+      <div class="hero-actions">
+        <a class="button button-primary" href="/niveles/">
+          Empieza con tu nivel
+        </a>
+
+        <a class="button button-secondary" href="/contenidos/">
+          Explorar contenidos
+        </a>
+      </div>
+
+      <ul class="hero-metrics" aria-label="Características de la plataforma">
+        <li>
+          <strong>A1–C1</strong>
+          <span>Niveles</span>
+        </li>
+
+        <li>
+          <strong>DELF</strong>
+          <span>Preparación</span>
+        </li>
+
+        <li>
+          <strong>Multiformato</strong>
+          <span>Video, audio y texto</span>
+        </li>
+
+        <li>
+          <strong>IA</strong>
+          <span>Práctica y feedback</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="hero-visual" aria-label="Vista futura de la plataforma">
+      <div class="visual-card visual-card-main">
+        <span class="visual-label">Tu plan de hoy</span>
+
+        <h2>Ruta recomendada</h2>
+
+        <div class="progress-row">
+          <span>Francés B1</span>
+          <strong>42%</strong>
+        </div>
+
+        <div class="progress-track">
+          <span></span>
+        </div>
+
+        <div class="lesson-list">
+          <div class="lesson lesson-complete">
+            <span>✓</span>
+            <div>
+              <strong>Passé composé</strong>
+              <small>Completado</small>
+            </div>
+          </div>
+
+          <div class="lesson lesson-active">
+            <span>2</span>
+            <div>
+              <strong>Imparfait</strong>
+              <small>En progreso</small>
+            </div>
+          </div>
+
+          <div class="lesson">
+            <span>3</span>
+            <div>
+              <strong>Contraste de tiempos</strong>
+              <small>Siguiente</small>
+            </div>
+          </div>
+        </div>
+
+        <span class="status-badge">Demostración</span>
+      </div>
+
+      <div class="visual-card visual-card-small visual-card-top">
+        <span class="visual-label">Recomendación</span>
+        <strong>Practica 10 minutos</strong>
+        <small>Pronombres COD y COI</small>
+      </div>
+
+      <div class="visual-card visual-card-small visual-card-bottom">
+        <span class="visual-label">Práctica con IA</span>
+        <strong>Feedback inmediato</strong>
+        <small>Funcionalidad próxima</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    overflow: hidden;
+    padding-block: 5.5rem;
+    background:
+      radial-gradient(
+        circle at 80% 15%,
+        rgba(0, 85, 164, 0.09),
+        transparent 28%
+      ),
+      radial-gradient(
+        circle at 92% 82%,
+        rgba(185, 64, 53, 0.07),
+        transparent 24%
+      ),
+      var(--color-bg);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+    align-items: center;
+    gap: 5rem;
+  }
+
+  .hero-content h1 {
+    max-width: 760px;
+    font-size: clamp(2.75rem, 5vw, 5.25rem);
+    letter-spacing: -0.035em;
+  }
+
+  .hero-description {
+    max-width: 680px;
+    margin: 1.5rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 1.15rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding: 0;
+    margin: 3rem 0 0;
+    list-style: none;
+  }
+
+  .hero-metrics li {
+    display: grid;
+    gap: 0.15rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-border);
+  }
+
+  .hero-metrics strong {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+  }
+
+  .hero-metrics span {
+    color: var(--color-text-muted);
+    font-size: 0.76rem;
+  }
+
+  .hero-visual {
+    position: relative;
+    min-height: 470px;
+  }
+
+  .visual-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: var(--shadow-md);
+  }
+
+  .visual-card-main {
+    position: absolute;
+    top: 3rem;
+    right: 2rem;
+    left: 2rem;
+    padding: 2rem;
+  }
+
+  .visual-card-main h2 {
+    margin-top: 0.35rem;
+    font-size: 1.75rem;
+  }
+
+  .visual-label {
+    color: var(--color-blue);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .progress-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.6rem;
+    color: var(--color-heading);
+    font-size: 0.85rem;
+  }
+
+  .progress-track {
+    height: 6px;
+    margin-top: 0.65rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--color-surface-soft);
+  }
+
+  .progress-track span {
+    display: block;
+    width: 42%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(
+      90deg,
+      var(--color-blue),
+      var(--color-gold)
+    );
+  }
+
+  .lesson-list {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .lesson {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+  }
+
+  .lesson > span {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--color-surface-soft);
+    color: var(--color-heading);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .lesson div {
+    display: grid;
+  }
+
+  .lesson strong {
+    color: var(--color-heading);
+    font-size: 0.86rem;
+  }
+
+  .lesson small {
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+  }
+
+  .lesson-complete > span {
+    background: #e8f4ec;
+    color: #247144;
+  }
+
+  .lesson-active {
+    border-color: rgba(0, 85, 164, 0.3);
+    background: var(--color-blue-light, #ebf2fb);
+  }
+
+  .lesson-active > span {
+    background: var(--color-blue);
+    color: white;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    margin-top: 1.25rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: var(--color-gold);
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .visual-card-small {
+    position: absolute;
+    display: grid;
+    gap: 0.2rem;
+    width: 220px;
+    padding: 1rem 1.1rem;
+  }
+
+  .visual-card-small strong {
+    color: var(--color-heading);
+    font-size: 0.88rem;
+  }
+
+  .visual-card-small small {
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+  }
+
+  .visual-card-top {
+    top: 0;
+    right: -1rem;
+  }
+
+  .visual-card-bottom {
+    bottom: 0;
+    left: -1rem;
+  }
+
+  @media (max-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .hero-visual {
+      max-width: 640px;
+      width: 100%;
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .hero {
+      padding-block: 3.75rem;
+    }
+
+    .hero-metrics {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-visual {
+      min-height: auto;
+    }
+
+    .visual-card-main,
+    .visual-card-small {
+      position: static;
+      width: auto;
+      margin-top: 1rem;
+    }
+  }
+</style>

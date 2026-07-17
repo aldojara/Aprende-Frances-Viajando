@@ -1,33 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/home/Hero.astro";
 ---
 
 <BaseLayout
   title="Aprende Francés Viajando"
-  description="Aprende francés por niveles, prepara el DELF y practica con recursos guiados y apoyo de inteligencia artificial."
+  description="Aprende francés desde A1 hasta C1, prepara el DELF y practica con rutas, recursos visuales y apoyo de inteligencia artificial."
 >
   <main>
-    <section class="section">
-      <div class="container">
-        <p class="eyebrow">Plataforma educativa</p>
-
-        <h1>Aprende Francés Viajando</h1>
-
-        <p>
-          Francés por niveles, preparación DELF, recursos visuales
-          y práctica guiada con apoyo de inteligencia artificial.
-        </p>
-
-        <div>
-          <a class="button button-primary" href="#niveles">
-            Explorar niveles
-          </a>
-
-          <a class="button button-secondary" href="#delf">
-            Preparar el DELF
-          </a>
-        </div>
-      </div>
-    </section>
+    <Hero />
   </main>
 </BaseLayout>
