@@ -1,0 +1,200 @@
+---
+const objectives = [
+  {
+    title: "Aprender por niveles",
+    description:
+      "Rutas estructuradas para avanzar paso a paso desde A1 hasta C1.",
+    tags: ["Gramática", "vocabulario", "comprensión"],
+    status: "En construcción",
+    href: "/niveles/",
+  },
+  {
+    title: "Preparar el DELF",
+    description:
+      "Estrategias, modelos, práctica y recursos para las competencias del examen.",
+    tags: ["Comprensión", "producción", "simulacros"],
+    status: "En construcción",
+    href: "/delf/",
+  },
+  {
+    title: "Mejorar mi comunicación",
+    description:
+      "Diálogos, pronunciación, escucha e interacción para comunicarte con confianza.",
+    tags: ["Expresión oral", "pronunciación", "escucha"],
+    status: "En construcción",
+    href: "/comunicacion/",
+  },
+];
+---
+
+<section class="section objective-section" aria-labelledby="objective-heading">
+  <div class="container">
+    <div class="objective-heading">
+      <div>
+        <p class="eyebrow">Explora según tu objetivo</p>
+
+        <h2 id="objective-heading">Elige el camino que quieres fortalecer</h2>
+      </div>
+
+      <p>
+        Estamos preparando rutas específicas para que puedas estudiar por nivel,
+        entrenar el examen DELF o mejorar tu comunicación cotidiana.
+      </p>
+    </div>
+
+    <ul class="objective-grid" aria-label="Objetivos de aprendizaje">
+      {
+        objectives.map((objective) => (
+          <li>
+            <article class="objective-card card" data-href={objective.href}>
+              <div class="objective-card-header">
+                <h3>{objective.title}</h3>
+
+                <span class="objective-status">{objective.status}</span>
+              </div>
+
+              <p>{objective.description}</p>
+
+              <ul class="objective-tags" aria-label={`Etiquetas de ${objective.title}`}>
+                {objective.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+
+              <div class="objective-route" aria-label={`Ruta prevista ${objective.href}`}>
+                <span>Ruta en construcción</span>
+                <span class="objective-path">{objective.href}</span>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .objective-section {
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface-soft);
+  }
+
+  .objective-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.7fr);
+    align-items: end;
+    gap: 3rem;
+  }
+
+  .objective-heading h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .objective-heading > p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+  }
+
+  .objective-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 3rem 0 0;
+    list-style: none;
+  }
+
+  .objective-card {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    min-height: 300px;
+    height: 100%;
+    padding: 1.5rem;
+  }
+
+  .objective-card-header {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .objective-card h3 {
+    font-size: 1.45rem;
+  }
+
+  .objective-card > p {
+    margin: 1.25rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .objective-status {
+    justify-self: start;
+    display: inline-flex;
+    padding: 0.28rem 0.62rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-blue);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .objective-tags {
+    align-self: end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 2rem 0 0;
+    list-style: none;
+  }
+
+  .objective-tags li {
+    padding: 0.32rem 0.62rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-heading);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .objective-route {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 2rem;
+    color: var(--color-blue);
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+
+  .objective-path {
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 1024px) {
+    .objective-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 700px) {
+    .objective-heading {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .objective-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .objective-card {
+      min-height: auto;
+    }
+  }
+</style>
