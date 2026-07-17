@@ -1,0 +1,141 @@
+---
+import ContentCard from "./ContentCard.astro";
+import { recentContent } from "../../data/recentContent";
+---
+
+<section class="section recent-content" aria-labelledby="recent-content-heading">
+  <div class="container recent-content-layout">
+    <div class="recent-intro">
+      <p class="eyebrow">Nuevos recursos</p>
+
+      <h2 id="recent-content-heading">Contenido reciente</h2>
+
+      <p>
+        Aprende con formatos variados y auténticos.
+      </p>
+
+      <div class="recent-future-action" aria-label="Catálogo completo en preparación">
+        <span>Ver todo</span>
+        <span>Catálogo en preparación</span>
+      </div>
+    </div>
+
+    <ul class="recent-grid" aria-label="Contenido reciente en demostración">
+      {
+        recentContent.map((item) => (
+          <li>
+            <ContentCard item={item} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .recent-content {
+    border-top: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .recent-content-layout {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.34fr) minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .recent-intro {
+    position: sticky;
+    top: 6rem;
+  }
+
+  .recent-intro h2 {
+    font-size: clamp(2rem, 3.2vw, 3rem);
+  }
+
+  .recent-intro > p {
+    margin: 1rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.98rem;
+  }
+
+  .recent-future-action {
+    display: inline-grid;
+    gap: 0.12rem;
+    min-height: 2.75rem;
+    margin-top: 1.75rem;
+    color: var(--color-blue);
+    font-size: 0.86rem;
+    font-weight: 800;
+  }
+
+  .recent-future-action span + span {
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .recent-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .recent-grid > li {
+    min-width: 0;
+  }
+
+  @media (max-width: 1180px) {
+    .recent-content-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .recent-intro {
+      position: static;
+      max-width: 720px;
+    }
+
+    .recent-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 700px) {
+    .recent-content {
+      overflow: hidden;
+    }
+
+    .recent-content-layout {
+      width: 100%;
+      gap: 1.5rem;
+    }
+
+    .recent-intro {
+      width: min(100% - 2rem, var(--container-width));
+      margin-inline: auto;
+    }
+
+    .recent-grid {
+      display: grid;
+      grid-auto-columns: minmax(17rem, 82vw);
+      grid-auto-flow: column;
+      grid-template-columns: none;
+      gap: 0.85rem;
+      width: 100%;
+      padding: 0 1rem 0.75rem;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scroll-padding-inline: 1rem;
+      scroll-snap-type: inline mandatory;
+      scrollbar-width: thin;
+    }
+
+    .recent-grid > li {
+      scroll-snap-align: start;
+    }
+  }
+</style>

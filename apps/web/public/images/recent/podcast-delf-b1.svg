@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Podcast de producción oral DELF B1</title>
+  <desc id="desc">Ilustración editorial con micrófono de estudio y notas para preparación oral.</desc>
+  <rect width="640" height="420" fill="#f7f4ed"/>
+  <rect width="640" height="420" fill="#0b2f55" opacity=".12"/>
+  <circle cx="486" cy="135" r="84" fill="#d9c29a"/>
+  <rect x="402" y="68" width="112" height="178" rx="50" fill="#0b2f55"/>
+  <rect x="426" y="91" width="64" height="130" rx="30" fill="#ffffff" opacity=".2"/>
+  <path d="M372 160c0 58 36 98 86 98s86-40 86-98M458 258v54M410 312h96" fill="none" stroke="#0b2f55" stroke-width="16" stroke-linecap="round"/>
+  <rect x="72" y="78" width="230" height="198" rx="18" fill="#ffffff" opacity=".92"/>
+  <path d="M106 126h158M106 164h128M106 202h150" stroke="#0b2f55" stroke-width="10" stroke-linecap="round" opacity=".28"/>
+  <circle cx="104" cy="294" r="22" fill="#b8860b"/>
+  <circle cx="162" cy="294" r="22" fill="#b8860b" opacity=".72"/>
+  <circle cx="220" cy="294" r="22" fill="#b8860b" opacity=".48"/>
+  <rect x="44" y="280" width="552" height="100" rx="18" fill="#ffffff" opacity=".96"/>
+  <rect x="64" y="300" width="92" height="34" rx="17" fill="#0b2f55"/>
+  <text x="110" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#ffffff">Podcast</text>
+  <text x="184" y="318" font-family="Georgia, serif" font-size="24" font-weight="700" fill="#0b2f55">Producción oral DELF B1</text>
+  <text x="184" y="350" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#6d6861">B1</text>
+  <text x="548" y="350" text-anchor="end" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#0b2f55">21:30</text>
+</svg>

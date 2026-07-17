@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Artículo sobre errores frecuentes</title>
+  <desc id="desc">Ilustración editorial con mesa de estudio, café y notas corregidas.</desc>
+  <rect width="640" height="420" fill="#f7f4ed"/>
+  <rect width="640" height="210" fill="#e7d4bd"/>
+  <rect y="210" width="640" height="210" fill="#8f6848"/>
+  <rect x="94" y="62" width="270" height="240" rx="16" fill="#ffffff" opacity=".94"/>
+  <path d="M126 116h196M126 154h154M126 192h180M126 230h128" stroke="#0b2f55" stroke-width="9" stroke-linecap="round" opacity=".32"/>
+  <path d="M130 150l34 34 65-78" fill="none" stroke="#b94035" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="463" cy="132" r="70" fill="#ffffff" opacity=".95"/>
+  <circle cx="463" cy="132" r="46" fill="#b8860b" opacity=".28"/>
+  <path d="M401 202c36 25 86 25 124 0" fill="none" stroke="#0b2f55" stroke-width="10" opacity=".22"/>
+  <rect x="44" y="280" width="552" height="100" rx="18" fill="#ffffff" opacity=".96"/>
+  <rect x="64" y="300" width="94" height="34" rx="17" fill="#0b2f55"/>
+  <text x="111" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#ffffff">Artículo</text>
+  <text x="184" y="320" font-family="Georgia, serif" font-size="24" font-weight="700" fill="#0b2f55">Les erreurs courantes</text>
+  <text x="184" y="350" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#6d6861">B1 · B2</text>
+  <text x="548" y="350" text-anchor="end" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#0b2f55">6 min lectura</text>
+</svg>

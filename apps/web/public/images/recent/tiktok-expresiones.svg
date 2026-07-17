@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Terraza parisina para expresiones francesas</title>
+  <desc id="desc">Ilustración editorial con tejados de París, una torre lejana y una tarjeta de TikTok.</desc>
+  <rect width="640" height="420" fill="#f7f4ed"/>
+  <rect width="640" height="260" fill="#dbe8f5"/>
+  <circle cx="520" cy="86" r="44" fill="#f7d99d"/>
+  <path d="M0 244c72-42 138-31 207-54 82-27 148-78 234-53 71 21 110 79 199 62v221H0Z" fill="#0b2f55" opacity=".18"/>
+  <path d="M32 235h82v185H32zm110 36h98v149h-98zm132-58h84v207h-84zm118 43h104v164H392zm128-77h88v241h-88z" fill="#ffffff" opacity=".78"/>
+  <path d="M72 214h20v206H72zm244-42h14v248h-14zm244-44h16v292h-16z" fill="#0b2f55" opacity=".36"/>
+  <path d="M499 110h80l-19 44h-42Z" fill="none" stroke="#b8860b" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M539 58v214M500 272h78M516 202h48" stroke="#b8860b" stroke-width="7" stroke-linecap="round"/>
+  <rect x="46" y="278" width="548" height="104" rx="18" fill="#ffffff" opacity=".95"/>
+  <rect x="66" y="298" width="84" height="36" rx="18" fill="#0b2f55"/>
+  <text x="108" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#ffffff">TikTok</text>
+  <text x="176" y="318" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#0b2f55">3 expresiones francesas</text>
+  <text x="176" y="350" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#6d6861">A2 · B1</text>
+  <text x="548" y="352" text-anchor="end" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#0b2f55">00:58</text>
+</svg>

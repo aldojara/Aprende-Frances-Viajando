@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Vídeo sobre el subjonctif junto al Sena</title>
+  <desc id="desc">Ilustración editorial con río, árboles y una tarjeta de vídeo gramatical.</desc>
+  <rect width="640" height="420" fill="#f7f4ed"/>
+  <rect width="640" height="188" fill="#cfe1f3"/>
+  <path d="M0 206c71-16 125-33 196-16 71 18 137 65 222 36 75-26 126-57 222-35v229H0Z" fill="#0055a4" opacity=".5"/>
+  <path d="M0 252c84-30 160-29 228-8 98 31 166 7 240-18 54-18 105-17 172 4v190H0Z" fill="#0b2f55" opacity=".42"/>
+  <path d="M36 184h568" stroke="#ffffff" stroke-width="16" opacity=".65"/>
+  <path d="M70 166c36-44 72-44 108 0m56 0c36-44 72-44 108 0m56 0c36-44 72-44 108 0" fill="none" stroke="#ffffff" stroke-width="10" opacity=".72"/>
+  <circle cx="83" cy="122" r="36" fill="#b8860b" opacity=".85"/>
+  <circle cx="160" cy="116" r="44" fill="#b8860b" opacity=".8"/>
+  <circle cx="240" cy="127" r="34" fill="#b8860b" opacity=".75"/>
+  <rect x="42" y="277" width="556" height="102" rx="18" fill="#ffffff" opacity=".96"/>
+  <rect x="62" y="298" width="82" height="34" rx="17" fill="#0b2f55"/>
+  <polygon points="92,307 92,323 107,315" fill="#ffffff"/>
+  <text x="118" y="320" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#ffffff">Vídeo</text>
+  <text x="170" y="318" font-family="Georgia, serif" font-size="25" font-weight="700" fill="#0b2f55">Le subjonctif expliqué</text>
+  <text x="170" y="350" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#6d6861">B1 · C1</text>
+  <text x="548" y="350" text-anchor="end" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#0b2f55">14:22</text>
+</svg>
