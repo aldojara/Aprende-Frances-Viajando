@@ -1,0 +1,241 @@
+---
+import type { AIPlatformStep } from "../../data/aiPlatform";
+
+interface Props {
+  step: AIPlatformStep;
+}
+
+const { step } = Astro.props;
+
+const statusClass = {
+  Disponible: "is-available",
+  Demostración: "is-demo",
+  Próximamente: "is-upcoming",
+}[step.status];
+---
+
+<article class="ai-step" aria-label={step.ariaLabel}>
+  <div class="ai-step-top">
+    <span class="ai-step-number">{String(step.order).padStart(2, "0")}</span>
+    <span class={`ai-step-status ${statusClass}`}>{step.status}</span>
+  </div>
+
+  <div class="ai-step-visual" aria-hidden="true">
+    {
+      step.icon === "document" && (
+        <svg viewBox="0 0 56 56" focusable="false">
+          <path d="M16 11h18l8 8v26H16z" />
+          <path d="M34 11v9h8" />
+          <path d="M21 29h14" />
+          <path d="M21 35h10" />
+        </svg>
+      )
+    }
+
+    {
+      step.icon === "formats" && (
+        <svg viewBox="0 0 56 56" focusable="false">
+          <path d="M12 15h14v12H12z" />
+          <path d="M30 15h14v12H30z" />
+          <path d="M12 31h14v10H12z" />
+          <path d="M30 31h14v10H30z" />
+          <path d="m18 19 5 3-5 3z" />
+        </svg>
+      )
+    }
+
+    {
+      step.icon === "ai-feedback" && (
+        <svg viewBox="0 0 56 56" focusable="false">
+          <path d="M18 24h20a8 8 0 0 1 0 16H18a8 8 0 0 1 0-16z" />
+          <path d="M22 24v-5a6 6 0 0 1 12 0v5" />
+          <path d="M21 32h.01" />
+          <path d="M35 32h.01" />
+          <path d="M25 37h6" />
+          <path d="M9 17l2-4 2 4 4 2-4 2-2 4-2-4-4-2z" />
+          <path d="M44 13l1.5-3 1.5 3 3 1.5-3 1.5-1.5 3-1.5-3-3-1.5z" />
+        </svg>
+      )
+    }
+
+    {
+      step.icon === "progress" && (
+        <svg viewBox="0 0 56 56" focusable="false">
+          <path d="M13 43h30" />
+          <path d="M17 43V31" />
+          <path d="M25 43V23" />
+          <path d="M33 43V27" />
+          <path d="M41 43V15" />
+          <path d="M15 17h12" />
+          <path d="M15 22h8" />
+        </svg>
+      )
+    }
+
+    {
+      step.icon === "route" && (
+        <svg viewBox="0 0 56 56" focusable="false">
+          <path d="M15 40c8 0 8-24 18-24 5 0 8 4 8 8 0 7-8 13-8 13s-8-6-8-13" />
+          <path d="M33 24h.01" />
+          <path d="M12 43h11" />
+          <path d="M31 43h13" />
+        </svg>
+      )
+    }
+  </div>
+
+  <div class="ai-step-copy">
+    {step.eyebrow && <p class="ai-step-eyebrow">{step.eyebrow}</p>}
+    <h3>{step.title}</h3>
+    <p>{step.description}</p>
+    {step.futureCapability && (
+      <span class="ai-step-note">{step.futureCapability}</span>
+    )}
+  </div>
+</article>
+
+<style>
+  .ai-step {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    min-height: 100%;
+    padding: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--color-text);
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.14);
+  }
+
+  .ai-step-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.55rem;
+  }
+
+  .ai-step-number {
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 1.08rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .ai-step-status {
+    display: inline-flex;
+    min-height: 1.4rem;
+    align-items: center;
+    padding: 0.16rem 0.46rem;
+    border-radius: 999px;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .ai-step-status.is-available {
+    background: #e8f4ec;
+    color: #247144;
+  }
+
+  .ai-step-status.is-demo {
+    background: var(--color-blue-light, #ebf2fb);
+    color: var(--color-blue);
+  }
+
+  .ai-step-status.is-upcoming {
+    background: var(--color-gold-light, #fdf3dc);
+    color: var(--color-gold);
+  }
+
+  .ai-step-visual {
+    display: grid;
+    width: 3.5rem;
+    height: 3.5rem;
+    place-items: center;
+    margin-top: 0.9rem;
+    border: 1px solid rgba(11, 47, 85, 0.12);
+    border-radius: var(--radius-sm);
+    background:
+      linear-gradient(135deg, rgba(0, 85, 164, 0.08), rgba(184, 134, 11, 0.12)),
+      var(--color-surface-soft);
+    color: var(--color-blue-dark);
+  }
+
+  .ai-step-visual svg {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  .ai-step-visual path {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.25;
+  }
+
+  .ai-step-copy {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    margin-top: 0.85rem;
+  }
+
+  .ai-step-eyebrow {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.63rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .ai-step h3 {
+    margin-top: 0.4rem;
+    font-size: 1rem;
+    line-height: 1.22;
+  }
+
+  .ai-step-copy > p:not(.ai-step-eyebrow) {
+    margin: 0.55rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.76rem;
+    line-height: 1.42;
+  }
+
+  .ai-step-note {
+    justify-self: start;
+    margin-top: 0.75rem;
+    padding: 0.16rem 0.46rem;
+    border-radius: 999px;
+    background: var(--color-surface-soft);
+    color: var(--color-heading);
+    font-size: 0.62rem;
+    font-weight: 800;
+  }
+
+  @media (max-width: 620px) {
+    .ai-step {
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto;
+      column-gap: 0.85rem;
+      padding: 0.9rem;
+    }
+
+    .ai-step-top {
+      grid-column: 1 / -1;
+    }
+
+    .ai-step-visual {
+      width: 3.1rem;
+      height: 3.1rem;
+      margin-top: 0.85rem;
+    }
+
+    .ai-step-copy {
+      margin-top: 0.85rem;
+    }
+  }
+</style>

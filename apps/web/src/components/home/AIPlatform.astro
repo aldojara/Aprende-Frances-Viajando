@@ -1,0 +1,186 @@
+---
+import AIProcessStep from "./AIProcessStep.astro";
+import { aiPlatformSteps } from "../../data/aiPlatform";
+---
+
+<section class="section ai-platform" aria-labelledby="ai-platform-heading">
+  <div class="container ai-platform-layout">
+    <div class="ai-platform-intro">
+      <p class="eyebrow">IA aplicada al aprendizaje</p>
+
+      <h2 id="ai-platform-heading">Una plataforma impulsada por IA</h2>
+
+      <p>
+        La visión del proyecto combina contenido curado, formatos diversos y una
+        futura capa de orientación inteligente.
+      </p>
+
+      <p class="ai-platform-note">
+        Algunas capacidades se muestran como demostración y se activarán
+        progresivamente.
+      </p>
+    </div>
+
+    <div class="ai-process-wrap">
+      <ol class="ai-process" aria-label="Ciclo futuro de aprendizaje asistido por IA">
+        {
+          aiPlatformSteps.map((step, index) => (
+            <li>
+              <AIProcessStep step={step} />
+              {index < aiPlatformSteps.length - 1 && (
+                <span class="ai-connector" aria-hidden="true">→</span>
+              )}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ai-platform {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background:
+      radial-gradient(
+        circle at 16% 18%,
+        rgba(0, 85, 164, 0.45),
+        transparent 32%
+      ),
+      linear-gradient(135deg, #062644 0%, var(--color-blue-dark) 54%, #02192f 100%);
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .ai-platform-layout {
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.24fr) minmax(0, 0.76fr);
+    gap: 1.2rem;
+    align-items: stretch;
+  }
+
+  .ai-platform-intro {
+    display: grid;
+    align-content: center;
+    min-height: 100%;
+    padding-right: 0.25rem;
+  }
+
+  .ai-platform .eyebrow {
+    color: #f2c66d;
+  }
+
+  .ai-platform-intro h2 {
+    color: #ffffff;
+    font-size: clamp(2rem, 3vw, 2.85rem);
+  }
+
+  .ai-platform-intro > p {
+    margin: 0.9rem 0 0;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.95rem;
+  }
+
+  .ai-platform-intro .ai-platform-note {
+    max-width: 18rem;
+    color: #f2c66d;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .ai-process-wrap {
+    min-width: 0;
+  }
+
+  .ai-process {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.65rem;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .ai-process > li {
+    position: relative;
+    min-width: 0;
+  }
+
+  .ai-connector {
+    position: absolute;
+    top: 50%;
+    right: -0.52rem;
+    z-index: 2;
+    display: grid;
+    width: 1.2rem;
+    height: 1.2rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-gold);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 900;
+    transform: translateY(-50%);
+  }
+
+  @media (max-width: 1080px) {
+    .ai-platform-layout {
+      grid-template-columns: 1fr;
+      gap: 1.4rem;
+    }
+
+    .ai-platform-intro {
+      max-width: 760px;
+      align-content: start;
+    }
+
+    .ai-platform-intro .ai-platform-note {
+      max-width: 34rem;
+    }
+
+    .ai-process {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 940px) {
+    .ai-process {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ai-connector {
+      display: none;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .ai-platform {
+      overflow: hidden;
+    }
+
+    .ai-platform-layout {
+      gap: 1.35rem;
+    }
+
+    .ai-process {
+      position: relative;
+      grid-template-columns: 1fr;
+      gap: 0.9rem;
+    }
+
+    .ai-process::before {
+      position: absolute;
+      top: 0.7rem;
+      bottom: 0.7rem;
+      left: 1.55rem;
+      width: 1px;
+      background: rgba(242, 198, 109, 0.42);
+      content: "";
+    }
+
+    .ai-process > li {
+      position: relative;
+      z-index: 1;
+    }
+  }
+</style>
