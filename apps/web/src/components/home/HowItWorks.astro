@@ -1,0 +1,191 @@
+---
+const steps = [
+  {
+    number: "01",
+    title: "Elige tu nivel",
+    description:
+      "Comienza desde A1 hasta C1 o realiza un diagnóstico cuando esta función esté disponible.",
+    status: "Disponible",
+  },
+  {
+    number: "02",
+    title: "Explora un tema",
+    description:
+      "Accede a explicaciones, ejemplos, videos, audios y recursos organizados.",
+    status: "Disponible",
+  },
+  {
+    number: "03",
+    title: "Practica con IA",
+    description:
+      "Realiza ejercicios y recibe correcciones, explicaciones y orientación contextual.",
+    status: "Próximamente",
+  },
+  {
+    number: "04",
+    title: "Recibe tu siguiente paso",
+    description:
+      "La plataforma te recomendará contenidos según tu progreso, nivel y objetivos.",
+    status: "Próximamente",
+  },
+];
+---
+
+<section class="section how-it-works">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Una experiencia progresiva</p>
+
+        <h2>Así funciona la plataforma</h2>
+      </div>
+
+      <p>
+        Empieza con contenido disponible desde el primer día y accede
+        progresivamente a práctica, feedback y rutas personalizadas.
+      </p>
+    </div>
+
+    <ol class="steps-grid">
+      {
+        steps.map((step) => (
+          <li class="step-card card">
+            <div class="step-top">
+              <span class="step-number">{step.number}</span>
+
+              <span
+                class:list={[
+                  "step-status",
+                  {
+                    "step-status-available": step.status === "Disponible",
+                    "step-status-coming": step.status === "Próximamente",
+                  },
+                ]}
+              >
+                {step.status}
+              </span>
+            </div>
+
+            <h3>{step.title}</h3>
+
+            <p>{step.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .how-it-works {
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .section-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.7fr);
+    align-items: end;
+    gap: 3rem;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .section-heading > p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 3rem 0 0;
+    list-style: none;
+  }
+
+  .step-card {
+    min-height: 270px;
+    padding: 1.5rem;
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  .step-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0, 85, 164, 0.3);
+    box-shadow: var(--shadow-md);
+  }
+
+  .step-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .step-number {
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 800;
+  }
+
+  .step-status {
+    display: inline-flex;
+    padding: 0.28rem 0.62rem;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .step-status-available {
+    background: #e8f4ec;
+    color: #247144;
+  }
+
+  .step-status-coming {
+    background: var(--color-gold-light, #fdf3dc);
+    color: var(--color-gold);
+  }
+
+  .step-card h3 {
+    margin-top: 2.25rem;
+    font-size: 1.4rem;
+  }
+
+  .step-card p {
+    margin: 1rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+  }
+
+  @media (max-width: 1024px) {
+    .steps-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 700px) {
+    .section-heading {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .steps-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .step-card {
+      min-height: auto;
+    }
+  }
+</style>
