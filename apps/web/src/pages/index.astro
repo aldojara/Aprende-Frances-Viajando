@@ -1,17 +1,33 @@
 ---
-
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Aprende Francés Viajando"
+  description="Aprende francés por niveles, prepara el DELF y practica con recursos guiados y apoyo de inteligencia artificial."
+>
+  <main>
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">Plataforma educativa</p>
+
+        <h1>Aprende Francés Viajando</h1>
+
+        <p>
+          Francés por niveles, preparación DELF, recursos visuales
+          y práctica guiada con apoyo de inteligencia artificial.
+        </p>
+
+        <div>
+          <a class="button button-primary" href="#niveles">
+            Explorar niveles
+          </a>
+
+          <a class="button button-secondary" href="#delf">
+            Preparar el DELF
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
