@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import ListingLayout from "../../layouts/ListingLayout.astro";
+import CatalogFilters from "../../components/catalog/CatalogFilters.astro";
+import CatalogGrid from "../../components/catalog/CatalogGrid.astro";
+import SectionHeader from "../../components/shared/SectionHeader.astro";
+
+const contentItems = await getCollection("content");
+const sortedItems = contentItems.sort((a, b) =>
+  a.data.title.localeCompare(b.data.title, "es"),
+);
+---
+
+<ListingLayout
+  eyebrow="Catalogo inicial"
+  title="Contenidos demostrativos A1-C1"
+  description="Catalogo estatico con semillas editoriales para validar niveles, dominios, formatos y estados. Todo se renderiza en HTML y los filtros usan JavaScript ligero sin framework."
+>
+  <section class="section catalog-section">
+    <div class="container catalog-layout">
+      <SectionHeader
+        eyebrow="Filtros"
+        title="Explora por nivel, dominio, formato y cobertura"
+        description="Los contenidos son demostrativos: validan la arquitectura tecnica antes de una migracion editorial masiva."
+      />
+
+      <CatalogFilters />
+      <CatalogGrid items={sortedItems} />
+    </div>
+  </section>
+</ListingLayout>
+
+<style>
+  .catalog-section {
+    background: var(--color-bg);
+  }
+
+  .catalog-layout {
+    display: grid;
+    gap: 1.2rem;
+  }
+</style>

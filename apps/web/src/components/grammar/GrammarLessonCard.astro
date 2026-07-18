@@ -1,0 +1,90 @@
+﻿---
+import StatusBadge from "../shared/StatusBadge.astro";
+
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  levels: string[];
+  coverageStatus: "available" | "expanding" | "planned";
+  grammarFamily?: string;
+  duration?: string;
+}
+
+const { id, title, description, levels, coverageStatus, grammarFamily, duration } =
+  Astro.props;
+---
+
+<a class="grammar-card card" href={`/gramatica/${id}/`}>
+  <div class="grammar-card-top">
+    <StatusBadge status={coverageStatus} />
+    <span>{levels.join(" · ")}</span>
+  </div>
+
+  {grammarFamily && <p class="grammar-family">{grammarFamily}</p>}
+  <h3>{title}</h3>
+  <p>{description}</p>
+
+  <span class="grammar-card-action">
+    {duration ? `${duration} · Ver lección` : "Ver lección"}
+  </span>
+</a>
+
+<style>
+  .grammar-card {
+    display: grid;
+    grid-template-rows: auto auto auto 1fr auto;
+    min-height: 100%;
+    padding: 1.1rem;
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .grammar-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 85, 164, 0.3);
+    box-shadow: var(--shadow-md);
+  }
+
+  .grammar-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+  }
+
+  .grammar-card-top > span:last-child,
+  .grammar-family {
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+
+  .grammar-family {
+    margin: 1rem 0 0;
+    color: var(--color-blue);
+  }
+
+  .grammar-card h3 {
+    margin-top: 0.45rem;
+    font-size: 1.25rem;
+  }
+
+  .grammar-card > p:not(.grammar-family) {
+    margin: 0.65rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .grammar-card-action {
+    justify-self: start;
+    margin-top: 1rem;
+    color: var(--color-heading);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+</style>
+
+

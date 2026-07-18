@@ -38,11 +38,13 @@ export const footerSections: FooterSection[] = [
       },
       {
         label: "Niveles",
-        status: "En construcción",
+        href: "/niveles/",
+        status: "Disponible",
       },
       {
         label: "Gramática",
-        status: "En construcción",
+        href: "/gramatica/",
+        status: "Disponible",
       },
       {
         label: "DELF",
@@ -53,8 +55,9 @@ export const footerSections: FooterSection[] = [
         status: "Próximamente",
       },
       {
-        label: "Contenido reciente",
-        status: "En construcción",
+        label: "Catálogo",
+        href: "/contenidos/",
+        status: "Disponible",
       },
     ],
   },
@@ -159,3 +162,6 @@ export const legalLinks: FooterLink[] = [
     status: "En construcción",
   },
 ];
+
+
+

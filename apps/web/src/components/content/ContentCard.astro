@@ -1,0 +1,166 @@
+﻿---
+import StatusBadge from "../shared/StatusBadge.astro";
+import {
+  getDomain,
+  getFormat,
+  type CoverageStatus,
+  type DomainId,
+  type FormatId,
+  type LevelId,
+} from "../../data/taxonomies";
+
+interface Props {
+  title: string;
+  description: string;
+  levels: LevelId[];
+  coverageStatus: CoverageStatus;
+  domain: DomainId;
+  format: FormatId;
+  contentKind: string;
+  duration?: string;
+  href?: string;
+  demonstration?: boolean;
+}
+
+const {
+  title,
+  description,
+  levels,
+  coverageStatus,
+  domain,
+  format,
+  contentKind,
+  duration,
+  href,
+  demonstration = true,
+} = Astro.props;
+
+const Wrapper = href ? "a" : "article";
+const domainLabel = getDomain(domain)?.label ?? domain;
+const formatLabel = getFormat(format)?.label ?? format;
+---
+
+<Wrapper
+  class:list={["catalog-card", "card", { "catalog-card-link": href }]}
+  href={href}
+  data-catalog-card
+  data-levels={levels.join(" ")}
+  data-domain={domain}
+  data-format={format}
+  data-coverage={coverageStatus}
+>
+  <div class="catalog-card-top">
+    <StatusBadge status={coverageStatus} />
+    {demonstration && <span class="demo-chip">Demo</span>}
+  </div>
+
+  <p class="catalog-card-domain">{domainLabel} · {formatLabel}</p>
+  <h3>{title}</h3>
+  <p>{description}</p>
+
+  <dl class="catalog-card-meta">
+    <div>
+      <dt>Niveles</dt>
+      <dd>{levels.join(" · ")}</dd>
+    </div>
+    <div>
+      <dt>Tipo</dt>
+      <dd>{contentKind}</dd>
+    </div>
+    {duration && (
+      <div>
+        <dt>Duración</dt>
+        <dd>{duration}</dd>
+      </div>
+    )}
+  </dl>
+</Wrapper>
+
+<style>
+  .catalog-card {
+    display: grid;
+    grid-template-rows: auto auto auto 1fr auto;
+    min-height: 100%;
+    padding: 1rem;
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .catalog-card-link:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 85, 164, 0.3);
+    box-shadow: var(--shadow-md);
+  }
+
+  .catalog-card-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .demo-chip {
+    display: inline-flex;
+    min-height: 1.45rem;
+    align-items: center;
+    padding: 0.16rem 0.48rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-text-muted);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .catalog-card-domain {
+    margin: 0.95rem 0 0;
+    color: var(--color-blue);
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+
+  .catalog-card h3 {
+    margin-top: 0.45rem;
+    font-size: 1.18rem;
+  }
+
+  .catalog-card > p:not(.catalog-card-domain) {
+    margin: 0.65rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+  }
+
+  .catalog-card-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin: 1rem 0 0;
+  }
+
+  .catalog-card-meta dt {
+    color: var(--color-text-muted);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .catalog-card-meta dd {
+    margin: 0.1rem 0 0;
+    color: var(--color-heading);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  @media (max-width: 620px) {
+    .catalog-card-meta {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+

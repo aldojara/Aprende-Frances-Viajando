@@ -1,0 +1,44 @@
+---
+import { getCoverageStatus, type CoverageStatus } from "../../data/taxonomies";
+
+interface Props {
+  status: CoverageStatus;
+}
+
+const { status } = Astro.props;
+const label = getCoverageStatus(status)?.label ?? status;
+---
+
+<span class={`status-badge status-badge-${status}`}>{label}</span>
+
+<style>
+  .status-badge {
+    display: inline-flex;
+    min-height: 1.6rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.18rem 0.58rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .status-badge-available {
+    background: #e8f4ec;
+    color: #247144;
+  }
+
+  .status-badge-expanding {
+    background: var(--color-blue-light, #ebf2fb);
+    color: var(--color-blue);
+  }
+
+  .status-badge-planned {
+    background: var(--color-gold-light, #fdf3dc);
+    color: var(--color-gold);
+  }
+</style>

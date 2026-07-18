@@ -5,7 +5,7 @@ const levels = [
     name: "Principiante",
     description:
       "Empieza con saludos, presentaciones, vocabulario esencial y frases para situaciones cotidianas.",
-    status: "En construcción",
+    status: "En expansión",
     href: "/niveles/a1/",
   },
   {
@@ -13,7 +13,7 @@ const levels = [
     name: "Básico",
     description:
       "Refuerza conversaciones simples, rutinas, planes, viajes y estructuras frecuentes del francés práctico.",
-    status: "En construcción",
+    status: "En expansión",
     href: "/niveles/a2/",
   },
   {
@@ -21,7 +21,7 @@ const levels = [
     name: "Intermedio",
     description:
       "Gana autonomía para narrar experiencias, expresar opiniones y desenvolverte en contextos reales.",
-    status: "En construcción",
+    status: "Disponible",
     href: "/niveles/b1/",
   },
   {
@@ -29,7 +29,7 @@ const levels = [
     name: "Intermedio alto",
     description:
       "Mejora precisión, argumentación, comprensión de contenidos complejos y preparación avanzada.",
-    status: "En construcción",
+    status: "Disponible",
     href: "/niveles/b2/",
   },
   {
@@ -37,7 +37,7 @@ const levels = [
     name: "Avanzado",
     description:
       "Perfecciona fluidez, matices, producción escrita y oral para un uso flexible del idioma.",
-    status: "Próximamente",
+    status: "En expansión",
     href: "/niveles/c1/",
   },
   {
@@ -50,7 +50,14 @@ const levels = [
   },
 ];
 
-const isAvailable = (status: string) => status === "Disponible";
+const isNavigable = (status: string) =>
+  status === "Disponible" || status === "En expansión";
+
+const statusClass = (status: string) => ({
+  "level-status-available": status === "Disponible",
+  "level-status-building": status === "En expansión",
+  "level-status-coming": status === "Próximamente",
+});
 ---
 
 <section class="section level-selector">
@@ -63,8 +70,8 @@ const isAvailable = (status: string) => status === "Disponible";
       </div>
 
       <p>
-        Cada nivel está pensado como una ruta progresiva. Mientras preparamos
-        las páginas internas, puedes ver qué camino tendrá cada opción.
+        Cada nivel está pensado como una ruta progresiva. Puedes empezar desde
+        cualquier punto del marco A1-C1 y seguir una cobertura editorial que irá creciendo.
       </p>
     </div>
 
@@ -72,12 +79,12 @@ const isAvailable = (status: string) => status === "Disponible";
       {
         levels.map((level) => (
           <li>
-            {isAvailable(level.status) ? (
+            {isNavigable(level.status) ? (
               <a class="level-card card level-card-link" href={level.href}>
                 <div class="level-top">
                   <span class="level-code">{level.code}</span>
 
-                  <span class="level-status level-status-available">
+                  <span class:list={["level-status", statusClass(level.status)]}>
                     {level.status}
                   </span>
                 </div>
@@ -96,14 +103,7 @@ const isAvailable = (status: string) => status === "Disponible";
                   <span class="level-code">{level.code}</span>
 
                   <span
-                    class:list={[
-                      "level-status",
-                      {
-                        "level-status-building":
-                          level.status === "En construcción",
-                        "level-status-coming": level.status === "Próximamente",
-                      },
-                    ]}
+                    class:list={["level-status", statusClass(level.status)]}
                   >
                     {level.status}
                   </span>
@@ -116,7 +116,7 @@ const isAvailable = (status: string) => status === "Disponible";
                 </div>
 
                 <div class="level-action" aria-label={`Ruta prevista ${level.href}`}>
-                  <span>Ruta en construcción</span>
+                  <span>Próximamente</span>
                   <span class="level-path">{level.href}</span>
                 </div>
               </article>

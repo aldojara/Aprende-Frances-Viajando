@@ -1,0 +1,144 @@
+﻿---
+import {
+  coverageStatuses,
+  domains,
+  formats,
+  levels,
+} from "../../data/taxonomies";
+---
+
+<form class="catalog-filters" data-catalog-filters aria-label="Filtros de catálogo">
+  <label>
+    <span>Nivel</span>
+    <select name="level">
+      <option value="">Todos</option>
+      {levels.map((level) => <option value={level.id}>{level.label}</option>)}
+    </select>
+  </label>
+
+  <label>
+    <span>Dominio</span>
+    <select name="domain">
+      <option value="">Todos</option>
+      {domains.map((domain) => <option value={domain.id}>{domain.label}</option>)}
+    </select>
+  </label>
+
+  <label>
+    <span>Formato</span>
+    <select name="format">
+      <option value="">Todos</option>
+      {formats.map((format) => <option value={format.id}>{format.label}</option>)}
+    </select>
+  </label>
+
+  <label>
+    <span>Estado</span>
+    <select name="coverage">
+      <option value="">Todos</option>
+      {
+        coverageStatuses.map((status) => (
+          <option value={status.id}>{status.label}</option>
+        ))
+      }
+    </select>
+  </label>
+
+  <button class="button button-secondary" type="reset">Limpiar</button>
+</form>
+
+<script>
+  const filters = document.querySelector("[data-catalog-filters]");
+  const cards = Array.from(document.querySelectorAll("[data-catalog-card]"));
+  const emptyState = document.querySelector("[data-empty-state]");
+
+  const applyFilters = () => {
+    if (!(filters instanceof HTMLFormElement)) return;
+
+    const formData = new FormData(filters);
+    const selectedLevel = String(formData.get("level") || "");
+    const selectedDomain = String(formData.get("domain") || "");
+    const selectedFormat = String(formData.get("format") || "");
+    const selectedCoverage = String(formData.get("coverage") || "");
+
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      if (!(card instanceof HTMLElement)) return;
+
+      const matchesLevel =
+        !selectedLevel || card.dataset.levels?.split(" ").includes(selectedLevel);
+      const matchesDomain =
+        !selectedDomain || card.dataset.domain === selectedDomain;
+      const matchesFormat =
+        !selectedFormat || card.dataset.format === selectedFormat;
+      const matchesCoverage =
+        !selectedCoverage || card.dataset.coverage === selectedCoverage;
+
+      const isVisible =
+        matchesLevel && matchesDomain && matchesFormat && matchesCoverage;
+
+      card.hidden = !isVisible;
+      if (isVisible) visibleCount += 1;
+    });
+
+    if (emptyState instanceof HTMLElement) {
+      emptyState.hidden = visibleCount > 0;
+    }
+  };
+
+  filters?.addEventListener("change", applyFilters);
+  filters?.addEventListener("reset", () => {
+    window.setTimeout(applyFilters, 0);
+  });
+</script>
+
+<style>
+  .catalog-filters {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+    gap: 0.75rem;
+    align-items: end;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .catalog-filters label {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .catalog-filters span {
+    color: var(--color-text-muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .catalog-filters select {
+    min-height: 2.55rem;
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    color: var(--color-heading);
+    font-weight: 700;
+  }
+
+  @media (max-width: 980px) {
+    .catalog-filters {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 620px) {
+    .catalog-filters {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+

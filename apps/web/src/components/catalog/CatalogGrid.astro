@@ -1,0 +1,81 @@
+---
+import ContentCard from "../content/ContentCard.astro";
+import EmptyState from "./EmptyState.astro";
+
+interface Props {
+  items: {
+    id: string;
+    data: {
+      title: string;
+      description: string;
+      levels: ("A1" | "A2" | "B1" | "B2" | "C1")[];
+      coverageStatus: "available" | "expanding" | "planned";
+      domain: any;
+      format: any;
+      contentKind: string;
+      duration?: string;
+      demonstration?: boolean;
+    };
+  }[];
+}
+
+const { items } = Astro.props;
+
+const getItemHref = (item: Props["items"][number]) =>
+  item.data.domain === "grammar" && !item.data.demonstration
+    ? `/gramatica/${item.id}/`
+    : undefined;
+---
+
+<div class="catalog-grid-wrap">
+  <ul class="catalog-grid" aria-label="Contenidos del catalogo">
+    {
+      items.map((item) => (
+        <li>
+          <ContentCard
+            title={item.data.title}
+            description={item.data.description}
+            levels={item.data.levels}
+            coverageStatus={item.data.coverageStatus}
+            domain={item.data.domain}
+            format={item.data.format}
+            contentKind={item.data.contentKind}
+            duration={item.data.duration}
+            demonstration={item.data.demonstration}
+            href={getItemHref(item)}
+          />
+        </li>
+      ))
+    }
+  </ul>
+
+  <EmptyState />
+</div>
+
+<style>
+  .catalog-grid-wrap {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 1024px) {
+    .catalog-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 680px) {
+    .catalog-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

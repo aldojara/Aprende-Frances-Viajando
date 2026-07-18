@@ -1,0 +1,148 @@
+﻿---
+interface Example {
+  french: string;
+  spanish: string;
+  note?: string;
+}
+
+interface Props {
+  formation: string[];
+  uses: string[];
+  examples: Example[];
+  comparisons: string[];
+  commonMistakes: string[];
+  prácticalApplication?: string;
+}
+
+const {
+  formation,
+  uses,
+  examples,
+  comparisons,
+  commonMistakes,
+  prácticalApplication,
+} = Astro.props;
+---
+
+<div class="lesson-sections">
+  <section>
+    <h2>Formacion</h2>
+    <ul>{formation.map((item) => <li>{item}</li>)}</ul>
+  </section>
+
+  <section>
+    <h2>Usos</h2>
+    <ul>{uses.map((item) => <li>{item}</li>)}</ul>
+  </section>
+
+  <section>
+    <h2>Ejemplos</h2>
+    <div class="example-grid">
+      {
+        examples.map((example) => (
+          <article>
+            <strong>{example.french}</strong>
+            <span>{example.spanish}</span>
+            {example.note && <small>{example.note}</small>}
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2>Comparaciones</h2>
+    <ul>{comparisons.map((item) => <li>{item}</li>)}</ul>
+  </section>
+
+  <section>
+    <h2>Errores frecuentes de hispanohablantes</h2>
+    <ul>{commonMistakes.map((item) => <li>{item}</li>)}</ul>
+  </section>
+
+  {prácticalApplication && (
+    <section class="practice-box">
+      <p class="eyebrow">Aplicacion práctica</p>
+      <h2>Usalo en contexto</h2>
+      <p>{prácticalApplication}</p>
+    </section>
+  )}
+</div>
+
+<style>
+  .lesson-sections {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .lesson-sections section {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .lesson-sections h2 {
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+  }
+
+  .lesson-sections ul {
+    display: grid;
+    gap: 0.65rem;
+    padding-left: 1.2rem;
+    margin: 0;
+    color: var(--color-text);
+  }
+
+  .example-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .example-grid article,
+  .practice-box {
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .example-grid strong,
+  .example-grid span,
+  .example-grid small {
+    display: block;
+  }
+
+  .example-grid strong {
+    color: var(--color-heading);
+  }
+
+  .example-grid span,
+  .example-grid small,
+  .practice-box p:not(.eyebrow) {
+    margin-top: 0.35rem;
+    color: var(--color-text-muted);
+  }
+
+  .example-grid small {
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .practice-box {
+    background:
+      linear-gradient(135deg, rgba(0, 85, 164, 0.08), rgba(184, 134, 11, 0.12)),
+      var(--color-surface);
+  }
+
+  .practice-box h2 {
+    font-size: 1.55rem;
+  }
+
+  @media (max-width: 720px) {
+    .example-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+

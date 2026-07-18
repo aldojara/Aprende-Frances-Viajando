@@ -1,0 +1,304 @@
+﻿---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import StatusBadge from "../../components/shared/StatusBadge.astro";
+import GrammarLessonBody from "../../components/grammar/GrammarLessonBody.astro";
+import GrammarLessonCard from "../../components/grammar/GrammarLessonCard.astro";
+
+export async function getStaticPaths() {
+  const lessons = (await getCollection("content"))
+    .filter(
+      (item) =>
+        item.data.domain === "grammar" &&
+        item.data.contentKind === "lesson" &&
+        !item.data.demonstration,
+    )
+    .sort(
+      (a, b) => (a.data.lessonOrder ?? 999) - (b.data.lessonOrder ?? 999),
+    );
+
+  return lessons.map((lesson, index) => ({
+    params: { slug: lesson.id },
+    props: {
+      lesson,
+      previousLesson: lessons[index - 1],
+      nextLesson: lessons[index + 1],
+      relatedLessons: lessons.filter((item) =>
+        lesson.data.relatedContent.includes(item.id as any),
+      ),
+    },
+  }));
+}
+
+const { lesson, previousLesson, nextLesson, relatedLessons } = Astro.props;
+const { Content } = await render(lesson);
+---
+
+<BaseLayout title={lesson.data.title} description={lesson.data.description}>
+  <main>
+    <section class="lesson-hero">
+      <div class="container lesson-hero-inner">
+        <div>
+          <p class="eyebrow">{lesson.data.grammarFamily || "Gramática"}</p>
+          <h1>{lesson.data.title}</h1>
+          <p>{lesson.data.description}</p>
+        </div>
+
+        <aside class="lesson-meta card">
+          <StatusBadge status={lesson.data.coverageStatus} />
+          <dl>
+            <div>
+              <dt>Niveles</dt>
+              <dd>{lesson.data.levels.join(" · ")}</dd>
+            </div>
+            <div>
+              <dt>Objetivo</dt>
+              <dd>{lesson.data.objectives[0] || "Comunicar con claridad"}</dd>
+            </div>
+            <div>
+              <dt>Tiempo</dt>
+              <dd>{lesson.data.duration || "Lectura breve"}</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section lesson-main-section">
+      <div class="container lesson-layout">
+        <article class="lesson-content">
+          <section class="main-explanation">
+            <h2>Explicacion principal</h2>
+            <Content />
+          </section>
+
+          <GrammarLessonBody
+            formation={lesson.data.formation}
+            uses={lesson.data.uses}
+            examples={lesson.data.examples}
+            comparisons={lesson.data.comparisons}
+            commonMistakes={lesson.data.commonMistakes}
+            prácticalApplication={lesson.data.prácticalApplication}
+          />
+        </article>
+
+        <aside class="lesson-sidebar">
+          <div class="card">
+            <p class="eyebrow">Necesidad comunicativa</p>
+            <ul>
+              {lesson.data.communicativeNeeds.map((need) => <li>{need}</li>)}
+            </ul>
+          </div>
+
+          <div class="card">
+            <p class="eyebrow">Anterior y siguiente</p>
+            <nav class="lesson-nav" aria-label="Navegación de lecciones">
+              {
+                previousLesson ? (
+                  <a href={`/gramatica/${previousLesson.id}/`}>
+                    Anterior: {previousLesson.data.title}
+                  </a>
+                ) : (
+                  <span>Primera lección de la ruta</span>
+                )
+              }
+              {
+                nextLesson ? (
+                  <a href={`/gramatica/${nextLesson.id}/`}>
+                    Siguiente: {nextLesson.data.title}
+                  </a>
+                ) : (
+                  <span>Última lección de la ruta inicial</span>
+                )
+              }
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section related-section">
+      <div class="container related-layout">
+        <div>
+          <p class="eyebrow">Contenido relacionado</p>
+          <h2>Sigue conectando estructuras</h2>
+        </div>
+
+        <ul class="related-grid">
+          {
+            relatedLessons.length > 0 ? (
+              relatedLessons.map((item) => (
+                <li>
+                  <GrammarLessonCard
+                    id={item.id}
+                    title={item.data.title}
+                    description={item.data.description}
+                    levels={item.data.levels}
+                    coverageStatus={item.data.coverageStatus}
+                    grammarFamily={item.data.grammarFamily}
+                    duration={item.data.duration}
+                  />
+                </li>
+              ))
+            ) : (
+              <li class="card related-empty">
+                <h3>Más conexiones en preparación</h3>
+                <p>Esta lección ya forma parte de la ruta gramatical inicial.</p>
+              </li>
+            )
+          }
+        </ul>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .lesson-hero {
+    border-bottom: 1px solid var(--color-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.54), rgba(247, 244, 237, 0)),
+      var(--color-bg);
+  }
+
+  .lesson-hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.32fr);
+    gap: 1.5rem;
+    align-items: end;
+    padding-block: 4rem 3rem;
+  }
+
+  .lesson-hero h1 {
+    max-width: 820px;
+    font-size: clamp(2.4rem, 5vw, 4.8rem);
+  }
+
+  .lesson-hero p:not(.eyebrow),
+  .main-explanation p,
+  .related-empty p {
+    color: var(--color-text-muted);
+  }
+
+  .lesson-meta {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .lesson-meta dl {
+    display: grid;
+    gap: 0.7rem;
+    margin: 0;
+  }
+
+  .lesson-meta dt {
+    color: var(--color-text-muted);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .lesson-meta dd {
+    margin: 0.12rem 0 0;
+    color: var(--color-heading);
+    font-weight: 800;
+  }
+
+  .lesson-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.68fr) minmax(16rem, 0.32fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .lesson-content,
+  .related-layout {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .main-explanation {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .main-explanation h2,
+  .related-layout h2 {
+    font-size: clamp(1.7rem, 3vw, 2.55rem);
+  }
+
+  .lesson-sidebar {
+    position: sticky;
+    top: 6rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .lesson-sidebar .card {
+    padding: 1rem;
+  }
+
+  .lesson-sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .lesson-sidebar li {
+    padding: 0.3rem 0.55rem;
+    border-radius: 999px;
+    background: var(--color-surface-soft);
+    color: var(--color-heading);
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+
+  .lesson-nav {
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .lesson-nav a,
+  .lesson-nav span {
+    color: var(--color-heading);
+    font-size: 0.84rem;
+    font-weight: 800;
+  }
+
+  .related-section {
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface-soft);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .related-empty {
+    padding: 1.25rem;
+  }
+
+  @media (max-width: 900px) {
+    .lesson-hero-inner,
+    .lesson-layout,
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .lesson-sidebar {
+      position: static;
+    }
+  }
+</style>
+
+
