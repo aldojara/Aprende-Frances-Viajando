@@ -1,0 +1,41 @@
+---
+---
+
+<div class="resources-empty" data-resources-empty hidden>
+  <h3>No encontramos recursos con esos filtros</h3>
+  <p>
+    Prueba con otra búsqueda, elimina algún filtro o vuelve al catálogo completo.
+  </p>
+  <button class="button button-secondary" type="button" data-clear-filters>
+    Mostrar todos los recursos
+  </button>
+</div>
+
+<style>
+  .resources-empty {
+    display: grid;
+    justify-items: start;
+    gap: 0.65rem;
+    padding: 1.2rem;
+    border: 1px dashed rgba(11, 47, 85, 0.24);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+  }
+
+  .resources-empty[hidden] {
+    display: none;
+  }
+
+  .resources-empty h3 {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 900;
+  }
+
+  .resources-empty p {
+    max-width: 38rem;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+  }
+</style>

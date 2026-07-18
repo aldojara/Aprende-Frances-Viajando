@@ -1,0 +1,382 @@
+---
+import FeaturedResources from "./FeaturedResources.astro";
+import ResourceCard from "./ResourceCard.astro";
+import ResourceCompetencyGrid from "./ResourceCompetencyGrid.astro";
+import ResourceFilters from "./ResourceFilters.astro";
+import ResourcesEmptyState from "./ResourcesEmptyState.astro";
+import type {
+  ResourceCompetencyId,
+  ResourceFormatCategoryId,
+  ResourceItem,
+  ResourceTopicId,
+} from "../../data/resourcesCatalog";
+import type { CoverageStatus, LevelId } from "../../data/taxonomies";
+
+interface Props {
+  items: ResourceItem[];
+  featuredItems: ResourceItem[];
+  counts: {
+    levels: Record<LevelId, number>;
+    competencies: Record<ResourceCompetencyId, number>;
+    formats: Record<ResourceFormatCategoryId, number>;
+    topics: Record<ResourceTopicId, number>;
+    availability: Record<CoverageStatus, number>;
+  };
+}
+
+const { items, featuredItems, counts } = Astro.props;
+---
+
+<section id="catalogo-recursos" class="resources-catalog-section" aria-labelledby="catalog-title">
+  <div class="container resources-catalog-layout">
+    <ResourceFilters counts={counts} />
+
+    <div class="resource-results-area">
+      <FeaturedResources items={featuredItems} />
+
+      <section class="all-resources" aria-labelledby="catalog-title">
+        <div class="section-title-row">
+          <div>
+            <p class="eyebrow">Catálogo</p>
+            <h2 id="catalog-title">Todos los recursos</h2>
+          </div>
+          <p aria-live="polite" data-results-count>
+            {items.length} {items.length === 1 ? "recurso encontrado" : "recursos encontrados"}
+          </p>
+        </div>
+
+        <ul class="all-resource-grid" data-resource-results>
+          {items.map((item) => <li><ResourceCard item={item} /></li>)}
+        </ul>
+
+        <ResourcesEmptyState />
+      </section>
+
+      <ResourceCompetencyGrid counts={counts.competencies} />
+    </div>
+  </div>
+</section>
+
+<script>
+  const normalizeResourceText = (value) =>
+    String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+
+  const catalog = document.querySelector("#catalogo-recursos");
+  const filters = document.querySelector("[data-resource-filters]");
+  const searchInput = document.querySelector("[data-resource-search]");
+  const searchForm = document.querySelector("[data-resource-search-form]");
+  const resultsGrid = document.querySelector("[data-resource-results]");
+  const cards = resultsGrid
+    ? Array.from(resultsGrid.querySelectorAll("[data-resource-card]"))
+    : [];
+  const emptyState = document.querySelector("[data-resources-empty]");
+  const countNode = document.querySelector("[data-results-count]");
+  const formatShortcutButtons = Array.from(
+    document.querySelectorAll("[data-filter-shortcut='format']"),
+  );
+
+  const scrollToCatalog = () => {
+    catalog?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const getCheckedValues = (name) => {
+    if (!(filters instanceof HTMLFormElement)) return [];
+    return Array.from(filters.querySelectorAll(`input[name="${name}"]:checked`)).map(
+      (input) => input.value,
+    );
+  };
+
+  const getSelectValue = (name) => {
+    if (!(filters instanceof HTMLFormElement)) return "";
+    const field = filters.elements.namedItem(name);
+    return field instanceof HTMLSelectElement ? field.value : "";
+  };
+
+  const setCheckboxes = (name, values) => {
+    if (!(filters instanceof HTMLFormElement)) return;
+    const normalized = new Set(values.map((value) => String(value)));
+    filters.querySelectorAll(`input[name="${name}"]`).forEach((input) => {
+      if (input instanceof HTMLInputElement) {
+        input.checked = normalized.has(input.value);
+      }
+    });
+  };
+
+  const setSelect = (name, value) => {
+    if (!(filters instanceof HTMLFormElement)) return;
+    const field = filters.elements.namedItem(name);
+    if (field instanceof HTMLSelectElement) {
+      field.value = value || "";
+    }
+  };
+
+  const updateUrl = () => {
+    if (!(filters instanceof HTMLFormElement)) return;
+    const params = new URLSearchParams();
+    const query = searchInput instanceof HTMLInputElement ? searchInput.value.trim() : "";
+
+    if (query) params.set("q", query);
+    getCheckedValues("nivel").forEach((value) => params.append("nivel", value.toLowerCase()));
+    getCheckedValues("competencia").forEach((value) => params.append("competencia", value));
+
+    const topic = getSelectValue("tema");
+    const format = getSelectValue("formato");
+    if (topic) params.set("tema", topic);
+    if (format) params.set("formato", format);
+
+    getCheckedValues("estado").forEach((value) => params.append("estado", value));
+
+    const nextUrl = params.toString()
+      ? `${window.location.pathname}?${params.toString()}`
+      : window.location.pathname;
+    window.history.replaceState({}, "", nextUrl);
+  };
+
+  const matchesAvailability = (cardAvailability, selected) => {
+    if (selected.length === 0) return true;
+    return selected.some((value) => {
+      if (value === "available") return cardAvailability === "available";
+      if (value === "in-progress") return cardAvailability === "expanding" || cardAvailability === "planned";
+      return cardAvailability === value;
+    });
+  };
+
+  const matchesSpaceSeparated = (datasetValue, selected) => {
+    if (selected.length === 0) return true;
+    const values = String(datasetValue || "").split(" ").filter(Boolean);
+    return selected.some((value) => values.includes(value));
+  };
+
+  const applyFilters = ({ syncUrl = true } = {}) => {
+    const selectedLevels = getCheckedValues("nivel");
+    const selectedCompetencies = getCheckedValues("competencia");
+    const selectedAvailability = getCheckedValues("estado");
+    const selectedTopic = getSelectValue("tema");
+    const selectedFormat = getSelectValue("formato");
+    const query = normalizeResourceText(
+      searchInput instanceof HTMLInputElement ? searchInput.value : "",
+    );
+
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      if (!(card instanceof HTMLElement)) return;
+
+      const searchable = normalizeResourceText(card.dataset.search);
+      const visible =
+        (!query || searchable.includes(query)) &&
+        matchesSpaceSeparated(card.dataset.levels, selectedLevels) &&
+        matchesSpaceSeparated(card.dataset.competencies, selectedCompetencies) &&
+        (!selectedFormat || matchesSpaceSeparated(card.dataset.formats, [selectedFormat])) &&
+        (!selectedTopic || matchesSpaceSeparated(card.dataset.topics, [selectedTopic])) &&
+        matchesAvailability(card.dataset.availability, selectedAvailability);
+
+      card.closest("li")?.toggleAttribute("hidden", !visible);
+      if (visible) visibleCount += 1;
+    });
+
+    if (emptyState instanceof HTMLElement) {
+      emptyState.hidden = visibleCount > 0;
+    }
+
+    if (countNode) {
+      countNode.textContent = `${visibleCount} ${visibleCount === 1 ? "recurso encontrado" : "recursos encontrados"}`;
+    }
+
+    formatShortcutButtons.forEach((button) => {
+      const selected = button.getAttribute("data-filter-value") === selectedFormat;
+      button.classList.toggle("is-selected", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+
+    if (syncUrl) updateUrl();
+  };
+
+  const clearFilters = ({ shouldScroll = false } = {}) => {
+    if (filters instanceof HTMLFormElement) filters.reset();
+    if (searchInput instanceof HTMLInputElement) searchInput.value = "";
+    window.history.replaceState({}, "", window.location.pathname);
+    applyFilters({ syncUrl: false });
+    if (shouldScroll) scrollToCatalog();
+  };
+
+  const restoreFromUrl = () => {
+    const params = new URLSearchParams(window.location.search);
+    const legacyDomain = params.get("domain");
+    const legacyLevel = params.get("level");
+    const legacyFormat = params.get("format");
+
+    if (searchInput instanceof HTMLInputElement) {
+      searchInput.value = params.get("q") || "";
+    }
+
+    const levels = params.getAll("nivel").map((value) => value.toUpperCase());
+    if (legacyLevel) levels.push(legacyLevel.toUpperCase());
+    setCheckboxes("nivel", levels);
+    setCheckboxes("competencia", params.getAll("competencia"));
+
+    if (legacyDomain === "grammar") setSelect("tema", "gramatica");
+    else if (legacyDomain === "delf") setSelect("tema", "delf");
+    else if (legacyDomain === "pronunciation") setSelect("tema", "pronunciacion");
+    else if (legacyDomain === "vocabulary") setSelect("tema", "vocabulario");
+    else if (legacyDomain === "travel-french") setSelect("tema", "viajes-cultura");
+    else setSelect("tema", params.get("tema") || "");
+
+    setSelect("formato", params.get("formato") || legacyFormat || "");
+    setCheckboxes("estado", params.getAll("estado"));
+    applyFilters({ syncUrl: false });
+  };
+
+  filters?.addEventListener("change", () => applyFilters());
+  filters?.addEventListener("reset", () => window.setTimeout(() => clearFilters(), 0));
+  searchInput?.addEventListener("input", () => applyFilters());
+  searchForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    applyFilters();
+    scrollToCatalog();
+  });
+
+  document.querySelectorAll("[data-clear-filters]").forEach((button) => {
+    button.addEventListener("click", () => clearFilters({ shouldScroll: true }));
+  });
+
+  document.querySelectorAll("[data-clear-and-scroll]").forEach((button) => {
+    button.addEventListener("click", () => clearFilters({ shouldScroll: true }));
+  });
+
+  document.querySelectorAll("[data-filter-shortcut]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const type = button.getAttribute("data-filter-shortcut");
+      const value = button.getAttribute("data-filter-value") || "";
+
+      if (type === "format") setSelect("formato", value);
+      if (type === "topic") setSelect("tema", value);
+      if (type === "competency") setCheckboxes("competencia", [value]);
+
+      applyFilters();
+      scrollToCatalog();
+    });
+  });
+
+  document.querySelectorAll("[data-topic-shortcut]").forEach((button) => {
+    button.addEventListener("click", () => {
+      setSelect("tema", button.getAttribute("data-topic-shortcut") || "");
+      applyFilters();
+      scrollToCatalog();
+    });
+  });
+
+  document.querySelectorAll("[data-focus-filter]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const group = button.getAttribute("data-focus-filter");
+      const target = document.querySelector(`[data-filter-group="${group}"]`);
+      const details = document.querySelector(".resource-filters details");
+      if (details instanceof HTMLDetailsElement) details.open = true;
+      scrollToCatalog();
+      window.setTimeout(() => {
+        const control = target?.querySelector("input, select");
+        if (control instanceof HTMLElement) control.focus();
+      }, 220);
+    });
+  });
+
+  restoreFromUrl();
+</script>
+
+<style>
+  .resources-catalog-section {
+    padding-block: 1.2rem 1.35rem;
+  }
+
+  .resources-catalog-layout {
+    display: grid;
+    grid-template-columns: minmax(15rem, 0.24fr) minmax(0, 0.76fr);
+    gap: 1.35rem;
+    align-items: start;
+  }
+
+  .resource-results-area {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .all-resources {
+    display: grid;
+    gap: 0.9rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.62);
+  }
+
+  .section-title-row {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .section-title-row .eyebrow {
+    margin-bottom: 0.35rem;
+  }
+
+  .section-title-row h2 {
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  }
+
+  .section-title-row > p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+
+  .all-resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .all-resource-grid > li[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 1180px) {
+    .all-resource-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 920px) {
+    .resources-catalog-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .all-resources {
+      padding: 0.85rem;
+    }
+
+    .section-title-row {
+      display: grid;
+      justify-items: start;
+    }
+
+    .section-title-row > p {
+      white-space: normal;
+    }
+
+    .all-resource-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

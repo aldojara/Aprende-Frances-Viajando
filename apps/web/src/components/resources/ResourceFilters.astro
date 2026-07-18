@@ -1,0 +1,218 @@
+---
+import ResourceIcon from "./ResourceIcon.astro";
+import {
+  competencies,
+  formatCategories,
+  topicFilters,
+  type ResourceCompetencyId,
+  type ResourceFormatCategoryId,
+  type ResourceTopicId,
+} from "../../data/resourcesCatalog";
+import { levels, type CoverageStatus, type LevelId } from "../../data/taxonomies";
+
+interface Props {
+  counts: {
+    levels: Record<LevelId, number>;
+    competencies: Record<ResourceCompetencyId, number>;
+    formats: Record<ResourceFormatCategoryId, number>;
+    topics: Record<ResourceTopicId, number>;
+    availability: Record<CoverageStatus, number>;
+  };
+}
+
+const { counts } = Astro.props;
+const progressCount = counts.availability.expanding + counts.availability.planned;
+---
+
+<aside class="resource-filters" aria-label="Filtros de recursos">
+  <details open>
+    <summary>
+      <span>Filtrar recursos</span>
+      <ResourceIcon name="layers" />
+    </summary>
+
+    <form data-resource-filters>
+      <fieldset data-filter-group="levels">
+        <legend>Nivel</legend>
+        {levels.map((level) => (
+          <label>
+            <input type="checkbox" name="nivel" value={level.id} />
+            <span>{level.label}</span>
+            <small>{counts.levels[level.id] ?? 0}</small>
+          </label>
+        ))}
+      </fieldset>
+
+      <fieldset data-filter-group="competencies">
+        <legend>Competencia</legend>
+        {competencies.map((competency) => (
+          <label>
+            <input type="checkbox" name="competencia" value={competency.id} />
+            <span>{competency.label}</span>
+            <small>{counts.competencies[competency.id] ?? 0}</small>
+          </label>
+        ))}
+      </fieldset>
+
+      <label class="select-filter" data-filter-group="topics">
+        <span>Tema</span>
+        <select name="tema">
+          <option value="">Todos los temas</option>
+          {topicFilters.map((topic) => (
+            <option value={topic.id}>
+              {topic.label} ({counts.topics[topic.id] ?? 0})
+            </option>
+          ))}
+          <option value="delf">DELF ({counts.topics.delf ?? 0})</option>
+        </select>
+      </label>
+
+      <label class="select-filter" data-filter-group="formats">
+        <span>Formato</span>
+        <select name="formato">
+          <option value="">Todos los formatos</option>
+          {formatCategories.map((format) => (
+            <option value={format.id}>
+              {format.label} ({counts.formats[format.id] ?? 0})
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <fieldset>
+        <legend>Disponibilidad</legend>
+        <label>
+          <input type="checkbox" name="estado" value="available" />
+          <span>Disponibles</span>
+          <small>{counts.availability.available}</small>
+        </label>
+        <label>
+          <input type="checkbox" name="estado" value="in-progress" />
+          <span>Próximamente o en expansión</span>
+          <small>{progressCount}</small>
+        </label>
+      </fieldset>
+
+      <button class="button button-secondary" type="reset" data-clear-filters>
+        Limpiar filtros
+      </button>
+    </form>
+  </details>
+</aside>
+
+<style>
+  .resource-filters {
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+  }
+
+  .resource-filters details {
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .resource-filters summary {
+    --resource-icon-size: 1.1rem;
+
+    display: flex;
+    min-height: 3.4rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1rem;
+    color: var(--color-heading);
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 1.08rem;
+    font-weight: 800;
+    list-style: none;
+  }
+
+  .resource-filters summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .resource-filters summary :global(svg) {
+    color: var(--color-blue-dark);
+  }
+
+  .resource-filters form {
+    display: grid;
+  }
+
+  .resource-filters fieldset,
+  .select-filter {
+    display: grid;
+    gap: 0.52rem;
+    padding: 0.9rem 1rem;
+    border: 0;
+    border-top: 1px solid var(--color-border);
+    margin: 0;
+  }
+
+  .resource-filters legend,
+  .select-filter > span {
+    color: var(--color-heading);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+  }
+
+  .resource-filters label:not(.select-filter) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.46rem;
+    min-height: 1.72rem;
+    align-items: center;
+    color: var(--color-heading);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .resource-filters input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--color-blue-dark);
+  }
+
+  .resource-filters small {
+    display: inline-grid;
+    min-width: 1.85rem;
+    min-height: 1.3rem;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--color-surface-soft);
+    color: var(--color-text-muted);
+    font-size: 0.62rem;
+    font-weight: 900;
+  }
+
+  .select-filter select {
+    min-height: 2.6rem;
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    color: var(--color-heading);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .resource-filters .button {
+    margin: 0.9rem 1rem 1rem;
+  }
+
+  @media (max-width: 920px) {
+    .resource-filters {
+      position: static;
+    }
+
+    .resource-filters details {
+      border-radius: var(--radius-sm);
+    }
+  }
+</style>

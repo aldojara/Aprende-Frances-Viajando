@@ -1,0 +1,78 @@
+---
+import ResourceCard from "./ResourceCard.astro";
+import type { ResourceItem } from "../../data/resourcesCatalog";
+
+interface Props {
+  items: ResourceItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="featured-resources" aria-labelledby="featured-resources-title">
+  <div class="section-title-row">
+    <h2 id="featured-resources-title">Recursos destacados</h2>
+    <button type="button" data-clear-and-scroll>Ver todos</button>
+  </div>
+
+  <ul class="featured-resource-grid">
+    {items.map((item) => <li><ResourceCard item={item} featured /></li>)}
+  </ul>
+</section>
+
+<style>
+  .featured-resources {
+    display: grid;
+    gap: 0.9rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.62);
+  }
+
+  .section-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .section-title-row h2 {
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  }
+
+  .section-title-row button {
+    min-height: 2.4rem;
+    border: 0;
+    background: transparent;
+    color: var(--color-blue-dark);
+    cursor: pointer;
+    font-size: 0.76rem;
+    font-weight: 900;
+  }
+
+  .featured-resource-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.9rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 1180px) {
+    .featured-resource-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 620px) {
+    .featured-resources {
+      padding: 0.85rem;
+    }
+
+    .featured-resource-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
