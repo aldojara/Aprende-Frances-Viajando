@@ -58,7 +58,7 @@ const { items, featuredItems, counts } = Astro.props;
 </section>
 
 <script>
-  const normalizeResourceText = (value) =>
+  const normalizeResourceText = (value: string) =>
     String(value || "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
@@ -83,22 +83,22 @@ const { items, featuredItems, counts } = Astro.props;
     catalog?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const getCheckedValues = (name) => {
+  const getCheckedValues = (name: string) => {
     if (!(filters instanceof HTMLFormElement)) return [];
-    return Array.from(filters.querySelectorAll(`input[name="${name}"]:checked`)).map(
+    return Array.from(filters.querySelectorAll<HTMLInputElement>(`input[name="${name}"]:checked`)).map(
       (input) => input.value,
     );
   };
 
-  const getSelectValue = (name) => {
+  const getSelectValue = (name: string) => {
     if (!(filters instanceof HTMLFormElement)) return "";
     const field = filters.elements.namedItem(name);
     return field instanceof HTMLSelectElement ? field.value : "";
   };
 
-  const setCheckboxes = (name, values) => {
+  const setCheckboxes = (name: string, values: string[]) => {
     if (!(filters instanceof HTMLFormElement)) return;
-    const normalized = new Set(values.map((value) => String(value)));
+    const normalized = new Set(values.map((value: string) => String(value)));
     filters.querySelectorAll(`input[name="${name}"]`).forEach((input) => {
       if (input instanceof HTMLInputElement) {
         input.checked = normalized.has(input.value);
@@ -106,7 +106,7 @@ const { items, featuredItems, counts } = Astro.props;
     });
   };
 
-  const setSelect = (name, value) => {
+  const setSelect = (name: string, value: string) => {
     if (!(filters instanceof HTMLFormElement)) return;
     const field = filters.elements.namedItem(name);
     if (field instanceof HTMLSelectElement) {
@@ -136,19 +136,19 @@ const { items, featuredItems, counts } = Astro.props;
     window.history.replaceState({}, "", nextUrl);
   };
 
-  const matchesAvailability = (cardAvailability, selected) => {
+  const matchesAvailability = (cardAvailability: string | undefined, selected: string[]) => {
     if (selected.length === 0) return true;
-    return selected.some((value) => {
+    return selected.some((value: string) => {
       if (value === "available") return cardAvailability === "available";
       if (value === "in-progress") return cardAvailability === "expanding" || cardAvailability === "planned";
       return cardAvailability === value;
     });
   };
 
-  const matchesSpaceSeparated = (datasetValue, selected) => {
+  const matchesSpaceSeparated = (datasetValue: string | undefined, selected: string[]) => {
     if (selected.length === 0) return true;
     const values = String(datasetValue || "").split(" ").filter(Boolean);
-    return selected.some((value) => values.includes(value));
+    return selected.some((value: string) => values.includes(value));
   };
 
   const applyFilters = ({ syncUrl = true } = {}) => {
