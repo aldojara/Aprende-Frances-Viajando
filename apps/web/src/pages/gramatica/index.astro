@@ -1,4 +1,4 @@
----
+﻿---
 import { getCollection } from "astro:content";
 import ListingLayout from "../../layouts/ListingLayout.astro";
 import SectionHeader from "../../components/shared/SectionHeader.astro";
@@ -28,17 +28,17 @@ const families = [
   "Subjuntivo",
   "Pronombres y determinantes",
   "Discurso indirecto",
-  "Conectores y argumentacion",
+  "Conectores y argumentación",
   "Formas verbales avanzadas",
   "Fundamentos A1-A2",
 ];
 
 const needs = [
   "Hablar del pasado",
-  "Expresar una opinion",
-  "Formular hipotesis",
+  "Expresar una opinión",
+  "Formular hipótesis",
   "Dar consejos",
-  "Expresar obligacion",
+  "Expresar obligación",
   "Argumentar",
   "Expresar causa y consecuencia",
   "Contar lo que alguien dijo",
@@ -49,26 +49,26 @@ const getLessonCount = (predicate: (item: (typeof grammarLessons)[number]) => bo
 ---
 
 <ListingLayout
-  eyebrow="Gramatica aplicada"
+  eyebrow="Gramática aplicada"
   title="Gramática francesa para comunicar mejor"
-  description="Una biblioteca editorial para entender estructuras, comparar usos y llevar la gramatica a situaciones reales desde A1 hasta C1."
+  description="Una biblioteca editorial para entender estructuras, comparar usos y llevar la gramática a situaciones reales desde A1 hasta C1."
 >
   <section class="grammar-hero-panel">
     <div class="container grammar-hero-grid">
       <div>
-        <p class="eyebrow">Metodo editorial</p>
-        <h2>Reglas claras, ejemplos utiles y decisiones de uso</h2>
+        <p class="eyebrow">Método editorial</p>
+        <h2>Reglas claras, ejemplos útiles y decisiones de uso</h2>
         <p>
-          Cada leccion conecta forma, uso y comunicacion. La cobertura empieza
-          con temas nucleares y crecera por nivel, familia gramatical y
+          Cada lección conecta forma, uso y comunicación. La cobertura empieza
+          con temas nucleares y crecerá por nivel, familia gramatical y
           necesidad comunicativa.
         </p>
       </div>
 
-      <div class="grammar-map card" aria-label="Cobertura de gramatica">
+      <div class="grammar-map card" aria-label="Cobertura de gramática">
         <span>Arquitectura A1-C1</span>
         <strong>{availableLessons.length} lecciones iniciales</strong>
-        <p>Contenido real publicado con expansion progresiva.</p>
+        <p>Contenido real publicado con expansión progresiva.</p>
       </div>
     </div>
   </section>
@@ -77,7 +77,7 @@ const getLessonCount = (predicate: (item: (typeof grammarLessons)[number]) => bo
     <div class="container grammar-section">
       <SectionHeader
         eyebrow="Explora por nivel"
-        title="Una progresion completa A1-C1"
+        title="Una progresión completa A1-C1"
         description="La arquitectura no se limita a B1/B2: todos los niveles tienen lugar desde el inicio, aunque la cobertura avance por fases."
       />
 
@@ -103,6 +103,7 @@ const getLessonCount = (predicate: (item: (typeof grammarLessons)[number]) => bo
         <SectionHeader
           eyebrow="Familias gramaticales"
           title="Encuentra el tema por estructura"
+          description="Estos accesos llevan al catálogo general mientras los filtros por familia se incorporan progresivamente."
         />
 
         <ul class="pill-grid">
@@ -125,6 +126,7 @@ const getLessonCount = (predicate: (item: (typeof grammarLessons)[number]) => bo
         <SectionHeader
           eyebrow="Necesidades comunicativas"
           title="Empieza por lo que quieres decir"
+          description="Estos accesos llevan al catálogo general mientras los filtros por necesidad se incorporan progresivamente."
         />
 
         <ul class="pill-grid">
@@ -151,25 +153,25 @@ const getLessonCount = (predicate: (item: (typeof grammarLessons)[number]) => bo
     <div class="container grammar-section">
       <SectionHeader
         eyebrow="Rutas destacadas"
-        title="Secuencias para estudiar con intencion"
-        description="Rutas editoriales sugeridas, sin progreso personalizado ni funciones EdTech activas todavia."
+        title="Secuencias para estudiar con intención"
+        description="Rutas editoriales sugeridas, sin progreso personalizado ni funciones EdTech activas todavía."
       />
 
       <div class="route-cards">
         <article class="card">
           <StatusBadge status="available" />
-          <h3>Hablar del pasado con precision</h3>
-          <p>Passe compose vs imparfait como punto de partida para narrar viajes, experiencias y anecdotas.</p>
+          <h3>Hablar del pasado con precisión</h3>
+          <p>Passé composé vs imparfait como punto de partida para narrar viajes, experiencias y anécdotas.</p>
         </article>
         <article class="card">
           <StatusBadge status="expanding" />
           <h3>Opinar, aconsejar y matizar</h3>
-          <p>Conditionnel, subjonctif y conectores para comunicar postura sin sonar rigido.</p>
+          <p>Conditionnel, subjonctif y conectores para comunicar postura sin sonar rígido.</p>
         </article>
         <article class="card">
           <StatusBadge status="planned" />
           <h3>De B2 a C1 con estructuras avanzadas</h3>
-          <p>Argumentacion, discurso indirecto y formas verbales para una produccion mas flexible.</p>
+          <p>Argumentación, discurso indirecto y formas verbales para una producción más flexible.</p>
         </article>
       </div>
     </div>
@@ -209,7 +211,7 @@ const getLessonCount = (predicate: (item: (typeof grammarLessons)[number]) => bo
         <p class="eyebrow">Errores frecuentes</p>
         <h2>Especial para hispanohablantes</h2>
         <p>
-          La seccion prioriza contrastes donde el espanol suele interferir:
+          La sección prioriza contrastes donde el español suele interferir:
           tiempos del pasado, subjuntivo, pronombres, orden de la frase y
           discurso indirecto.
         </p>
@@ -217,12 +219,12 @@ const getLessonCount = (predicate: (item: (typeof grammarLessons)[number]) => bo
 
       <article class="card">
         <p class="eyebrow">Recursos relacionados</p>
-        <h2>Mapas, listas y practica guiada</h2>
+        <h2>Mapas, listas y práctica guiada</h2>
         <p>
-          Los descargables finales llegaran progresivamente. Por ahora, las
-          lecciones enlazan hacia el catalogo y materiales semilla disponibles.
+          Los descargables finales llegarán progresivamente. Por ahora, las
+          lecciones enlazan hacia el catálogo y materiales semilla disponibles.
         </p>
-        <a class="button button-primary" href="/contenidos/">Explorar catalogo</a>
+        <a class="button button-primary" href="/contenidos/">Explorar catálogo</a>
       </article>
     </div>
   </section>
@@ -414,3 +416,5 @@ const getLessonCount = (predicate: (item: (typeof grammarLessons)[number]) => bo
     }
   }
 </style>
+
+

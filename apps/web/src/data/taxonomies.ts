@@ -6,12 +6,12 @@ export const coverageStatuses = [
   },
   {
     id: "expanding",
-    label: "En expansion",
+    label: "En expansión",
     description: "Base editorial creada con cobertura todavia limitada.",
   },
   {
     id: "planned",
-    label: "Proximamente",
+    label: "Próximamente",
     description: "Parte de la arquitectura prevista, aun sin cobertura completa.",
   },
 ] as const;
@@ -41,7 +41,7 @@ export const levels = [
     id: "A2",
     slug: "a2",
     label: "A2",
-    name: "Basico",
+    name: "Básico",
     coverageStatus: "available",
     description:
       "Consolidacion de conversaciones simples, rutinas, planes, viajes y estructuras frecuentes del frances practico.",

@@ -1,4 +1,4 @@
----
+﻿---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import StatusBadge from "../../components/shared/StatusBadge.astro";
@@ -39,7 +39,7 @@ const { Content } = await render(lesson);
     <section class="lesson-hero">
       <div class="container lesson-hero-inner">
         <div>
-          <p class="eyebrow">{lesson.data.grammarFamily || "Gramatica"}</p>
+          <p class="eyebrow">{lesson.data.grammarFamily || "Gramática"}</p>
           <h1>{lesson.data.title}</h1>
           <p>{lesson.data.description}</p>
         </div>
@@ -78,7 +78,7 @@ const { Content } = await render(lesson);
             examples={lesson.data.examples}
             comparisons={lesson.data.comparisons}
             commonMistakes={lesson.data.commonMistakes}
-            practicalApplication={lesson.data.practicalApplication}
+            prácticalApplication={lesson.data.prácticalApplication}
           />
         </article>
 
@@ -92,14 +92,14 @@ const { Content } = await render(lesson);
 
           <div class="card">
             <p class="eyebrow">Anterior y siguiente</p>
-            <nav class="lesson-nav" aria-label="Navegacion de lecciones">
+            <nav class="lesson-nav" aria-label="Navegación de lecciones">
               {
                 previousLesson ? (
                   <a href={`/gramatica/${previousLesson.id}/`}>
                     Anterior: {previousLesson.data.title}
                   </a>
                 ) : (
-                  <span>Primera leccion de la ruta</span>
+                  <span>Primera lección de la ruta</span>
                 )
               }
               {
@@ -108,7 +108,7 @@ const { Content } = await render(lesson);
                     Siguiente: {nextLesson.data.title}
                   </a>
                 ) : (
-                  <span>Ultima leccion de la ruta inicial</span>
+                  <span>Última lección de la ruta inicial</span>
                 )
               }
             </nav>
@@ -142,8 +142,8 @@ const { Content } = await render(lesson);
               ))
             ) : (
               <li class="card related-empty">
-                <h3>Mas conexiones en preparacion</h3>
-                <p>Esta leccion ya forma parte de la ruta gramatical inicial.</p>
+                <h3>Más conexiones en preparación</h3>
+                <p>Esta lección ya forma parte de la ruta gramatical inicial.</p>
               </li>
             )
           }
@@ -300,3 +300,5 @@ const { Content } = await render(lesson);
     }
   }
 </style>
+
+

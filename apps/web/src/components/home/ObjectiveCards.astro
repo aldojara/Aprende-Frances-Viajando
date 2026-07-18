@@ -5,7 +5,7 @@ const objectives = [
     description:
       "Rutas estructuradas para avanzar paso a paso desde A1 hasta C1.",
     tags: ["Gramática", "vocabulario", "comprensión"],
-    status: "En construcción",
+    status: "Disponible",
     href: "/niveles/",
   },
   {
@@ -25,6 +25,8 @@ const objectives = [
     href: "/comunicacion/",
   },
 ];
+
+const isAvailable = (status: string) => status === "Disponible";
 ---
 
 <section class="section objective-section" aria-labelledby="objective-heading">
@@ -46,26 +48,51 @@ const objectives = [
       {
         objectives.map((objective) => (
           <li>
-            <article class="objective-card card" data-href={objective.href}>
-              <div class="objective-card-header">
-                <h3>{objective.title}</h3>
+            {isAvailable(objective.status) ? (
+              <a class="objective-card card objective-card-link" href={objective.href}>
+                <div class="objective-card-header">
+                  <h3>{objective.title}</h3>
 
-                <span class="objective-status">{objective.status}</span>
-              </div>
+                  <span class="objective-status objective-status-available">
+                    {objective.status}
+                  </span>
+                </div>
 
-              <p>{objective.description}</p>
+                <p>{objective.description}</p>
 
-              <ul class="objective-tags" aria-label={`Etiquetas de ${objective.title}`}>
-                {objective.tags.map((tag) => (
-                  <li>{tag}</li>
-                ))}
-              </ul>
+                <ul class="objective-tags" aria-label={`Etiquetas de ${objective.title}`}>
+                  {objective.tags.map((tag) => (
+                    <li>{tag}</li>
+                  ))}
+                </ul>
 
-              <div class="objective-route" aria-label={`Ruta prevista ${objective.href}`}>
-                <span>Ruta en construcción</span>
-                <span class="objective-path">{objective.href}</span>
-              </div>
-            </article>
+                <div class="objective-route">
+                  <span>Ver ruta</span>
+                  <span class="objective-path">{objective.href}</span>
+                </div>
+              </a>
+            ) : (
+              <article class="objective-card card" data-href={objective.href}>
+                <div class="objective-card-header">
+                  <h3>{objective.title}</h3>
+
+                  <span class="objective-status">{objective.status}</span>
+                </div>
+
+                <p>{objective.description}</p>
+
+                <ul class="objective-tags" aria-label={`Etiquetas de ${objective.title}`}>
+                  {objective.tags.map((tag) => (
+                    <li>{tag}</li>
+                  ))}
+                </ul>
+
+                <div class="objective-route" aria-label={`Ruta prevista ${objective.href}`}>
+                  <span>Ruta en construcción</span>
+                  <span class="objective-path">{objective.href}</span>
+                </div>
+              </article>
+            )}
           </li>
         ))
       }
@@ -111,6 +138,16 @@ const objectives = [
     min-height: 300px;
     height: 100%;
     padding: 1.5rem;
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  .objective-card-link:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0, 85, 164, 0.3);
+    box-shadow: var(--shadow-md);
   }
 
   .objective-card-header {
@@ -140,6 +177,11 @@ const objectives = [
     letter-spacing: 0.04em;
     text-transform: uppercase;
     white-space: nowrap;
+  }
+
+  .objective-status-available {
+    background: #e8f4ec;
+    color: #247144;
   }
 
   .objective-tags {
