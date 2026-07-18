@@ -1,0 +1,153 @@
+---
+import ResourceIcon from "./ResourceIcon.astro";
+import {
+  competencies,
+  type ResourceCompetencyId,
+} from "../../data/resourcesCatalog";
+
+interface Props {
+  counts: Record<ResourceCompetencyId, number>;
+}
+
+const { counts } = Astro.props;
+---
+
+<section class="competency-section" aria-labelledby="competency-title">
+  <h2 id="competency-title">Recursos por competencia</h2>
+
+  <ul class="competency-grid">
+    {
+      competencies.map((competency) => (
+        <li>
+          <button
+            type="button"
+            class={`competency-card tone-${competency.tone}`}
+            data-filter-shortcut="competency"
+            data-filter-value={competency.id}
+          >
+            <ResourceIcon name={competency.icon} />
+            <strong>{competency.label}</strong>
+            <span>{competency.description}</span>
+            <small>
+              {counts[competency.id] ?? 0} {(counts[competency.id] ?? 0) === 1 ? "recurso" : "recursos"}
+            </small>
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .competency-section {
+    display: grid;
+    gap: 0.9rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.62);
+  }
+
+  .competency-section h2 {
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  }
+
+  .competency-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.9rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .competency-card {
+    --resource-icon-size: 2rem;
+
+    display: grid;
+    min-height: 11.5rem;
+    width: 100%;
+    gap: 0.55rem;
+    align-content: start;
+    padding: 1rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    background: var(--tone-soft);
+    color: var(--color-heading);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .tone-lavender {
+    --tone-soft: #f1edff;
+    --tone-accent: #4f46a5;
+  }
+
+  .tone-mint {
+    --tone-soft: #eaf7ef;
+    --tone-accent: #247144;
+  }
+
+  .tone-gold {
+    --tone-soft: #fff1d9;
+    --tone-accent: #bd650b;
+  }
+
+  .tone-sky {
+    --tone-soft: #eaf3ff;
+    --tone-accent: #1c5d9f;
+  }
+
+  .competency-card:hover,
+  .competency-card:focus-visible {
+    border-color: color-mix(in srgb, var(--tone-accent) 34%, transparent);
+    background: #ffffff;
+  }
+
+  .competency-card :global(svg) {
+    color: var(--tone-accent);
+  }
+
+  .competency-card strong {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    line-height: 1.18;
+  }
+
+  .competency-card span {
+    color: var(--color-heading);
+    font-size: 0.78rem;
+    line-height: 1.48;
+  }
+
+  .competency-card small {
+    display: inline-flex;
+    min-height: 1.7rem;
+    align-items: center;
+    justify-self: start;
+    margin-top: 0.2rem;
+    padding: 0.22rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.58);
+    color: var(--tone-accent);
+    font-size: 0.68rem;
+    font-weight: 900;
+  }
+
+  @media (max-width: 1180px) {
+    .competency-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 620px) {
+    .competency-section {
+      padding: 0.85rem;
+    }
+
+    .competency-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

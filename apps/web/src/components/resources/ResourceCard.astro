@@ -1,0 +1,358 @@
+---
+import StatusBadge from "../shared/StatusBadge.astro";
+import ResourceIcon from "./ResourceIcon.astro";
+import type { ResourceItem } from "../../data/resourcesCatalog";
+
+interface Props {
+  item: ResourceItem;
+  featured?: boolean;
+}
+
+const { item, featured = false } = Astro.props;
+const Wrapper = item.href ? "a" : "article";
+const metaParts = [
+  item.formatLabel,
+  item.duration,
+].filter(Boolean);
+---
+
+<Wrapper
+  class:list={["resource-card", { "resource-card-featured": featured, "resource-card-link": item.href }]}
+  href={item.href}
+  data-resource-card
+  data-resource-id={item.id}
+  data-levels={item.levels.join(" ")}
+  data-competencies={item.competencies.join(" ")}
+  data-formats={item.formatCategories.join(" ")}
+  data-topics={item.topics.join(" ")}
+  data-availability={item.availability}
+  data-downloadable={String(item.downloadable)}
+  data-search={[
+    item.title,
+    item.summary,
+    item.formatLabel,
+    item.levels.join(" "),
+    item.competencies.join(" "),
+    item.topics.join(" "),
+    item.tags.join(" "),
+  ].join(" ")}
+>
+  <div class={`resource-visual resource-visual-${item.visual}`} role="img" aria-label={item.imageAlt}>
+    <span class="format-pill">{item.formatCategories[0]?.replaceAll("-", " ") ?? item.formatLabel}</span>
+    <span class="level-pill">{item.levels.join(" · ")}</span>
+    <svg viewBox="0 0 320 176" focusable="false" aria-hidden="true">
+      <path class="scene-bg" d="M12 144c33-18 64-21 92-8 30-18 60-18 92-1 34-16 70-16 112 1" />
+      <path class="scene-ground" d="M18 152h284" />
+
+      {
+        item.visual === "audio" && (
+          <>
+            <path class="scene-main" d="M98 102a62 62 0 0 1 124 0" />
+            <path class="scene-main" d="M98 102v32h22V96h-10a12 12 0 0 0-12 12" />
+            <path class="scene-main" d="M222 102v32h-22V96h10a12 12 0 0 1 12 12" />
+            <path class="scene-accent" d="M42 116c12-22 26-22 38 0s26 22 38 0 26-22 38 0 26 22 38 0 26-22 38 0 26 22 38 0" />
+          </>
+        )
+      }
+      {
+        item.visual === "worksheet" && (
+          <>
+            <path class="scene-paper" d="M104 34h116v112H104z" />
+            <path class="scene-main" d="m126 70 8 8 17-20" />
+            <path class="scene-main" d="M162 72h32" />
+            <path class="scene-main" d="m126 106 8 8 17-20" />
+            <path class="scene-main" d="M162 108h32" />
+            <path class="scene-accent" d="M228 124l36 18" />
+          </>
+        )
+      }
+      {
+        item.visual === "map" && (
+          <>
+            <path class="scene-paper" d="M58 42 130 26l76 20 58-13v103l-61 14-75-20-70 16z" />
+            <path class="scene-main" d="M130 26v104M206 46v104" />
+            <path class="scene-accent" d="M83 79c27-22 56-18 86 13s58 32 91 3" />
+            <path class="scene-main" d="M92 92h42M151 72h32M214 108h34" />
+          </>
+        )
+      }
+      {
+        item.visual === "delf" && (
+          <>
+            <path class="scene-paper" d="M89 34h142v112H89z" />
+            <path class="scene-main" d="M112 66h96M112 92h72M112 118h52" />
+            <path class="scene-accent" d="m202 116 13 13 31-42" />
+            <path class="scene-main" d="M245 44v-16M235 32h20" />
+          </>
+        )
+      }
+      {
+        (item.visual === "guide" || item.visual === "article") && (
+          <>
+            <path class="scene-paper" d="M84 50c28-10 52-6 76 12v83c-24-18-48-22-76-12z" />
+            <path class="scene-paper" d="M160 62c24-18 48-22 76-12v83c-28-10-52-6-76 12z" />
+            <path class="scene-main" d="M107 82h30M107 103h34M184 82h30M184 103h26" />
+            <path class="scene-accent" d="M250 58l34-28M268 46l17 18" />
+          </>
+        )
+      }
+    </svg>
+  </div>
+
+  <div class="resource-card-body">
+    <div class="resource-card-top">
+      <StatusBadge status={item.availability} />
+      {!item.href && <span class="resource-card-disabled">Sin enlace activo</span>}
+    </div>
+
+    <h3>{item.title}</h3>
+    <p>{item.summary}</p>
+
+    <dl class="resource-meta">
+      <div>
+        <dt>Nivel</dt>
+        <dd>{item.levels.join(" · ")}</dd>
+      </div>
+      <div>
+        <dt>Formato</dt>
+        <dd>{metaParts.join(" · ")}</dd>
+      </div>
+    </dl>
+
+    <span class="resource-card-action">
+      {item.href ? "Abrir recurso" : "Disponible progresivamente"}
+      {item.href && <ResourceIcon name="arrow" />}
+    </span>
+  </div>
+</Wrapper>
+
+<style>
+  .resource-card {
+    display: grid;
+    min-height: 100%;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .resource-card-link:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 85, 164, 0.28);
+    box-shadow: var(--shadow-md);
+  }
+
+  .resource-card-link:focus-visible {
+    outline: 3px solid rgba(184, 134, 11, 0.35);
+    outline-offset: 4px;
+  }
+
+  .resource-card[hidden] {
+    display: none;
+  }
+
+  .resource-visual {
+    position: relative;
+    min-height: 9.25rem;
+    overflow: hidden;
+    color: var(--visual-main, var(--color-blue-dark));
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(11, 47, 85, 0.08)),
+      var(--visual-soft, #eef5fc);
+  }
+
+  .resource-visual-guide,
+  .resource-visual-article {
+    --visual-main: #0b2f55;
+    --visual-soft: #f6efe1;
+    --visual-accent: #b8860b;
+  }
+
+  .resource-visual-audio {
+    --visual-main: #233a8b;
+    --visual-soft: #eef0ff;
+    --visual-accent: #6d63c8;
+  }
+
+  .resource-visual-worksheet {
+    --visual-main: #0b2f55;
+    --visual-soft: #fff2df;
+    --visual-accent: #d27413;
+  }
+
+  .resource-visual-map {
+    --visual-main: #245f59;
+    --visual-soft: #eaf6f2;
+    --visual-accent: #b8860b;
+  }
+
+  .resource-visual-delf {
+    --visual-main: #0b2f55;
+    --visual-soft: #eef5fc;
+    --visual-accent: #247144;
+  }
+
+  .resource-visual svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .resource-visual path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .scene-bg {
+    opacity: 0.25;
+    stroke: currentColor;
+    stroke-width: 1.4;
+  }
+
+  .scene-ground {
+    opacity: 0.3;
+    stroke: currentColor;
+    stroke-width: 1.3;
+  }
+
+  .scene-main {
+    stroke: currentColor;
+    stroke-width: 2.6;
+  }
+
+  .scene-paper {
+    fill: rgba(255, 255, 255, 0.72);
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+
+  .scene-accent {
+    stroke: var(--visual-accent, var(--color-gold));
+    stroke-width: 2.4;
+  }
+
+  .format-pill,
+  .level-pill {
+    position: absolute;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.7rem;
+    border-radius: 999px;
+    font-size: 0.62rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .format-pill {
+    top: 0.72rem;
+    left: 0.72rem;
+    max-width: calc(100% - 4.8rem);
+    padding: 0.28rem 0.58rem;
+    background: var(--color-blue-dark);
+    color: #ffffff;
+  }
+
+  .level-pill {
+    top: 0.68rem;
+    right: 0.72rem;
+    justify-content: center;
+    min-width: 2rem;
+    padding-inline: 0.42rem;
+    background: #ffffff;
+    color: var(--color-blue-dark);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .resource-card-body {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto auto;
+    gap: 0.68rem;
+    padding: 0.95rem;
+  }
+
+  .resource-card-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .resource-card-disabled {
+    color: var(--color-text-muted);
+    font-size: 0.64rem;
+    font-weight: 800;
+  }
+
+  .resource-card h3 {
+    font-size: 1.12rem;
+    line-height: 1.22;
+  }
+
+  .resource-card p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .resource-meta {
+    display: grid;
+    grid-template-columns: 0.7fr 1fr;
+    gap: 0.7rem;
+    margin: 0.18rem 0 0;
+  }
+
+  .resource-meta dt {
+    color: var(--color-text-muted);
+    font-size: 0.62rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .resource-meta dd {
+    margin: 0.08rem 0 0;
+    color: var(--color-heading);
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+
+  .resource-card-action {
+    --resource-icon-size: 1rem;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    justify-self: start;
+    color: #247144;
+    font-size: 0.76rem;
+    font-weight: 900;
+  }
+
+  .resource-card-link .resource-card-action {
+    color: var(--color-blue-dark);
+  }
+
+  @media (max-width: 560px) {
+    .resource-meta {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .resource-card {
+      transition: none;
+    }
+  }
+</style>

@@ -1,42 +1,333 @@
 ---
-import { getCollection } from "astro:content";
-import ListingLayout from "../../layouts/ListingLayout.astro";
-import CatalogFilters from "../../components/catalog/CatalogFilters.astro";
-import CatalogGrid from "../../components/catalog/CatalogGrid.astro";
-import SectionHeader from "../../components/shared/SectionHeader.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DownloadResourcesBanner from "../../components/resources/DownloadResourcesBanner.astro";
+import ResourceFormatGrid from "../../components/resources/ResourceFormatGrid.astro";
+import ResourceTopicGrid from "../../components/resources/ResourceTopicGrid.astro";
+import ResourcesCatalog from "../../components/resources/ResourcesCatalog.astro";
+import ResourcesHero from "../../components/resources/ResourcesHero.astro";
+import {
+  domainToTopic,
+  formatCategories,
+  formatLabels,
+  normalizeText,
+  topicFilters,
+  type ResourceCompetencyId,
+  type ResourceFormatCategoryId,
+  type ResourceItem,
+  type ResourceTopicId,
+} from "../../data/resourcesCatalog";
+import {
+  coverageStatuses,
+  levels,
+  type CoverageStatus,
+  type FormatId,
+  type LevelId,
+} from "../../data/taxonomies";
+import { getContentRoute, getFinalContentSlug } from "../../utils/contentRoutes";
+import { withBase } from "../../utils/paths";
+
+type ContentEntry = CollectionEntry<"content">;
+type ResourceEntry = CollectionEntry<"resources">;
 
 const contentItems = await getCollection("content");
-const sortedItems = contentItems.sort((a, b) =>
-  a.data.title.localeCompare(b.data.title, "es"),
-);
----
+const resourceItems = await getCollection("resources");
 
-<ListingLayout
-  eyebrow="Catalogo inicial"
-  title="Contenidos demostrativos A1-C1"
-  description="Catalogo estatico con semillas editoriales para validar niveles, dominios, formatos y estados. Todo se renderiza en HTML y los filtros usan JavaScript ligero sin framework."
->
-  <section class="section catalog-section">
-    <div class="container catalog-layout">
-      <SectionHeader
-        eyebrow="Filtros"
-        title="Explora por nivel, dominio, formato y cobertura"
-        description="Los contenidos son demostrativos: validan la arquitectura tecnica antes de una migracion editorial masiva."
-      />
+const competencyMap: Record<string, ResourceCompetencyId> = {
+  "comprension oral": "comprension-oral",
+  "comprensión oral": "comprension-oral",
+  listening: "comprension-oral",
+  escucha: "comprension-oral",
+  "comprension escrita": "comprension-escrita",
+  "comprensión escrita": "comprension-escrita",
+  lectura: "comprension-escrita",
+  "produccion oral": "produccion-oral",
+  "producción oral": "produccion-oral",
+  "interaccion oral": "produccion-oral",
+  "interacción oral": "produccion-oral",
+  speaking: "produccion-oral",
+  "produccion escrita": "produccion-escrita",
+  "producción escrita": "produccion-escrita",
+  writing: "produccion-escrita",
+};
 
-      <CatalogFilters />
-      <CatalogGrid items={sortedItems} />
-    </div>
-  </section>
-</ListingLayout>
+const examSkillCompetencies: Record<string, ResourceCompetencyId[]> = {
+  listening: ["comprension-oral"],
+  reading: ["comprension-escrita"],
+  writing: ["produccion-escrita"],
+  speaking: ["produccion-oral"],
+  overview: ["comprension-escrita"],
+};
 
-<style>
-  .catalog-section {
-    background: var(--color-bg);
+const addIf = <T,>(set: Set<T>, condition: boolean, value: T) => {
+  if (condition) set.add(value);
+};
+
+const getContentCompetencies = (item: ContentEntry): ResourceCompetencyId[] => {
+  const result = new Set<ResourceCompetencyId>();
+  const searchableCompetencies = item.data.competencies.map(normalizeText);
+
+  searchableCompetencies.forEach((competency) => {
+    const mapped = competencyMap[competency];
+    if (mapped) result.add(mapped);
+  });
+
+  if (item.data.examSkill) {
+    examSkillCompetencies[item.data.examSkill]?.forEach((competency) =>
+      result.add(competency),
+    );
   }
 
-  .catalog-layout {
-    display: grid;
-    gap: 1.2rem;
+  addIf(result, item.data.domain === "listening" || item.data.format === "audio", "comprension-oral");
+  addIf(result, item.data.format === "article" || item.data.contentKind === "lesson", "comprension-escrita");
+  addIf(result, item.data.contentKind === "guide", "comprension-escrita");
+
+  if (result.size === 0) result.add("comprension-escrita");
+  return Array.from(result);
+};
+
+const getResourceCompetencies = (item: ResourceEntry): ResourceCompetencyId[] => {
+  const result = new Set<ResourceCompetencyId>();
+  const searchable = [
+    item.data.title,
+    item.data.description,
+    ...item.data.tags,
+    item.data.resourceType,
+  ].map(normalizeText);
+
+  searchable.forEach((value) => {
+    Object.entries(competencyMap).forEach(([key, competency]) => {
+      if (value.includes(key)) result.add(competency);
+    });
+  });
+
+  result.add("comprension-escrita");
+  return Array.from(result);
+};
+
+const getContentTopics = (item: ContentEntry): ResourceTopicId[] => {
+  const result = new Set<ResourceTopicId>();
+  const baseTopic = domainToTopic[item.data.domain];
+  const searchText = normalizeText(
+    [
+      item.data.title,
+      item.data.description,
+      item.data.domain,
+      item.data.moduleId ?? "",
+      ...item.data.tags,
+      ...item.data.objectives,
+      ...item.data.grammarTopics,
+      ...item.data.communicativeNeeds,
+      ...item.data.competencies,
+    ].join(" "),
+  );
+
+  if (baseTopic) result.add(baseTopic);
+  addIf(result, searchText.includes("viaje") || searchText.includes("estacion"), "viajes-cultura");
+  addIf(result, searchText.includes("vocab"), "vocabulario");
+  addIf(result, searchText.includes("pronunci"), "pronunciacion");
+  addIf(result, searchText.includes("conector") || searchText.includes("expresion"), "conectores-expresiones");
+  addIf(result, item.data.domain === "grammar", "gramatica");
+  addIf(result, item.data.domain === "delf", "delf");
+
+  if (result.size === 0) result.add("vida-cotidiana");
+  return Array.from(result);
+};
+
+const getResourceTopics = (item: ResourceEntry): ResourceTopicId[] => {
+  const result = new Set<ResourceTopicId>();
+  const searchText = normalizeText(
+    [item.data.title, item.data.description, item.data.resourceType, ...item.data.tags].join(" "),
+  );
+
+  addIf(result, searchText.includes("viaje"), "viajes-cultura");
+  addIf(result, searchText.includes("frase") || searchText.includes("vocab"), "vocabulario");
+  addIf(result, item.data.resourceType === "map", "viajes-cultura");
+
+  if (result.size === 0) result.add("vida-cotidiana");
+  return Array.from(result);
+};
+
+const getContentFormatCategories = (item: ContentEntry): ResourceFormatCategoryId[] => {
+  const result = new Set<ResourceFormatCategoryId>();
+
+  addIf(result, item.data.format === "article", "articulos");
+  addIf(result, item.data.format === "audio", "audios");
+  addIf(result, item.data.format === "podcast", "podcasts");
+  addIf(result, item.data.format === "video", "videos");
+  addIf(result, item.data.format === "downloadable", "guias-pdf");
+  addIf(result, item.data.contentKind === "guide", "guias-pdf");
+  addIf(result, item.data.contentKind === "practice", "fichas-practica");
+  addIf(result, item.data.examContentType === "evaluation", "rubricas-criterios");
+  addIf(result, item.data.examContentType === "mock-exam", "simulacros");
+
+  if (result.size === 0) result.add("articulos");
+  return Array.from(result);
+};
+
+const getResourceFormatCategories = (item: ResourceEntry): ResourceFormatCategoryId[] => {
+  const result = new Set<ResourceFormatCategoryId>();
+
+  addIf(result, item.data.resourceType === "map", "mapas-visuales");
+  addIf(result, item.data.resourceType === "worksheet", "fichas-practica");
+  addIf(result, item.data.resourceType === "transcript", "transcripciones");
+  addIf(result, item.data.resourceType === "audio-pack", "audios");
+  addIf(result, item.data.resourceType === "guide" || item.data.format === "downloadable", "guias-pdf");
+
+  if (result.size === 0) result.add("guias-pdf");
+  return Array.from(result);
+};
+
+const getVisual = (
+  formatCategories: ResourceFormatCategoryId[],
+  format: FormatId,
+  domain?: string,
+): ResourceItem["visual"] => {
+  if (format === "audio" || format === "podcast") return "audio";
+  if (formatCategories.includes("fichas-practica")) return "worksheet";
+  if (formatCategories.includes("mapas-visuales")) return "map";
+  if (domain === "delf" || formatCategories.includes("rubricas-criterios")) return "delf";
+  if (formatCategories.includes("guias-pdf")) return "guide";
+  return "article";
+};
+
+const toContentResource = (item: ContentEntry): ResourceItem => {
+  const formatCategories = getContentFormatCategories(item);
+  const href = getContentRoute(item);
+
+  return {
+    id: `content:${item.id}`,
+    slug: getFinalContentSlug(item.id),
+    title: item.data.title,
+    summary: item.data.description,
+    href,
+    levels: item.data.levels,
+    competencies: getContentCompetencies(item),
+    format: item.data.format,
+    formatLabel: formatLabels[item.data.format],
+    formatCategories,
+    topics: getContentTopics(item),
+    availability: item.data.coverageStatus,
+    duration: item.data.duration,
+    downloadable: item.data.format === "downloadable",
+    featured: Boolean(href),
+    visual: getVisual(formatCategories, item.data.format, item.data.domain),
+    imageAlt: `Ilustración de recurso: ${item.data.title}`,
+    tags: item.data.tags,
+    source: "content",
+  };
+};
+
+const toResourceItem = (item: ResourceEntry): ResourceItem => {
+  const formatCategories = getResourceFormatCategories(item);
+  const hasFile = Boolean(item.data.fileHref?.trim());
+  const href = hasFile ? withBase(item.data.fileHref ?? "") : undefined;
+
+  return {
+    id: `resource:${item.id}`,
+    slug: getFinalContentSlug(item.id),
+    title: item.data.title,
+    summary: item.data.description,
+    href,
+    levels: item.data.levels,
+    competencies: getResourceCompetencies(item),
+    format: item.data.format,
+    formatLabel: formatLabels[item.data.format],
+    formatCategories,
+    topics: getResourceTopics(item),
+    availability: hasFile ? item.data.coverageStatus : "planned",
+    downloadable: hasFile,
+    featured: hasFile,
+    visual: getVisual(formatCategories, item.data.format),
+    imageAlt: `Ilustración de recurso: ${item.data.title}`,
+    tags: item.data.tags,
+    source: "resources",
+  };
+};
+
+const resourceCatalog = [...contentItems.map(toContentResource), ...resourceItems.map(toResourceItem)]
+  .filter((item) => item.availability !== "planned" || item.source === "content" || item.source === "resources")
+  .sort((a, b) => {
+    const statusOrder: Record<CoverageStatus, number> = {
+      available: 1,
+      expanding: 2,
+      planned: 3,
+    };
+
+    return (
+      statusOrder[a.availability] - statusOrder[b.availability] ||
+      a.title.localeCompare(b.title, "es")
+    );
+  });
+
+const featuredOrder = [
+  "passe-compose-vs-imparfait",
+  "criterios-evaluacion",
+  "production-orale",
+  "comprehension-orale",
+];
+const featuredResources = featuredOrder
+  .map((slug) => resourceCatalog.find((item) => item.slug === slug && item.href))
+  .filter((item): item is ResourceItem => Boolean(item))
+  .slice(0, 4);
+
+const zeroCounts = <T extends string>(ids: readonly T[]) =>
+  Object.fromEntries(ids.map((id) => [id, 0])) as Record<T, number>;
+
+const counts = {
+  levels: zeroCounts(levels.map((level) => level.id)),
+  competencies: zeroCounts([
+    "comprension-oral",
+    "comprension-escrita",
+    "produccion-oral",
+    "produccion-escrita",
+  ] as const),
+  formats: zeroCounts(formatCategories.map((format) => format.id)),
+  topics: zeroCounts([...topicFilters.map((topic) => topic.id), "delf"] as const),
+  availability: zeroCounts(coverageStatuses.map((status) => status.id)),
+};
+
+resourceCatalog.forEach((item) => {
+  item.levels.forEach((level) => {
+    counts.levels[level] += 1;
+  });
+  item.competencies.forEach((competency) => {
+    counts.competencies[competency] += 1;
+  });
+  item.formatCategories.forEach((format) => {
+    counts.formats[format] += 1;
+  });
+  item.topics.forEach((topic) => {
+    counts.topics[topic] += 1;
+  });
+  counts.availability[item.availability] += 1;
+});
+
+const downloadableCount = resourceCatalog.filter((item) => item.downloadable && item.href).length;
+---
+
+<BaseLayout
+  title="Recursos para aprender francés A1-C1"
+  description="Explora audios, guías, ejercicios, transcripciones, recursos visuales y materiales para aprender francés desde A1 hasta C1 y preparar el DELF."
+>
+  <main class="resources-page">
+    <ResourcesHero />
+    <ResourceFormatGrid counts={counts.formats} />
+    <ResourcesCatalog
+      items={resourceCatalog}
+      featuredItems={featuredResources}
+      counts={counts}
+    />
+    <ResourceTopicGrid counts={counts.topics} />
+    <DownloadResourcesBanner downloadableCount={downloadableCount} />
+  </main>
+</BaseLayout>
+
+<style>
+  .resources-page {
+    background:
+      radial-gradient(circle at 97% 12%, rgba(0, 85, 164, 0.045), transparent 20rem),
+      radial-gradient(circle at 4% 44%, rgba(184, 134, 11, 0.065), transparent 18rem),
+      var(--color-bg);
   }
 </style>
