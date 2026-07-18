@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../../utils/paths";
+
 interface Props {
   eyebrow: string;
   title: string;
@@ -16,7 +18,7 @@ const { eyebrow, title, description } = Astro.props;
       <span>{description}</span>
     </div>
     <div class="grammar-hero-visual" aria-hidden="true">
-      <img src="/images/hero-paris.jpg" alt="" loading="eager" decoding="async" />
+      <img src={withBase("/images/hero-paris.jpg")} alt="" loading="eager" decoding="async" />
     </div>
   </div>
 </section>

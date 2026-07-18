@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../utils/paths";
 ---
 
 <BaseLayout
@@ -16,9 +17,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </p>
 
       <div class="not-found-actions">
-        <a class="button button-primary" href="/">Volver al inicio</a>
-        <a class="button button-secondary" href="/niveles/">Ver niveles</a>
-        <a class="button button-secondary" href="/contenidos/">Explorar catalogo</a>
+        <a class="button button-primary" href={withBase("/")}>Volver al inicio</a>
+        <a class="button button-secondary" href={withBase("/niveles/")}>Ver niveles</a>
+        <a class="button button-secondary" href={withBase("/contenidos/")}>Explorar catalogo</a>
       </div>
     </section>
   </main>
