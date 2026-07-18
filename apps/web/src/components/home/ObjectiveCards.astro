@@ -83,7 +83,7 @@ const isAvailable = (status: string) =>
                 </div>
               </a>
             ) : (
-              <article class="objective-card card" data-href={objective.href}>
+              <article class="objective-card card" data-href={withBase(objective.href)}>
                 <div class="objective-card-header">
                   <h3>{objective.title}</h3>
 

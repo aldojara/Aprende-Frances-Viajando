@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../../utils/paths";
+
 const levels = [
   {
     code: "A1",
@@ -80,7 +82,7 @@ const statusClass = (status: string) => ({
         levels.map((level) => (
           <li>
             {isNavigable(level.status) ? (
-              <a class="level-card card level-card-link" href={level.href}>
+              <a class="level-card card level-card-link" href={withBase(level.href)}>
                 <div class="level-top">
                   <span class="level-code">{level.code}</span>
 
