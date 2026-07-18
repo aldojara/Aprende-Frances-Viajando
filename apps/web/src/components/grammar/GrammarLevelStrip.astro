@@ -1,0 +1,123 @@
+---
+const levelLinks = [
+  { level: "A1", state: "En expansión", tone: "expanding", href: "/contenidos/?domain=grammar&level=a1" },
+  { level: "A2", state: "En expansión", tone: "expanding", href: "/contenidos/?domain=grammar&level=a2" },
+  { level: "B1", state: "Disponible", tone: "available", href: "/contenidos/?domain=grammar&level=b1" },
+  { level: "B2", state: "Disponible", tone: "available", href: "/contenidos/?domain=grammar&level=b2" },
+  { level: "C1", state: "En expansión", tone: "expanding", href: "/contenidos/?domain=grammar&level=c1" },
+];
+---
+
+<ul class="grammar-level-strip" aria-label="Niveles gramaticales">
+  {
+    levelLinks.map((item) => (
+      <li>
+        <a href={item.href} class={`level-${item.tone}`}>
+          <strong>{item.level}</strong>
+          <span>· {item.state}</span>
+          {
+            item.tone === "available" ? (
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M20 6 9 17l-5-5" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+              </svg>
+            )
+          }
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .grammar-level-strip {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .grammar-level-strip a {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.38rem;
+    min-height: 2.85rem;
+    align-items: center;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid #ccd6e3;
+    border-radius: 0.55rem;
+    background: #ffffff;
+  }
+
+  .grammar-level-strip a:hover,
+  .grammar-level-strip a:focus-visible {
+    border-color: rgba(0, 85, 164, 0.34);
+  }
+
+  .grammar-level-strip a:focus-visible {
+    outline: 3px solid rgba(184, 134, 11, 0.28);
+    outline-offset: 3px;
+  }
+
+  .grammar-level-strip strong {
+    color: var(--color-blue-dark);
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .grammar-level-strip span {
+    color: var(--color-gold);
+    font-size: 0.7rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .grammar-level-strip .level-available span {
+    color: #21834c;
+  }
+
+  .grammar-level-strip svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+
+  .level-expanding svg {
+    color: #f59e0b;
+  }
+
+  .level-available svg {
+    color: #21834c;
+  }
+
+  @media (max-width: 880px) {
+    .grammar-level-strip {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 520px) {
+    .grammar-level-strip {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grammar-level-strip a {
+      min-width: 0;
+    }
+
+    .grammar-level-strip span {
+      white-space: normal;
+      line-height: 1.15;
+    }
+  }
+</style>

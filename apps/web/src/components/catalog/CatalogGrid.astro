@@ -15,6 +15,8 @@ interface Props {
       contentKind: string;
       duration?: string;
       demonstration?: boolean;
+      moduleId?: any;
+      communicationGoals?: any[];
     };
   }[];
 }
@@ -43,6 +45,8 @@ const getItemHref = (item: Props["items"][number]) =>
             duration={item.data.duration}
             demonstration={item.data.demonstration}
             href={getItemHref(item)}
+            moduleId={item.data.moduleId}
+            communicationGoals={item.data.communicationGoals}
           />
         </li>
       ))

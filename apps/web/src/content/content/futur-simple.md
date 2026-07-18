@@ -12,6 +12,12 @@ objectives: ["hablar de planes", "formular predicciones"]
 competencies: ["gramática", "comunicación"]
 grammarFamily: "Futuro y condicional"
 communicativeNeeds: ["Expresar una opinión", "Argumentar"]
+moduleId: "tiempos-modos-formas"
+moduleOrder: 2
+grammarTopics: ["futur simple", "planes", "predicciones"]
+communicationGoals: ["opinar-y-argumentar"]
+status: "available"
+estimatedMinutes: 10
 lessonOrder: 4
 formation:
   - "Toma el infinitivo como base y agrega -ai, -as, -a, -ons, -ez, -ont."

@@ -1,0 +1,121 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  description: string;
+}
+
+const { eyebrow, title, description } = Astro.props;
+---
+
+<section class="grammar-hero">
+  <div class="grammar-hero-inner">
+    <div class="grammar-hero-copy">
+      <p>{eyebrow}</p>
+      <h1>{title}</h1>
+      <span>{description}</span>
+    </div>
+    <div class="grammar-hero-visual" aria-hidden="true">
+      <img src="/images/hero-paris.jpg" alt="" loading="eager" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .grammar-hero {
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .grammar-hero-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.63fr) minmax(0, 0.37fr);
+    min-height: 19rem;
+    align-items: center;
+  }
+
+  .grammar-hero-copy {
+    z-index: 1;
+    width: auto;
+    max-width: 47rem;
+    margin-left: max(1rem, calc((100vw - 1160px) / 2));
+    padding-right: 1rem;
+    padding-block: 2.65rem 2.4rem;
+  }
+
+  .grammar-hero-copy p {
+    margin: 0 0 0.85rem;
+    color: var(--color-gold);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .grammar-hero h1 {
+    max-width: 43rem;
+    color: var(--color-blue-dark);
+    font-size: clamp(3.35rem, 4.55vw, 4.05rem);
+    line-height: 1.04;
+  }
+
+  .grammar-hero-copy span {
+    display: block;
+    max-width: 37rem;
+    margin-top: 1rem;
+    color: #687487;
+    font-size: 1.02rem;
+    line-height: 1.45;
+  }
+
+  .grammar-hero-visual {
+    position: relative;
+    align-self: stretch;
+    min-height: 19rem;
+  }
+
+  .grammar-hero-visual::before {
+    position: absolute;
+    inset: 0 auto 0 -7rem;
+    z-index: 1;
+    width: 14rem;
+    background: linear-gradient(90deg, var(--color-bg) 5%, rgba(247, 244, 237, 0.88) 36%, rgba(247, 244, 237, 0));
+    content: "";
+  }
+
+  .grammar-hero-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  @media (max-width: 760px) {
+    .grammar-hero-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .grammar-hero-copy {
+      width: min(100% - 2rem, 1160px);
+      margin-inline: auto;
+      padding-block: 2.2rem 1.2rem;
+    }
+
+    .grammar-hero h1 {
+      font-size: clamp(2.15rem, 9.2vw, 2.45rem);
+    }
+
+    .grammar-hero-visual {
+      min-height: 10.5rem;
+    }
+
+    .grammar-hero-visual::before {
+      inset: -1px 0 auto;
+      width: auto;
+      height: 4.5rem;
+      background: linear-gradient(180deg, var(--color-bg), rgba(247, 244, 237, 0));
+    }
+  }
+</style>

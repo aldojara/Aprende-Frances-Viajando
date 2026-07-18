@@ -4,8 +4,10 @@ import {
   getDomain,
   getFormat,
   type CoverageStatus,
+  type CommunicationGoalId,
   type DomainId,
   type FormatId,
+  type GrammarModuleId,
   type LevelId,
 } from "../../data/taxonomies";
 
@@ -20,6 +22,8 @@ interface Props {
   duration?: string;
   href?: string;
   demonstration?: boolean;
+  moduleId?: GrammarModuleId;
+  communicationGoals?: CommunicationGoalId[];
 }
 
 const {
@@ -33,6 +37,8 @@ const {
   duration,
   href,
   demonstration = true,
+  moduleId,
+  communicationGoals = [],
 } = Astro.props;
 
 const Wrapper = href ? "a" : "article";
@@ -48,6 +54,8 @@ const formatLabel = getFormat(format)?.label ?? format;
   data-domain={domain}
   data-format={format}
   data-coverage={coverageStatus}
+  data-module={moduleId ?? ""}
+  data-goals={communicationGoals.join(" ")}
 >
   <div class="catalog-card-top">
     <StatusBadge status={coverageStatus} />

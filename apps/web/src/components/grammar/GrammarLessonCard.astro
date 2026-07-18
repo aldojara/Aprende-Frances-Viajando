@@ -9,26 +9,80 @@ interface Props {
   coverageStatus: "available" | "expanding" | "planned";
   grammarFamily?: string;
   duration?: string;
+  variant?: "default" | "compact";
 }
 
-const { id, title, description, levels, coverageStatus, grammarFamily, duration } =
+const { id, title, description, levels, coverageStatus, grammarFamily, duration, variant = "default" } =
   Astro.props;
+
+const compactIcon = id.includes("passe")
+  ? "pen"
+  : id.includes("subjonctif")
+    ? "fleur"
+    : id.includes("conditionnel")
+      ? "infinity"
+      : "chat";
 ---
 
-<a class="grammar-card card" href={`/gramatica/${id}/`}>
-  <div class="grammar-card-top">
-    <StatusBadge status={coverageStatus} />
-    <span>{levels.join(" · ")}</span>
-  </div>
+{
+  variant === "compact" ? (
+    <a class="grammar-card-compact" href={`/gramatica/${id}/`}>
+      <span class="compact-icon" aria-hidden="true">
+        {
+          compactIcon === "pen" ? (
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M4 20h6M14.5 4.5l5 5L10 19l-5.5.5L5 14z" />
+              <path d="m13 6 5 5" />
+            </svg>
+          ) : compactIcon === "fleur" ? (
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M12 3c2.5 2.3 3.1 4.7 0 7-3.1-2.3-2.5-4.7 0-7Z" />
+              <path d="M7 10c-1.4 2.8-.2 5.3 5 5.3C9.5 12.8 8.2 11.3 7 10Z" />
+              <path d="M17 10c1.4 2.8.2 5.3-5 5.3 2.5-2.5 3.8-4 5-5.3Z" />
+              <path d="M12 15v6M9 21h6" />
+            </svg>
+          ) : compactIcon === "infinity" ? (
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M8.5 8.5c2.8 0 4.2 7 7 7a3.5 3.5 0 1 0 0-7c-2.8 0-4.2 7-7 7a3.5 3.5 0 1 1 0-7Z" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M5 6h14v9H9l-4 4z" />
+              <path d="M9 10h6M9 13h4" />
+            </svg>
+          )
+        }
+      </span>
 
-  {grammarFamily && <p class="grammar-family">{grammarFamily}</p>}
-  <h3>{title}</h3>
-  <p>{description}</p>
+      <span class="compact-body">
+        <span class="compact-title">{title}</span>
+        <span class="compact-meta">
+          {duration || "Lectura breve"}
+          {coverageStatus === "expanding" && " · En expansión"}
+        </span>
+      </span>
 
-  <span class="grammar-card-action">
-    {duration ? `${duration} · Ver lección` : "Ver lección"}
-  </span>
-</a>
+      <svg class="compact-bookmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M7 4h10v16l-5-3-5 3z" />
+      </svg>
+    </a>
+  ) : (
+    <a class="grammar-card card" href={`/gramatica/${id}/`}>
+      <div class="grammar-card-top">
+        <StatusBadge status={coverageStatus} />
+        <span>{levels.join(" · ")}</span>
+      </div>
+
+      {grammarFamily && <p class="grammar-family">{grammarFamily}</p>}
+      <h3>{title}</h3>
+      <p>{description}</p>
+
+      <span class="grammar-card-action">
+        {duration ? `${duration} · Ver lección` : "Ver lección"}
+      </span>
+    </a>
+  )
+}
 
 <style>
   .grammar-card {
@@ -84,6 +138,83 @@ const { id, title, description, levels, coverageStatus, grammarFamily, duration 
     color: var(--color-heading);
     font-size: 0.78rem;
     font-weight: 800;
+  }
+
+  .grammar-card-compact {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.85rem;
+    min-height: 7.2rem;
+    align-items: center;
+    padding: 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.7rem;
+    background: #ffffff;
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .grammar-card-compact:hover,
+  .grammar-card-compact:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(0, 85, 164, 0.28);
+  }
+
+  .grammar-card-compact:focus-visible {
+    outline: 3px solid rgba(184, 134, 11, 0.28);
+    outline-offset: 3px;
+  }
+
+  .compact-icon {
+    display: inline-flex;
+    width: 3rem;
+    height: 3rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: #eaf3fd;
+    color: var(--color-blue-dark);
+  }
+
+  .compact-icon svg,
+  .compact-bookmark {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .compact-icon svg {
+    width: 1.55rem;
+    height: 1.55rem;
+    stroke-width: 1.7;
+  }
+
+  .compact-body {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .compact-title {
+    color: var(--color-blue-dark);
+    font-size: 0.92rem;
+    font-weight: 900;
+    line-height: 1.22;
+  }
+
+  .compact-meta {
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+
+  .compact-bookmark {
+    align-self: end;
+    width: 1.05rem;
+    height: 1.05rem;
+    color: var(--color-text-muted);
+    stroke-width: 1.7;
   }
 </style>
 

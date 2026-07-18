@@ -12,6 +12,12 @@ objectives: ["formular hipótesis", "dar consejos"]
 competencies: ["gramática", "comunicación"]
 grammarFamily: "Futuro y condicional"
 communicativeNeeds: ["Formular hipótesis", "Dar consejos", "Expresar una opinión"]
+moduleId: "tiempos-modos-formas"
+moduleOrder: 2
+grammarTopics: ["conditionnel présent", "hipótesis", "consejo", "cortesía"]
+communicationGoals: ["formular-hipotesis", "dar-consejos", "opinar-y-argumentar"]
+status: "available"
+estimatedMinutes: 12
 lessonOrder: 3
 formation:
   - "Usa la base del futuro simple + terminaciones del imparfait: -ais, -ais, -ait, -ions, -iez, -aient."

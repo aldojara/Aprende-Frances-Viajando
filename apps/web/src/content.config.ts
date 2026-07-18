@@ -29,6 +29,23 @@ const domainSchema = z.enum([
   "vocabulary",
   "pronunciation",
 ]);
+const grammarModuleSchema = z.enum([
+  "fundamentos-frase",
+  "tiempos-modos-formas",
+  "pronombres-determinantes",
+  "transformacion-discurso",
+  "conectores-relaciones",
+  "funciones-argumentacion",
+]);
+const communicationGoalSchema = z.enum([
+  "hablar-del-pasado",
+  "opinar-y-argumentar",
+  "formular-hipotesis",
+  "dar-consejos",
+  "expresar-obligacion",
+  "contar-lo-que-alguien-dijo",
+  "causa-y-consecuencia",
+]);
 
 const baseEditorialSchema = z.object({
   title: z.string(),
@@ -51,6 +68,14 @@ const content = defineCollection({
     competencies: z.array(z.string()).default([]),
     grammarFamily: z.string().optional(),
     communicativeNeeds: z.array(z.string()).default([]),
+    moduleId: grammarModuleSchema.optional(),
+    moduleOrder: z.number().int().positive().optional(),
+    grammarTopics: z.array(z.string()).default([]),
+    communicationGoals: z.array(communicationGoalSchema).default([]),
+    status: coverageStatusSchema.optional(),
+    estimatedMinutes: z.number().int().positive().optional(),
+    prerequisites: z.array(reference("content")).default([]),
+    nextContent: reference("content").optional(),
     lessonOrder: z.number().int().positive().optional(),
     formation: z.array(z.string()).default([]),
     uses: z.array(z.string()).default([]),

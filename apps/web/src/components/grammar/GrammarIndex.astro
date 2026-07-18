@@ -1,0 +1,491 @@
+---
+interface Topic {
+  title: string;
+  levels: string[];
+  status: "available" | "expanding" | "planned";
+  href?: string;
+  goal?: string;
+  duration?: string;
+  includes?: string[];
+}
+
+interface Module {
+  id: string;
+  number: number;
+  title: string;
+  range: string;
+  topics: Topic[];
+}
+
+interface Props {
+  modules: Module[];
+}
+
+const { modules } = Astro.props;
+const visibleLimit = 6;
+const statusLabels = {
+  available: "Disponible",
+  expanding: "En expansión",
+  planned: "Próximamente",
+};
+const getTopicCount = (module: Module) =>
+  module.topics.reduce((count, topic) => count + (topic.includes?.length ?? 1), 0);
+---
+
+<div class="grammar-index-panel" data-grammar-index>
+  {
+    modules.map((module) => {
+      const panelId = `grammar-module-${module.number}`;
+      const buttonId = `grammar-module-button-${module.number}`;
+      const moreId = `grammar-module-more-${module.number}`;
+      const isOpen = module.number === 2;
+      const topicCount = getTopicCount(module);
+      const hasMore = module.topics.length > visibleLimit;
+
+      return (
+        <section class:list={["grammar-module", { "is-open": isOpen }]}>
+          <h3>
+            <button
+              id={buttonId}
+              type="button"
+              aria-expanded={isOpen ? "true" : "false"}
+              aria-controls={panelId}
+              data-grammar-toggle
+            >
+              <span class="module-number">{module.number}</span>
+              <span class="module-title">
+                <span>{module.title}</span>
+                <small>{module.range}</small>
+              </span>
+              <span class="module-count">{topicCount} temas</span>
+              <svg class="module-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+          </h3>
+
+          <div
+            id={panelId}
+            class="module-panel"
+            role="region"
+            aria-labelledby={buttonId}
+            hidden={!isOpen}
+          >
+            <ul id={moreId} class="topic-grid">
+              {
+                module.topics.map((topic, index) => (
+                  <li hidden={index >= visibleLimit} data-extra-topic={index >= visibleLimit ? "true" : undefined}>
+                    {
+                      topic.href ? (
+                        <a class="topic-card" href={topic.href}>
+                          <span class="topic-title">{topic.title}</span>
+                          <span class="topic-meta">
+                            <span class="topic-levels">{topic.levels.join(" · ")}</span>
+                            <span class={`topic-status topic-status-${topic.status}`}>
+                              {statusLabels[topic.status]}
+                            </span>
+                          </span>
+                          {topic.includes && (
+                            <span class="topic-includes">
+                              Incluye:
+                              <span>{topic.includes.join(" · ")}</span>
+                            </span>
+                          )}
+                          {(topic.goal || topic.duration) && (
+                            <span class="topic-detail">
+                              {[topic.goal, topic.duration].filter(Boolean).join(" · ")}
+                            </span>
+                          )}
+                        </a>
+                      ) : (
+                        <article class="topic-card topic-card-static">
+                          <span class="topic-title">{topic.title}</span>
+                          <span class="topic-meta">
+                            <span class="topic-levels">{topic.levels.join(" · ")}</span>
+                            <span class={`topic-status topic-status-${topic.status}`}>
+                              {statusLabels[topic.status]}
+                            </span>
+                          </span>
+                          {topic.includes && (
+                            <span class="topic-includes">
+                              Incluye:
+                              <span>{topic.includes.join(" · ")}</span>
+                            </span>
+                          )}
+                          {topic.goal && <span class="topic-detail">{topic.goal}</span>}
+                        </article>
+                      )
+                    }
+                  </li>
+                ))
+              }
+            </ul>
+
+            {hasMore && (
+              <button
+                class="show-more-topics"
+                type="button"
+                aria-expanded="false"
+                aria-controls={moreId}
+                data-show-more
+                data-more-label={`Mostrar los ${topicCount} temas`}
+                data-less-label="Mostrar menos"
+              >
+                Mostrar los {topicCount} temas
+              </button>
+            )}
+          </div>
+        </section>
+      );
+    })
+  }
+</div>
+
+<script>
+  const index = document.querySelector("[data-grammar-index]");
+  const toggles = Array.from(document.querySelectorAll("[data-grammar-toggle]"));
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      if (!(toggle instanceof HTMLButtonElement)) return;
+
+      const panelId = toggle.getAttribute("aria-controls");
+      const panel = panelId ? document.getElementById(panelId) : null;
+      const module = toggle.closest(".grammar-module");
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+      if (panel) panel.hidden = isOpen;
+      module?.classList.toggle("is-open", !isOpen);
+    });
+  });
+
+  document.querySelectorAll("[data-show-more]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!(button instanceof HTMLButtonElement)) return;
+      const listId = button.getAttribute("aria-controls");
+      const list = listId ? document.getElementById(listId) : null;
+      const isOpen = button.getAttribute("aria-expanded") === "true";
+
+      list
+        ?.querySelectorAll("[data-extra-topic]")
+        .forEach((item) => {
+          if (item instanceof HTMLElement) item.hidden = isOpen;
+        });
+
+      button.setAttribute("aria-expanded", String(!isOpen));
+      button.textContent = isOpen
+        ? button.dataset.moreLabel || "Mostrar más"
+        : button.dataset.lessLabel || "Mostrar menos";
+    });
+  });
+
+  index?.addEventListener("keydown", (event) => {
+    if (!(event instanceof KeyboardEvent)) return;
+    if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
+
+    const activeIndex = toggles.indexOf(document.activeElement as Element);
+    if (activeIndex < 0) return;
+
+    event.preventDefault();
+    const lastIndex = toggles.length - 1;
+    const nextIndex =
+      event.key === "Home"
+        ? 0
+        : event.key === "End"
+          ? lastIndex
+          : event.key === "ArrowDown"
+            ? Math.min(activeIndex + 1, lastIndex)
+            : Math.max(activeIndex - 1, 0);
+
+    const next = toggles[nextIndex];
+    if (next instanceof HTMLElement) next.focus();
+  });
+</script>
+
+<style>
+  .grammar-index-panel {
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(11, 47, 85, 0.04);
+  }
+
+  .grammar-module + .grammar-module {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .grammar-module h3 {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 1rem;
+  }
+
+  .grammar-module button[data-grammar-toggle] {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    gap: 0.75rem;
+    align-items: center;
+    width: 100%;
+    min-height: 2.8rem;
+    padding: 0.55rem 0.8rem;
+    border: 0;
+    background: transparent;
+    color: var(--color-blue-dark);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .grammar-module button:focus-visible,
+  a.topic-card:focus-visible,
+  .show-more-topics:focus-visible {
+    outline: 3px solid rgba(184, 134, 11, 0.28);
+    outline-offset: -3px;
+  }
+
+  .module-number {
+    display: inline-flex;
+    width: 1.65rem;
+    height: 1.65rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: var(--color-blue-dark);
+    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 900;
+  }
+
+  .module-title {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.6rem;
+    align-items: baseline;
+    min-width: 0;
+  }
+
+  .module-title span {
+    color: var(--color-blue-dark);
+    font-size: 0.92rem;
+    font-weight: 800;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .module-title small {
+    color: var(--color-text-muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+  }
+
+  .module-count {
+    min-width: 4.8rem;
+    padding: 0.24rem 0.55rem;
+    border-radius: 999px;
+    background: #f4f1ed;
+    color: var(--color-blue-dark);
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .module-chevron {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-blue-dark);
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+    transition: transform 160ms ease;
+  }
+
+  .is-open .module-chevron {
+    transform: rotate(180deg);
+  }
+
+  .module-panel {
+    padding: 0.75rem 0.85rem 0.85rem;
+    border-top: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.64);
+  }
+
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.62rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .topic-grid li {
+    min-width: 0;
+  }
+
+  .topic-card {
+    display: grid;
+    min-width: 0;
+    min-height: 4.6rem;
+    gap: 0.32rem;
+    padding: 0.68rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.55rem;
+    background: #ffffff;
+  }
+
+  a.topic-card {
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  a.topic-card:hover {
+    border-color: rgba(0, 85, 164, 0.28);
+    background: #fbfdff;
+  }
+
+  .topic-title {
+    min-width: 0;
+    color: var(--color-blue-dark);
+    font-size: 0.82rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .topic-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .topic-levels,
+  .topic-detail,
+  .topic-includes {
+    color: var(--color-text-muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+  }
+
+  .topic-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    padding: 0.18rem 0.46rem;
+    border-radius: 999px;
+    font-size: 0.66rem;
+    font-weight: 800;
+    line-height: 1.15;
+  }
+
+  .topic-status::after {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 999px;
+    content: "";
+  }
+
+  .topic-status-available {
+    background: #e9f7ee;
+    color: #21834c;
+  }
+
+  .topic-status-available::after {
+    background: #21834c;
+  }
+
+  .topic-status-expanding {
+    background: #edf4fc;
+    color: var(--color-blue);
+  }
+
+  .topic-status-expanding::after {
+    background: var(--color-blue);
+  }
+
+  .topic-status-planned {
+    background: #fff3dc;
+    color: #c97705;
+  }
+
+  .topic-status-planned::after {
+    background: #f59e0b;
+  }
+
+  .topic-includes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    align-items: center;
+  }
+
+  .topic-includes span {
+    color: var(--color-blue-dark);
+  }
+
+  .show-more-topics {
+    justify-self: center;
+    min-height: 2rem;
+    margin-top: 0.7rem;
+    padding: 0.36rem 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--color-blue-dark);
+    cursor: pointer;
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+
+  .show-more-topics:hover {
+    border-color: rgba(0, 85, 164, 0.3);
+  }
+
+  @media (max-width: 980px) {
+    .topic-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .grammar-module button[data-grammar-toggle] {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 0.6rem;
+    }
+
+    .module-count {
+      grid-column: 2;
+      justify-self: start;
+      min-width: 0;
+    }
+
+    .module-chevron {
+      grid-column: 3;
+      grid-row: 1 / span 2;
+      align-self: center;
+    }
+
+    .topic-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .topic-meta {
+      justify-content: flex-start;
+    }
+
+    .topic-card {
+      overflow: hidden;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .module-chevron {
+      transition: none;
+    }
+  }
+</style>

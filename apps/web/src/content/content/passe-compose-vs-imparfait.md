@@ -12,6 +12,12 @@ objectives: ["hablar del pasado", "contar experiencias"]
 competencies: ["gramática", "producción escrita", "producción oral"]
 grammarFamily: "Tiempos del pasado"
 communicativeNeeds: ["Hablar del pasado", "Contar lo que ocurrió"]
+moduleId: "tiempos-modos-formas"
+moduleOrder: 2
+grammarTopics: ["passé composé", "imparfait", "tiempos del pasado"]
+communicationGoals: ["hablar-del-pasado"]
+status: "available"
+estimatedMinutes: 14
 lessonOrder: 1
 formation:
   - "Passé composé: auxiliar avoir o etre en presente + participe passe."

@@ -1,8 +1,10 @@
 ﻿---
 import {
   coverageStatuses,
+  communicationGoals,
   domains,
   formats,
+  grammarModules,
   levels,
 } from "../../data/taxonomies";
 ---
@@ -44,6 +46,22 @@ import {
     </select>
   </label>
 
+  <label>
+    <span>Objetivo</span>
+    <select name="goal">
+      <option value="">Todos</option>
+      {communicationGoals.map((goal) => <option value={goal.id}>{goal.label}</option>)}
+    </select>
+  </label>
+
+  <label>
+    <span>Módulo</span>
+    <select name="module">
+      <option value="">Todos</option>
+      {grammarModules.map((module) => <option value={module.id}>{module.label}</option>)}
+    </select>
+  </label>
+
   <button class="button button-secondary" type="reset">Limpiar</button>
 </form>
 
@@ -60,6 +78,8 @@ import {
     const selectedDomain = String(formData.get("domain") || "");
     const selectedFormat = String(formData.get("format") || "");
     const selectedCoverage = String(formData.get("coverage") || "");
+    const selectedGoal = String(formData.get("goal") || "");
+    const selectedModule = String(formData.get("module") || "");
 
     let visibleCount = 0;
 
@@ -74,9 +94,18 @@ import {
         !selectedFormat || card.dataset.format === selectedFormat;
       const matchesCoverage =
         !selectedCoverage || card.dataset.coverage === selectedCoverage;
+      const matchesGoal =
+        !selectedGoal || card.dataset.goals?.split(" ").includes(selectedGoal);
+      const matchesModule =
+        !selectedModule || card.dataset.module === selectedModule;
 
       const isVisible =
-        matchesLevel && matchesDomain && matchesFormat && matchesCoverage;
+        matchesLevel &&
+        matchesDomain &&
+        matchesFormat &&
+        matchesCoverage &&
+        matchesGoal &&
+        matchesModule;
 
       card.hidden = !isVisible;
       if (isVisible) visibleCount += 1;
@@ -89,14 +118,28 @@ import {
 
   filters?.addEventListener("change", applyFilters);
   filters?.addEventListener("reset", () => {
+    if (filters instanceof HTMLFormElement) {
+      window.history.replaceState({}, "", window.location.pathname);
+    }
     window.setTimeout(applyFilters, 0);
   });
+
+  if (filters instanceof HTMLFormElement) {
+    const params = new URLSearchParams(window.location.search);
+    for (const [key, value] of params.entries()) {
+      const field = filters.elements.namedItem(key);
+      if (field instanceof HTMLSelectElement) {
+        field.value = key === "level" ? value.toUpperCase() : value;
+      }
+    }
+    applyFilters();
+  }
 </script>
 
 <style>
   .catalog-filters {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
     gap: 0.75rem;
     align-items: end;
     padding: 1rem;

@@ -123,12 +123,42 @@ export const formats = [
   { id: "downloadable", label: "Descargable" },
 ] as const;
 
+export const grammarModules = [
+  { id: "fundamentos-frase", label: "Fundamentos de la frase" },
+  { id: "tiempos-modos-formas", label: "Tiempos, modos y formas verbales" },
+  { id: "pronombres-determinantes", label: "Pronombres y determinantes" },
+  {
+    id: "transformacion-discurso",
+    label: "Construccion y transformacion del discurso",
+  },
+  { id: "conectores-relaciones", label: "Conectores y relaciones logicas" },
+  {
+    id: "funciones-argumentacion",
+    label: "Funciones comunicativas y argumentacion",
+  },
+] as const;
+
+export const communicationGoals = [
+  { id: "hablar-del-pasado", label: "Hablar del pasado" },
+  { id: "opinar-y-argumentar", label: "Opinar y argumentar" },
+  { id: "formular-hipotesis", label: "Formular hipótesis" },
+  { id: "dar-consejos", label: "Dar consejos" },
+  { id: "expresar-obligacion", label: "Expresar obligación" },
+  {
+    id: "contar-lo-que-alguien-dijo",
+    label: "Contar lo que alguien dijo",
+  },
+  { id: "causa-y-consecuencia", label: "Expresar causa y consecuencia" },
+] as const;
+
 export type LevelId = (typeof levels)[number]["id"];
 export type CoverageStatus = (typeof coverageStatuses)[number]["id"];
 export type PublicationStatus = (typeof publicationStatuses)[number]["id"];
 export type DomainId = (typeof domains)[number]["id"];
 export type ContentKind = (typeof contentKinds)[number]["id"];
 export type FormatId = (typeof formats)[number]["id"];
+export type GrammarModuleId = (typeof grammarModules)[number]["id"];
+export type CommunicationGoalId = (typeof communicationGoals)[number]["id"];
 
 export const levelIds = levels.map((level) => level.id) as LevelId[];
 export const domainIds = domains.map((domain) => domain.id) as DomainId[];
@@ -136,6 +166,12 @@ export const formatIds = formats.map((format) => format.id) as FormatId[];
 export const coverageStatusIds = coverageStatuses.map(
   (status) => status.id,
 ) as CoverageStatus[];
+export const grammarModuleIds = grammarModules.map(
+  (module) => module.id,
+) as GrammarModuleId[];
+export const communicationGoalIds = communicationGoals.map(
+  (goal) => goal.id,
+) as CommunicationGoalId[];
 
 export const getLevelBySlug = (slug: string) =>
   levels.find((level) => level.slug === slug);
@@ -151,3 +187,9 @@ export const getDomain = (id: string) =>
 
 export const getFormat = (id: string) =>
   formats.find((format) => format.id === id);
+
+export const getGrammarModule = (id: string) =>
+  grammarModules.find((module) => module.id === id);
+
+export const getCommunicationGoal = (id: string) =>
+  communicationGoals.find((goal) => goal.id === id);

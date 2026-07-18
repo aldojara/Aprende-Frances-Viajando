@@ -12,6 +12,12 @@ objectives: ["mejorar fluidez", "evitar repeticiones"]
 competencies: ["gramática", "producción oral"]
 grammarFamily: "Pronombres y determinantes"
 communicativeNeeds: ["Argumentar", "Contar lo que alguien dijo"]
+moduleId: "pronombres-determinantes"
+moduleOrder: 3
+grammarTopics: ["COD", "COI", "pronombre y", "pronombre en"]
+communicationGoals: ["contar-lo-que-alguien-dijo", "opinar-y-argumentar"]
+status: "expanding"
+estimatedMinutes: 18
 lessonOrder: 5
 formation:
   - "COD: me, te, le/la, nous, vous, les."

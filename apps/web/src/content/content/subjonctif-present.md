@@ -12,6 +12,12 @@ objectives: ["expresar una opinión", "expresar obligación"]
 competencies: ["gramática", "producción oral"]
 grammarFamily: "Subjuntivo"
 communicativeNeeds: ["Expresar una opinión", "Expresar obligación", "Argumentar"]
+moduleId: "tiempos-modos-formas"
+moduleOrder: 2
+grammarTopics: ["subjonctif présent", "modo subjuntivo", "duda", "obligación"]
+communicationGoals: ["opinar-y-argumentar", "expresar-obligacion"]
+status: "available"
+estimatedMinutes: 16
 lessonOrder: 2
 formation:
   - "Parte de ils/elles en presente, quita -ent y agrega -e, -es, -e, -ions, -iez, -ent."

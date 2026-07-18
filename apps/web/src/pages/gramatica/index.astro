@@ -1,10 +1,12 @@
-﻿---
+---
 import { getCollection } from "astro:content";
-import ListingLayout from "../../layouts/ListingLayout.astro";
-import SectionHeader from "../../components/shared/SectionHeader.astro";
-import StatusBadge from "../../components/shared/StatusBadge.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import GrammarEntryOptions from "../../components/grammar/GrammarEntryOptions.astro";
+import GrammarGoalChips from "../../components/grammar/GrammarGoalChips.astro";
+import GrammarHero from "../../components/grammar/GrammarHero.astro";
+import GrammarIndex from "../../components/grammar/GrammarIndex.astro";
 import GrammarLessonCard from "../../components/grammar/GrammarLessonCard.astro";
-import { levels } from "../../data/taxonomies";
+import GrammarLevelStrip from "../../components/grammar/GrammarLevelStrip.astro";
 
 const allContent = await getCollection("content");
 const grammarLessons = allContent
@@ -14,407 +16,464 @@ const grammarLessons = allContent
       item.data.contentKind === "lesson" &&
       !item.data.demonstration,
   )
-  .sort(
-    (a, b) => (a.data.lessonOrder ?? 999) - (b.data.lessonOrder ?? 999),
-  );
+  .sort((a, b) => (a.data.lessonOrder ?? 999) - (b.data.lessonOrder ?? 999));
 
-const availableLessons = grammarLessons.filter(
-  (item) => item.data.publicationStatus === "published",
-);
+const lessonById = new Map(grammarLessons.map((lesson) => [lesson.id, lesson]));
+const topicFromLesson = (
+  id: string,
+  fallback: {
+    title?: string;
+    levels?: string[];
+    status?: "available" | "expanding" | "planned";
+    goal?: string;
+    includes?: string[];
+  } = {},
+) => {
+  const lesson = lessonById.get(id);
 
-const families = [
-  "Tiempos del pasado",
-  "Futuro y condicional",
-  "Subjuntivo",
-  "Pronombres y determinantes",
-  "Discurso indirecto",
-  "Conectores y argumentación",
-  "Formas verbales avanzadas",
-  "Fundamentos A1-A2",
+  return {
+    title: fallback.title ?? lesson?.data.title ?? id,
+    levels: fallback.levels ?? lesson?.data.levels ?? [],
+    status: fallback.status ?? lesson?.data.coverageStatus ?? "planned",
+    href: lesson ? `/gramatica/${lesson.id}/` : undefined,
+    goal: fallback.goal ?? lesson?.data.communicativeNeeds?.[0],
+    duration: lesson?.data.duration,
+    includes: fallback.includes,
+  };
+};
+
+const planned = (title: string, levels: string[], goal?: string) => ({
+  title,
+  levels,
+  status: "planned",
+  goal,
+});
+
+const grammarModules = [
+  {
+    id: "fundamentos-frase",
+    number: 1,
+    title: "Fundamentos de la frase",
+    range: "A1–A2",
+    topics: [
+      planned("Artículos", ["A1"]),
+      planned("Género y número", ["A1"]),
+      planned("Presente", ["A1"]),
+      planned("Negación", ["A1"]),
+      planned("Interrogación", ["A1", "A2"]),
+      planned("Partitivos", ["A1", "A2"]),
+      planned("Preposiciones básicas", ["A1", "A2"]),
+      planned("Estructura de la frase", ["A1", "A2"]),
+    ],
+  },
+  {
+    id: "tiempos-modos-formas",
+    number: 2,
+    title: "Tiempos, modos y formas verbales",
+    range: "A1–C1",
+    topics: [
+      topicFromLesson("passe-compose-vs-imparfait", {
+        goal: "Hablar del pasado",
+      }),
+      topicFromLesson("futur-simple", {
+        goal: "Hablar de planes y predicciones",
+      }),
+      topicFromLesson("conditionnel-present", {
+        goal: "Dar consejos y formular hipótesis",
+      }),
+      topicFromLesson("subjonctif-present", {
+        goal: "Expresar obligación, duda y valoración",
+      }),
+      planned("Plus-que-parfait", ["B1", "B2"], "Hablar del pasado"),
+      planned("Conditionnel passé", ["B2", "C1"], "Formular hipótesis"),
+      planned("Passé composé", ["A2"], "Hablar del pasado"),
+      planned("Imparfait", ["A2", "B1"], "Hablar del pasado"),
+      planned("Futur antérieur", ["B2", "C1"]),
+      planned("Subjonctif passé", ["B2", "C1"]),
+      planned("Impératif", ["A1", "A2"], "Dar consejos"),
+      planned("Participe présent", ["B1", "B2"]),
+      planned("Gérondif", ["B1", "B2"]),
+      planned("Voix passive", ["B1", "B2"]),
+    ],
+  },
+  {
+    id: "pronombres-determinantes",
+    number: 3,
+    title: "Pronombres y determinantes",
+    range: "A1–C1",
+    topics: [
+      topicFromLesson("pronombres-complemento", {
+        title: "Pronombres complemento COD, COI, y, en",
+        goal: "Evitar repeticiones y conectar ideas",
+        includes: ["COD", "COI", "y", "en"],
+      }),
+      planned("Dobles pronombres", ["B1", "B2"]),
+      planned("Pronombres tónicos", ["A1", "A2"]),
+      planned("Pronombres relativos", ["A2", "B1"]),
+      planned("Posesivos", ["A1", "A2"]),
+      planned("Demostrativos", ["A1", "A2"]),
+      planned("Indefinidos", ["A2", "B1"]),
+    ],
+  },
+  {
+    id: "transformacion-discurso",
+    number: 4,
+    title: "Construcción y transformación del discurso",
+    range: "B1–C1",
+    topics: [
+      topicFromLesson("discours-indirect", {
+        goal: "Contar lo que alguien dijo",
+      }),
+      planned("Discours indirect au présent", ["B1", "B2"]),
+      planned("Discours indirect au passé", ["B1", "B2"]),
+      planned("Concordancia de tiempos", ["B1", "B2"]),
+      planned("Transformación de expresiones temporales", ["B1", "B2"]),
+      planned("Interrogación indirecta", ["B1", "B2"]),
+      planned("Verbos introductores", ["B1", "B2"]),
+      planned("Deícticos", ["B2", "C1"]),
+      planned("Voz pasiva", ["B1", "B2"]),
+      planned("Mise en relief", ["B2", "C1"]),
+      planned("Reformulación", ["B2", "C1"]),
+      planned("Transformación del discurso", ["B2", "C1"]),
+    ],
+  },
+  {
+    id: "conectores-relaciones",
+    number: 5,
+    title: "Conectores y relaciones lógicas",
+    range: "A2–C1",
+    topics: [
+      planned("Causa", ["A2", "B1"], "Expresar causa y consecuencia"),
+      planned("Consecuencia", ["A2", "B1"], "Expresar causa y consecuencia"),
+      planned("Finalidad", ["B1", "B2"]),
+      planned("Oposición", ["B1", "B2"]),
+      planned("Concesión", ["B1", "B2"]),
+      planned("Condición", ["A2", "B1"], "Formular hipótesis"),
+      planned("Hipótesis", ["A2", "B1"], "Formular hipótesis"),
+      planned("Temporalidad", ["A2", "B1"]),
+      planned("Simultaneidad", ["B1", "B2"]),
+      planned("Anterioridad", ["B1", "B2"]),
+      planned("Comparación", ["A2", "B1"]),
+      planned("Restricción", ["B2", "C1"]),
+    ],
+  },
+  {
+    id: "funciones-argumentacion",
+    number: 6,
+    title: "Funciones comunicativas y argumentación",
+    range: "A1–C1",
+    topics: [
+      planned("Expresar opinión", ["A2", "B1"], "Opinar y argumentar"),
+      planned("Acordar y discrepar", ["B1", "B2"], "Opinar y argumentar"),
+      planned("Dar consejos", ["A2", "B1"], "Dar consejos"),
+      planned("Expresar obligación", ["A2", "B1"], "Expresar obligación"),
+      planned("Expresar duda", ["B1", "B2"]),
+      planned("Expresar certeza", ["B1", "B2"]),
+      planned("Expresar emociones", ["A2", "B1"]),
+      planned("Justificar", ["B1", "B2"], "Opinar y argumentar"),
+      planned("Matizar", ["B2", "C1"], "Opinar y argumentar"),
+      planned("Dar ejemplos", ["B1", "B2"], "Opinar y argumentar"),
+      planned("Organizar un argumento", ["B1", "B2"], "Opinar y argumentar"),
+      planned("Presentar datos", ["B2", "C1"], "Opinar y argumentar"),
+    ],
+  },
 ];
 
-const needs = [
-  "Hablar del pasado",
-  "Expresar una opinión",
-  "Formular hipótesis",
-  "Dar consejos",
-  "Expresar obligación",
-  "Argumentar",
-  "Expresar causa y consecuencia",
-  "Contar lo que alguien dijo",
+const featuredOrder = [
+  "passe-compose-vs-imparfait",
+  "subjonctif-present",
+  "conditionnel-present",
+  "discours-indirect",
 ];
-
-const getLessonCount = (predicate: (item: (typeof grammarLessons)[number]) => boolean) =>
-  grammarLessons.filter(predicate).length;
+const featuredLessons = featuredOrder
+  .map((id) => lessonById.get(id))
+  .filter(Boolean);
 ---
 
-<ListingLayout
-  eyebrow="Gramática aplicada"
+<BaseLayout
   title="Gramática francesa para comunicar mejor"
-  description="Una biblioteca editorial para entender estructuras, comparar usos y llevar la gramática a situaciones reales desde A1 hasta C1."
+  description="Explora la gramática por nivel, por objetivo comunicativo o desde un índice completo A1–C1."
 >
-  <section class="grammar-hero-panel">
-    <div class="container grammar-hero-grid">
-      <div>
-        <p class="eyebrow">Método editorial</p>
-        <h2>Reglas claras, ejemplos útiles y decisiones de uso</h2>
-        <p>
-          Cada lección conecta forma, uso y comunicación. La cobertura empieza
-          con temas nucleares y crecerá por nivel, familia gramatical y
-          necesidad comunicativa.
-        </p>
-      </div>
+  <main>
+    <GrammarHero
+      eyebrow="Gramática aplicada"
+      title="Gramática francesa para comunicar mejor"
+      description="Explora la gramática por nivel, por objetivo comunicativo o desde un índice completo A1–C1."
+    />
 
-      <div class="grammar-map card" aria-label="Cobertura de gramática">
-        <span>Arquitectura A1-C1</span>
-        <strong>{availableLessons.length} lecciones iniciales</strong>
-        <p>Contenido real publicado con expansión progresiva.</p>
-      </div>
-    </div>
-  </section>
+    <div class="grammar-page-shell">
+      <section class="grammar-section">
+        <h2 class="grammar-section-title">Cómo usar esta sección</h2>
+        <GrammarEntryOptions />
+      </section>
 
-  <section class="section">
-    <div class="container grammar-section">
-      <SectionHeader
-        eyebrow="Explora por nivel"
-        title="Una progresión completa A1-C1"
-        description="La arquitectura no se limita a B1/B2: todos los niveles tienen lugar desde el inicio, aunque la cobertura avance por fases."
-      />
+      <section id="por-nivel" class="grammar-section">
+        <h2 class="grammar-section-title">Explora por nivel</h2>
+        <GrammarLevelStrip />
+      </section>
 
-      <ul class="level-strip" aria-label="Niveles gramaticales">
-        {
-          levels.map((level) => (
-            <li class="card">
-              <span>{level.label}</span>
-              <strong>{level.name}</strong>
-              <small>
-                {getLessonCount((item) => item.data.levels.includes(level.id))} lecciones
-              </small>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
+      <section id="por-objetivo" class="grammar-section">
+        <h2 class="grammar-section-title">Empieza por lo que quieres comunicar</h2>
+        <GrammarGoalChips />
+      </section>
 
-  <section class="section grammar-bands">
-    <div class="container grammar-band-grid">
-      <div>
-        <SectionHeader
-          eyebrow="Familias gramaticales"
-          title="Encuentra el tema por estructura"
-          description="Estos accesos llevan al catálogo general mientras los filtros por familia se incorporan progresivamente."
-        />
+      <section id="indice-gramatica" class="grammar-section">
+        <h2 class="grammar-section-title">Índice completo de gramática A1–C1</h2>
+        <GrammarIndex modules={grammarModules} />
+      </section>
 
-        <ul class="pill-grid">
+      <section class="grammar-section featured-lessons">
+        <div class="section-action-row">
+          <h2 class="grammar-section-title">Lecciones disponibles ahora</h2>
+          <a class="grammar-text-link" href="/contenidos/?domain=grammar">Ver todas las lecciones</a>
+        </div>
+
+        <ul class="lesson-grid">
           {
-            families.map((family) => (
+            featuredLessons.map((lesson) => (
               <li>
-                <a href={`/contenidos/?domain=grammar`}>
-                  <span>{family}</span>
-                  <small>
-                    {getLessonCount((item) => item.data.grammarFamily === family)} disponibles
-                  </small>
-                </a>
+                <GrammarLessonCard
+                  id={lesson.id}
+                  title={lesson.data.title}
+                  description={lesson.data.description}
+                  levels={lesson.data.levels}
+                  coverageStatus={lesson.data.coverageStatus}
+                  grammarFamily={lesson.data.grammarFamily}
+                  duration={lesson.data.duration}
+                  variant="compact"
+                />
               </li>
             ))
           }
         </ul>
-      </div>
+      </section>
 
-      <div>
-        <SectionHeader
-          eyebrow="Necesidades comunicativas"
-          title="Empieza por lo que quieres decir"
-          description="Estos accesos llevan al catálogo general mientras los filtros por necesidad se incorporan progresivamente."
-        />
-
-        <ul class="pill-grid">
-          {
-            needs.map((need) => (
-              <li>
-                <a href={`/contenidos/?domain=grammar`}>
-                  <span>{need}</span>
-                  <small>
-                    {getLessonCount((item) =>
-                      item.data.communicativeNeeds.includes(need),
-                    )} disponibles
-                  </small>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container grammar-section">
-      <SectionHeader
-        eyebrow="Rutas destacadas"
-        title="Secuencias para estudiar con intención"
-        description="Rutas editoriales sugeridas, sin progreso personalizado ni funciones EdTech activas todavía."
-      />
-
-      <div class="route-cards">
-        <article class="card">
-          <StatusBadge status="available" />
-          <h3>Hablar del pasado con precisión</h3>
-          <p>Passé composé vs imparfait como punto de partida para narrar viajes, experiencias y anécdotas.</p>
+      <section class="grammar-section grammar-closing" aria-label="Recursos y metodología">
+        <article class="closing-panel closing-panel-context">
+          <span class="closing-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M4 6.5c2.8-.9 5-.45 7 1.35v10.1c-2-1.8-4.2-2.25-7-1.35z" />
+              <path d="M20 6.5c-2.8-.9-5-.45-7 1.35v10.1c2-1.8 4.2-2.25 7-1.35z" />
+              <path d="M12 7.85v10.1" />
+            </svg>
+          </span>
+          <div>
+            <h2>Aprendizaje en contexto</h2>
+            <p>
+              Gramática conectada con comprensión, comunicación, ejemplos y práctica
+              progresiva.
+            </p>
+          </div>
         </article>
-        <article class="card">
-          <StatusBadge status="expanding" />
-          <h3>Opinar, aconsejar y matizar</h3>
-          <p>Conditionnel, subjonctif y conectores para comunicar postura sin sonar rígido.</p>
+
+        <article class="closing-panel closing-panel-resources">
+          <span class="closing-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="m5 8 7-4 7 4-7 4z" />
+              <path d="m5 12 7 4 7-4" />
+              <path d="m5 16 7 4 7-4" />
+            </svg>
+          </span>
+          <div>
+            <h2>Recursos relacionados</h2>
+            <p>
+              Guías, fichas y materiales para profundizar y seguir aprendiendo.
+            </p>
+            <a class="closing-button" href="/contenidos/?domain=grammar">
+              Explorar catálogo
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </div>
         </article>
-        <article class="card">
-          <StatusBadge status="planned" />
-          <h3>De B2 a C1 con estructuras avanzadas</h3>
-          <p>Argumentación, discurso indirecto y formas verbales para una producción más flexible.</p>
-        </article>
-      </div>
+      </section>
     </div>
-  </section>
-
-  <section class="section featured-lessons">
-    <div class="container grammar-section">
-      <SectionHeader
-        eyebrow="Lecciones destacadas"
-        title="Empieza con temas de alto impacto"
-        description="Las primeras lecciones publicadas vienen del material disponible y cubren temas frecuentes para hispanohablantes."
-      />
-
-      <ul class="lesson-grid">
-        {
-          availableLessons.map((lesson) => (
-            <li>
-              <GrammarLessonCard
-                id={lesson.id}
-                title={lesson.data.title}
-                description={lesson.data.description}
-                levels={lesson.data.levels}
-                coverageStatus={lesson.data.coverageStatus}
-                grammarFamily={lesson.data.grammarFamily}
-                duration={lesson.data.duration}
-              />
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <section class="section grammar-closing">
-    <div class="container closing-grid">
-      <article class="card">
-        <p class="eyebrow">Errores frecuentes</p>
-        <h2>Especial para hispanohablantes</h2>
-        <p>
-          La sección prioriza contrastes donde el español suele interferir:
-          tiempos del pasado, subjuntivo, pronombres, orden de la frase y
-          discurso indirecto.
-        </p>
-      </article>
-
-      <article class="card">
-        <p class="eyebrow">Recursos relacionados</p>
-        <h2>Mapas, listas y práctica guiada</h2>
-        <p>
-          Los descargables finales llegarán progresivamente. Por ahora, las
-          lecciones enlazan hacia el catálogo y materiales semilla disponibles.
-        </p>
-        <a class="button button-primary" href="/contenidos/">Explorar catálogo</a>
-      </article>
-    </div>
-  </section>
-</ListingLayout>
+  </main>
+</BaseLayout>
 
 <style>
-  .grammar-hero-panel {
-    border-bottom: 1px solid var(--color-border);
-    background:
-      radial-gradient(circle at 88% 16%, rgba(184, 134, 11, 0.12), transparent 26%),
-      var(--color-bg);
-  }
-
-  .grammar-hero-grid {
+  .grammar-page-shell {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.34fr);
-    gap: 1.25rem;
-    align-items: center;
-    padding-block: 2rem 3rem;
-  }
-
-  .grammar-hero-grid h2 {
-    max-width: 760px;
-    font-size: clamp(2rem, 3.4vw, 3.3rem);
-  }
-
-  .grammar-hero-grid p:not(.eyebrow),
-  .grammar-map p,
-  .route-cards p,
-  .closing-grid p:not(.eyebrow) {
-    color: var(--color-text-muted);
-  }
-
-  .grammar-map {
-    display: grid;
-    gap: 0.4rem;
-    padding: 1.25rem;
-  }
-
-  .grammar-map span,
-  .pill-grid small,
-  .level-strip small {
-    color: var(--color-text-muted);
-    font-size: 0.72rem;
-    font-weight: 800;
-    text-transform: uppercase;
-  }
-
-  .grammar-map strong {
-    color: var(--color-heading);
-    font-family: var(--font-display);
-    font-size: 1.55rem;
+    width: min(100% - 2rem, 1160px);
+    gap: 1.45rem;
+    margin-inline: auto;
+    padding-block: 1.45rem 2rem;
   }
 
   .grammar-section {
     display: grid;
-    gap: 1.4rem;
+    gap: 0.75rem;
   }
 
-  .level-strip,
-  .lesson-grid,
-  .route-cards,
-  .closing-grid {
+  .grammar-section-title {
+    color: var(--color-blue-dark);
+    font-size: clamp(1.35rem, 2vw, 1.55rem);
+    line-height: 1.12;
+  }
+
+  .section-action-row {
     display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 1rem;
+    align-items: center;
   }
 
-  .level-strip {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .level-strip li {
-    display: grid;
-    gap: 0.35rem;
-    padding: 1rem;
-  }
-
-  .level-strip span {
-    color: var(--color-gold);
-    font-family: var(--font-display);
-    font-size: 2rem;
+  .grammar-text-link {
+    color: var(--color-blue-dark);
+    font-size: 0.82rem;
     font-weight: 800;
   }
 
-  .grammar-bands {
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-surface-soft);
+  .grammar-text-link:hover,
+  .grammar-text-link:focus-visible {
+    color: var(--color-blue);
   }
 
-  .grammar-band-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.25rem;
-  }
-
-  .grammar-band-grid > div {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .pill-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.7rem;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .pill-grid a {
-    display: grid;
-    gap: 0.22rem;
-    min-height: 100%;
-    padding: 0.85rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-surface);
-  }
-
-  .pill-grid span {
-    color: var(--color-heading);
-    font-weight: 800;
-  }
-
-  .route-cards,
-  .closing-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .route-cards article,
-  .closing-grid article {
-    padding: 1.25rem;
-  }
-
-  .route-cards h3,
-  .closing-grid h2 {
-    margin-top: 0.8rem;
-    font-size: 1.35rem;
-  }
-
-  .featured-lessons {
-    background: var(--color-bg);
+  .grammar-text-link:focus-visible {
+    outline: 3px solid rgba(184, 134, 11, 0.28);
+    outline-offset: 3px;
   }
 
   .lesson-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
     padding: 0;
     margin: 0;
     list-style: none;
   }
 
   .grammar-closing {
-    border-top: 1px solid var(--color-border);
-  }
-
-  .closing-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
   }
 
-  .closing-grid .button {
-    justify-self: start;
-    margin-top: 1rem;
+  .closing-panel {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1rem;
+    min-height: 8rem;
+    align-items: center;
+    overflow: hidden;
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 1px 2px rgba(11, 47, 85, 0.04);
   }
 
-  @media (max-width: 980px) {
-    .grammar-hero-grid,
-    .grammar-band-grid,
-    .closing-grid {
-      grid-template-columns: 1fr;
-    }
+  .closing-panel-context {
+    background: #fff8ea;
+  }
 
-    .level-strip,
-    .lesson-grid,
-    .route-cards {
+  .closing-panel-resources {
+    background: #eef5fc;
+  }
+
+  .closing-icon {
+    display: inline-flex;
+    width: 3.75rem;
+    height: 3.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.62);
+    color: var(--color-blue-dark);
+  }
+
+  .closing-panel-context .closing-icon {
+    color: var(--color-gold);
+  }
+
+  .closing-icon svg,
+  .closing-button svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .closing-icon svg {
+    width: 1.9rem;
+    height: 1.9rem;
+    stroke-width: 1.7;
+  }
+
+  .closing-panel h2 {
+    font-size: clamp(1.2rem, 2vw, 1.45rem);
+  }
+
+  .closing-panel p {
+    max-width: 28rem;
+    margin: 0.35rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  .closing-button {
+    display: inline-flex;
+    min-height: 2.3rem;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-blue-dark);
+    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+
+  .closing-button svg {
+    width: 1rem;
+    height: 1rem;
+    stroke-width: 2;
+  }
+
+  .closing-button:hover,
+  .closing-button:focus-visible {
+    background: var(--color-blue);
+  }
+
+  .closing-button:focus-visible {
+    outline: 3px solid rgba(184, 134, 11, 0.28);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 1080px) {
+    .lesson-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 640px) {
-    .level-strip,
-    .lesson-grid,
-    .route-cards,
-    .pill-grid {
+  @media (max-width: 760px) {
+    .section-action-row,
+    .grammar-closing {
+      grid-template-columns: 1fr;
+    }
+
+    .section-action-row .grammar-text-link {
+      justify-self: start;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .grammar-page-shell {
+      gap: 1.2rem;
+      padding-block: 1.15rem 1.6rem;
+    }
+
+    .lesson-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .grammar-section-title {
+      font-size: 1.26rem;
+    }
+
+    .closing-panel {
       grid-template-columns: 1fr;
     }
   }
 </style>
-
-

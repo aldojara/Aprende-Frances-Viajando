@@ -12,6 +12,12 @@ objectives: ["contar lo que alguien dijo", "argumentar"]
 competencies: ["gramática", "producción escrita", "comunicación"]
 grammarFamily: "Discurso indirecto"
 communicativeNeeds: ["Contar lo que alguien dijo", "Argumentar"]
+moduleId: "transformacion-discurso"
+moduleOrder: 4
+grammarTopics: ["discours indirect", "interrogación indirecta", "deícticos"]
+communicationGoals: ["contar-lo-que-alguien-dijo", "opinar-y-argumentar"]
+status: "expanding"
+estimatedMinutes: 17
 lessonOrder: 6
 formation:
   - "Afirmacion: il dit que..."

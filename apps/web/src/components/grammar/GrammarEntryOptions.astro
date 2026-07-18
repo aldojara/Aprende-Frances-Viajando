@@ -1,0 +1,156 @@
+---
+const entries = [
+  {
+    title: "Por nivel",
+    copy: "Si ya sabes tu nivel, empieza por aquí.",
+    href: "#por-nivel",
+    icon: "levels",
+  },
+  {
+    title: "Por objetivo",
+    copy: "Si sabes lo que quieres decir, busca por objetivo.",
+    href: "#por-objetivo",
+    icon: "goal",
+  },
+  {
+    title: "Índice completo",
+    copy: "Si prefieres una vista ordenada de toda la gramática.",
+    href: "#indice-gramatica",
+    icon: "index",
+  },
+];
+---
+
+<div class="entry-grid" aria-label="Cómo usar esta sección">
+  {
+    entries.map((entry) => (
+      <a class="entry-card" href={entry.href}>
+        <span class="entry-icon" aria-hidden="true">
+          {
+            entry.icon === "levels" ? (
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M5 18h14M7 14h10M9 10h6M11 6h2" />
+              </svg>
+            ) : entry.icon === "goal" ? (
+              <svg viewBox="0 0 24 24" focusable="false">
+                <circle cx="12" cy="12" r="7" />
+                <circle cx="12" cy="12" r="2" />
+                <path d="M12 5v3M19 12h-3M12 19v-3M5 12h3" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M7 5h10M7 12h10M7 19h10" />
+                <path d="M4 5h.01M4 12h.01M4 19h.01" />
+              </svg>
+            )
+          }
+        </span>
+        <span class="entry-copy">
+          <strong>{entry.title}</strong>
+          <span>{entry.copy}</span>
+        </span>
+        <svg class="entry-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="m9 6 6 6-6 6" />
+        </svg>
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .entry-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .entry-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.8rem;
+    min-height: 5.2rem;
+    align-items: center;
+    padding: 0.85rem 0.95rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.7rem;
+    background: rgba(255, 255, 255, 0.78);
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .entry-card:hover,
+  .entry-card:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(0, 85, 164, 0.24);
+    background: #ffffff;
+  }
+
+  .entry-card:focus-visible {
+    outline: 3px solid rgba(184, 134, 11, 0.28);
+    outline-offset: 3px;
+  }
+
+  .entry-icon {
+    display: inline-flex;
+    width: 2.8rem;
+    height: 2.8rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(184, 134, 11, 0.16);
+    border-radius: 999px;
+    background: #fbf4e7;
+    color: var(--color-blue-dark);
+  }
+
+  .entry-icon svg,
+  .entry-chevron {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .entry-icon svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    stroke-width: 2;
+  }
+
+  .entry-copy {
+    display: grid;
+    gap: 0.18rem;
+  }
+
+  .entry-copy strong {
+    color: var(--color-blue-dark);
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+
+  .entry-copy span {
+    color: var(--color-text-muted);
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
+
+  .entry-chevron {
+    width: 1.1rem;
+    height: 1.1rem;
+    color: var(--color-blue-dark);
+    stroke-width: 1.8;
+  }
+
+  @media (max-width: 820px) {
+    .entry-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .entry-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
