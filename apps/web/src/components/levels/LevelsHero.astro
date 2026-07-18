@@ -1,0 +1,248 @@
+---
+import LevelProgression from "./LevelProgression.astro";
+import { withBase } from "../../utils/paths";
+---
+
+<section class="levels-hero" aria-labelledby="levels-hero-title">
+  <div class="container levels-hero-grid">
+    <div class="levels-hero-copy">
+      <p class="levels-eyebrow">Ruta A1-C1</p>
+      <h1 id="levels-hero-title">
+        Aprende francés por niveles, desde tus primeras frases hasta una
+        comunicación avanzada.
+      </h1>
+      <p>
+        Nuestra ruta cubre A1, A2, B1, B2 y C1 del MCER, con contenidos
+        progresivos y objetivos comunicativos reales para que avances con
+        confianza en cada etapa.
+      </p>
+
+      <div class="levels-hero-actions">
+        <a class="button button-primary" href="#explora-niveles">
+          Explorar niveles
+          <span aria-hidden="true">→</span>
+        </a>
+        <a class="button button-secondary" href={withBase("/contenidos/")}>
+          Ver contenidos disponibles
+        </a>
+      </div>
+    </div>
+
+    <div class="levels-hero-visual">
+      <div class="paris-line-art" aria-hidden="true">
+        <svg viewBox="0 0 360 380" focusable="false">
+          <path class="paper-plane" d="M262 37 321 15l-25 52-10-24-24-6Z" />
+          <path class="paper-trail" d="M253 50c-35 5-55 19-60 43" />
+          <path class="cloud" d="M42 120c7-16 28-16 34 0 12-4 25 3 28 15H22c1-9 8-15 20-15Z" />
+          <path class="cloud" d="M260 134c6-13 23-14 30-2 9-2 18 4 20 13h-66c2-7 7-11 16-11Z" />
+          <path class="tower" d="M177 34 132 332M177 34l45 298M151 147h52M139 211h77M122 319h110M160 86h34M151 147l58 185M203 147l-57 185M167 63h20M158 111h38M143 195h68M134 257h87" />
+          <path class="tower" d="M177 34c-8 29-11 66-9 112M177 34c9 29 12 66 10 112M151 332c8-37 24-57 27-57s20 20 29 57" />
+          <path class="city" d="M7 333c33-15 60-18 81-8 18-19 41-21 69-4 24-15 48-16 72-2 34-18 73-18 118 1" />
+          <path class="city" d="M20 342h320M56 327v-41l17-17 17 17v41M66 306h15M254 325v-54l20-18 20 18v54M264 298h20M311 326v-35h25v35" />
+        </svg>
+      </div>
+
+      <LevelProgression />
+    </div>
+  </div>
+</section>
+
+<style>
+  .levels-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: 3.5rem 1.15rem;
+    background:
+      radial-gradient(circle at 18% 12%, rgba(184, 134, 11, 0.09), transparent 24rem),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(247, 244, 237, 0.2)),
+      var(--color-bg);
+  }
+
+  .levels-hero::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 5rem;
+    background:
+      linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.68)),
+      repeating-linear-gradient(90deg, rgba(11, 47, 85, 0.13) 0 1px, transparent 1px 74px);
+    opacity: 0.42;
+    content: "";
+  }
+
+  .levels-hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.96fr) minmax(28rem, 0.92fr);
+    gap: 2.25rem;
+    align-items: center;
+  }
+
+  .levels-hero-copy {
+    min-width: 0;
+  }
+
+  .levels-eyebrow {
+    display: inline-flex;
+    margin: 0 0 0.8rem;
+    padding: 0.22rem 0.58rem;
+    border-radius: 999px;
+    background: #f4dfaa;
+    color: var(--color-blue-dark);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+
+  .levels-hero h1 {
+    max-width: 14.5ch;
+    font-size: clamp(2.7rem, 5.1vw, 4.75rem);
+    line-height: 1.02;
+  }
+
+  .levels-hero-copy > p:not(.levels-eyebrow) {
+    max-width: 42rem;
+    margin: 1.05rem 0 0;
+    color: var(--color-heading);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .levels-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.35rem;
+  }
+
+  .levels-hero-actions .button {
+    min-height: 3rem;
+  }
+
+  .levels-hero-actions .button span {
+    margin-left: 0.45rem;
+  }
+
+  .levels-hero-visual {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    padding-block: 1rem;
+  }
+
+  .paris-line-art {
+    position: absolute;
+    bottom: -2.2rem;
+    left: -8.5rem;
+    z-index: -1;
+    width: min(58%, 22rem);
+    color: var(--color-blue-dark);
+    opacity: 0.5;
+  }
+
+  .paris-line-art svg {
+    width: 100%;
+  }
+
+  .paper-plane,
+  .paper-trail,
+  .cloud,
+  .tower,
+  .city {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .paper-plane,
+  .paper-trail {
+    color: var(--color-gold);
+    stroke-width: 1.4;
+  }
+
+  .paper-trail {
+    stroke-dasharray: 6 8;
+  }
+
+  .cloud {
+    opacity: 0.22;
+    stroke-width: 1.25;
+  }
+
+  .tower {
+    stroke-width: 2;
+  }
+
+  .city {
+    opacity: 0.42;
+    stroke-width: 1.25;
+  }
+
+  @media (max-width: 1080px) {
+    .levels-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .levels-hero h1 {
+      max-width: 18ch;
+    }
+
+    .levels-hero-visual {
+      max-width: 42rem;
+      width: 100%;
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .levels-hero {
+      padding-block: 2.4rem 0.75rem;
+    }
+
+    .levels-hero h1 {
+      max-width: 11.5ch;
+      font-size: clamp(2rem, 9vw, 2.42rem);
+      line-height: 1.08;
+    }
+
+    .levels-hero-copy > p:not(.levels-eyebrow) {
+      max-width: 27ch;
+      font-size: 0.92rem;
+      line-height: 1.58;
+    }
+
+    .levels-hero-actions {
+      display: grid;
+    }
+
+    .levels-hero-actions .button {
+      width: 100%;
+    }
+
+    .paris-line-art {
+      display: none;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .levels-hero h1 {
+      font-size: 1.82rem;
+    }
+
+    .levels-hero-copy > p:not(.levels-eyebrow) {
+      max-width: 24ch;
+      font-size: 0.88rem;
+    }
+
+    .levels-hero-actions .button {
+      padding-inline: 0.8rem;
+      font-size: 0.9rem;
+    }
+  }
+</style>

@@ -13,8 +13,7 @@ const navItems = [
   { label: "Niveles", href: "/niveles/" },
   { label: "Gramática", href: "/gramatica/" },
   { label: "DELF", href: "/delf/" },
-  { label: "Recursos", href: "/recursos/" },
-  { label: "Proyecto", href: "/proyecto/" },
+  { label: "Recursos", href: "/contenidos/" },
 ];
 
 const isActive = (href: string) => {
@@ -61,10 +60,44 @@ const isActive = (href: string) => {
         Explorar
       </a>
 
-      <a class="button button-primary" href={withBase("/empieza/")}>
+      <a class="button button-primary" href={withBase("/niveles/")}>
         Empieza gratis
       </a>
     </div>
+
+    <details class="mobile-menu">
+      <summary aria-label="Abrir navegación principal">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </summary>
+
+      <nav class="mobile-nav" aria-label="Navegación principal móvil">
+        {
+          navItems.map((item) => (
+            <a
+              class:list={[
+                "mobile-nav-link",
+                { "mobile-nav-link-active": isActive(item.href) },
+              ]}
+              href={withBase(item.href)}
+              aria-current={isActive(item.href) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+
+        <div class="mobile-actions">
+          <a class="button button-secondary" href={withBase("/contenidos/")}>
+            Explorar contenidos
+          </a>
+          <a class="button button-primary" href={withBase("/niveles/")}>
+            Empezar por niveles
+          </a>
+        </div>
+      </nav>
+    </details>
   </div>
 </header>
 
@@ -90,7 +123,7 @@ const isActive = (href: string) => {
 
   .header-inner {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
     align-items: center;
     min-height: 4.75rem;
     gap: 2rem;
@@ -183,9 +216,86 @@ const isActive = (href: string) => {
     font-size: 0.82rem;
   }
 
+  .mobile-menu {
+    position: relative;
+    display: none;
+    justify-self: end;
+  }
+
+  .mobile-menu summary {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    gap: 0.24rem;
+    padding: 0.7rem;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-blue-dark);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    list-style: none;
+  }
+
+  .mobile-menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-menu summary span {
+    width: 1.05rem;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  .mobile-nav {
+    position: absolute;
+    top: calc(100% + 0.7rem);
+    right: 0;
+    display: grid;
+    width: min(18.5rem, calc(100vw - 2rem));
+    gap: 0.2rem;
+    padding: 0.65rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: var(--shadow-md);
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
+    padding: 0.62rem 0.75rem;
+    border-radius: var(--radius-sm);
+    color: var(--color-heading);
+    font-size: 0.9rem;
+    font-weight: 800;
+  }
+
+  .mobile-nav-link:hover,
+  .mobile-nav-link:focus-visible,
+  .mobile-nav-link-active {
+    background: var(--color-surface-soft);
+    color: var(--color-blue);
+  }
+
+  .mobile-actions {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.45rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .mobile-actions .button {
+    width: 100%;
+  }
+
   @media (max-width: 1024px) {
     .header-inner {
-      grid-template-columns: auto auto;
+      grid-template-columns: auto minmax(0, 1fr) auto;
     }
 
     .main-nav {
@@ -193,13 +303,21 @@ const isActive = (href: string) => {
     }
 
     .header-actions {
+      grid-column: 2;
       justify-self: end;
+    }
+
+    .mobile-menu {
+      display: block;
+      grid-column: 3;
     }
   }
 
   @media (max-width: 640px) {
     .header-inner {
+      grid-template-columns: auto auto;
       gap: 1rem;
+      justify-content: space-between;
     }
 
     .brand-text {
@@ -212,6 +330,34 @@ const isActive = (href: string) => {
 
     .header-actions .button-primary {
       display: none;
+    }
+
+    .header-actions {
+      display: none;
+    }
+
+    .mobile-menu summary {
+      width: 2.6rem;
+      height: 2.6rem;
+    }
+
+    .mobile-menu {
+      grid-column: 2;
+      transform: translateX(-2.25rem);
+    }
+  }
+
+  @media (max-width: 360px) {
+    .header-inner {
+      width: min(100% - 2.5rem, 340px);
+      margin-inline: auto;
+      gap: 0.5rem;
+    }
+
+    .mobile-menu summary {
+      width: 2.35rem;
+      height: 2.35rem;
+      padding: 0.6rem;
     }
   }
 </style>

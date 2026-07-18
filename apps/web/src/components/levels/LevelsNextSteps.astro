@@ -1,0 +1,123 @@
+---
+import LevelsIcon from "./LevelsIcon.astro";
+import { nextSteps } from "../../data/levelsLanding";
+import { withBase } from "../../utils/paths";
+---
+
+<section class="levels-section next-steps-section" aria-labelledby="next-steps-title">
+  <div class="container levels-section-inner">
+    <h2 id="next-steps-title">Tu siguiente paso</h2>
+
+    <ul class="next-step-grid">
+      {
+        nextSteps.map((step) => (
+          <li>
+            <article>
+              <LevelsIcon name={step.icon} />
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+                <a href={withBase(step.href)}>
+                  {step.cta}
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .next-steps-section {
+    padding-block: 0.9rem 1.2rem;
+  }
+
+  .levels-section-inner {
+    display: grid;
+    gap: 0.82rem;
+  }
+
+  .levels-section h2 {
+    font-size: clamp(1.45rem, 2.5vw, 1.85rem);
+  }
+
+  .next-step-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .next-step-grid article {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1rem;
+    min-height: 8.8rem;
+    align-items: center;
+    overflow: hidden;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 248, 234, 0.82)),
+      #ffffff;
+    box-shadow: 0 1px 2px rgba(11, 47, 85, 0.05);
+  }
+
+  .next-step-grid .levels-icon {
+    width: 4.25rem;
+    height: 4.25rem;
+    color: var(--color-blue-dark);
+    opacity: 0.78;
+  }
+
+  .next-step-grid h3 {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+  }
+
+  .next-step-grid p {
+    margin: 0.45rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .next-step-grid a {
+    display: inline-flex;
+    min-height: 2.25rem;
+    align-items: center;
+    gap: 0.42rem;
+    margin-top: 0.82rem;
+    color: var(--color-gold);
+    font-size: 0.78rem;
+    font-weight: 900;
+  }
+
+  .next-step-grid a:hover,
+  .next-step-grid a:focus-visible {
+    color: var(--color-blue-dark);
+  }
+
+  @media (max-width: 900px) {
+    .next-step-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .next-step-grid article {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .next-step-grid .levels-icon {
+      width: 3.4rem;
+      height: 3.4rem;
+    }
+  }
+</style>

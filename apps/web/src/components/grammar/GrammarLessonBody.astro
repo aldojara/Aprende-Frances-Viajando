@@ -11,7 +11,7 @@ interface Props {
   examples: Example[];
   comparisons: string[];
   commonMistakes: string[];
-  prácticalApplication?: string;
+  practicalApplication?: string;
 }
 
 const {
@@ -20,7 +20,7 @@ const {
   examples,
   comparisons,
   commonMistakes,
-  prácticalApplication,
+  practicalApplication,
 } = Astro.props;
 ---
 
@@ -60,11 +60,11 @@ const {
     <ul>{commonMistakes.map((item) => <li>{item}</li>)}</ul>
   </section>
 
-  {prácticalApplication && (
+  {practicalApplication && (
     <section class="practice-box">
       <p class="eyebrow">Aplicacion práctica</p>
       <h2>Usalo en contexto</h2>
-      <p>{prácticalApplication}</p>
+      <p>{practicalApplication}</p>
     </section>
   )}
 </div>

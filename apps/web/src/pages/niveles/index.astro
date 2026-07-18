@@ -1,147 +1,34 @@
 ---
-import { getCollection } from "astro:content";
-import ListingLayout from "../../layouts/ListingLayout.astro";
-import StatusBadge from "../../components/shared/StatusBadge.astro";
-import SectionHeader from "../../components/shared/SectionHeader.astro";
-import { levels } from "../../data/taxonomies";
-
-const contentItems = await getCollection("content");
-
-const getCountForLevel = (levelId: string) =>
-  contentItems.filter((item) => item.data.levels.includes(levelId as any)).length;
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import FeaturedLevelContent from "../../components/levels/FeaturedLevelContent.astro";
+import HowToLevels from "../../components/levels/HowToLevels.astro";
+import LevelExplorer from "../../components/levels/LevelExplorer.astro";
+import LevelsFeatureBands from "../../components/levels/LevelsFeatureBands.astro";
+import LevelsFinalCta from "../../components/levels/LevelsFinalCta.astro";
+import LevelsHero from "../../components/levels/LevelsHero.astro";
+import LevelsNextSteps from "../../components/levels/LevelsNextSteps.astro";
 ---
 
-<ListingLayout
-  eyebrow="Marco A1-C1"
-  title="Niveles de frances desde A1 hasta C1"
-  description="La arquitectura de Aprende Frances Viajando contempla todo el recorrido A1-C1 desde el inicio. La cobertura editorial crecera por fases, con estados claros para distinguir lo disponible, lo que esta en expansion y lo planificado."
+<BaseLayout
+  title="Niveles de francés A1-C1"
+  description="Explora la ruta de aprendizaje de francés desde A1 hasta C1, con objetivos comunicativos, gramática, vocabulario y competencias adaptadas a cada nivel."
 >
-  <section class="section">
-    <div class="container levels-intro">
-      <SectionHeader
-        eyebrow="Cobertura progresiva"
-        title="Todos los niveles existen desde la base tecnica"
-        description="Estas paginas no son placeholders vacios: cada nivel muestra capacidades generales, estado de cobertura y contenidos semilla cuando existen."
-      />
-
-      <ul class="levels-grid" aria-label="Niveles A1 a C1">
-        {
-          levels.map((level) => (
-            <li>
-              <a class="level-card card" href={`/niveles/${level.slug}/`}>
-                <div class="level-card-top">
-                  <span class="level-code">{level.label}</span>
-                  <StatusBadge status={level.coverageStatus} />
-                </div>
-
-                <h2>{level.name}</h2>
-                <p>{level.description}</p>
-
-                <dl class="level-meta">
-                  <div>
-                    <dt>Contenidos semilla</dt>
-                    <dd>{getCountForLevel(level.id)}</dd>
-                  </div>
-                  <div>
-                    <dt>Ruta</dt>
-                    <dd>/niveles/{level.slug}/</dd>
-                  </div>
-                </dl>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-</ListingLayout>
+  <main class="levels-page">
+    <LevelsHero />
+    <HowToLevels />
+    <LevelExplorer />
+    <LevelsFeatureBands />
+    <FeaturedLevelContent />
+    <LevelsNextSteps />
+    <LevelsFinalCta />
+  </main>
+</BaseLayout>
 
 <style>
-  .levels-intro {
-    display: grid;
-    gap: 2rem;
-  }
-
-  .levels-grid {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 1rem;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .level-card {
-    display: grid;
-    grid-template-rows: auto auto 1fr auto;
-    min-height: 100%;
-    padding: 1rem;
-    transition:
-      transform 160ms ease,
-      border-color 160ms ease,
-      box-shadow 160ms ease;
-  }
-
-  .level-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(0, 85, 164, 0.3);
-    box-shadow: var(--shadow-md);
-  }
-
-  .level-card-top {
-    display: grid;
-    gap: 0.75rem;
-  }
-
-  .level-code {
-    color: var(--color-gold);
-    font-family: var(--font-display);
-    font-size: 2.2rem;
-    font-weight: 800;
-    line-height: 1;
-  }
-
-  .level-card h2 {
-    margin-top: 1.25rem;
-    font-size: 1.35rem;
-  }
-
-  .level-card p {
-    margin: 0.7rem 0 0;
-    color: var(--color-text-muted);
-    font-size: 0.88rem;
-  }
-
-  .level-meta {
-    display: grid;
-    gap: 0.55rem;
-    margin: 1rem 0 0;
-  }
-
-  .level-meta dt {
-    color: var(--color-text-muted);
-    font-size: 0.62rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .level-meta dd {
-    margin: 0.1rem 0 0;
-    color: var(--color-heading);
-    font-size: 0.8rem;
-    font-weight: 800;
-  }
-
-  @media (max-width: 1120px) {
-    .levels-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-
-  @media (max-width: 760px) {
-    .levels-grid {
-      grid-template-columns: 1fr;
-    }
+  .levels-page {
+    background:
+      radial-gradient(circle at 95% 8%, rgba(0, 85, 164, 0.05), transparent 18rem),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent 18rem),
+      var(--color-bg);
   }
 </style>

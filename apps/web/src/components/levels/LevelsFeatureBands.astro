@@ -1,0 +1,163 @@
+---
+import LevelsIcon from "./LevelsIcon.astro";
+import { competencyCards, levelFeatures } from "../../data/levelsLanding";
+---
+
+<section class="levels-section feature-band-section" aria-labelledby="level-features-title">
+  <div class="container levels-section-inner">
+    <h2 id="level-features-title">Qué encontrarás en cada nivel</h2>
+
+    <ul class="feature-row" aria-label="Elementos incluidos por nivel">
+      {
+        levelFeatures.map((feature) => (
+          <li>
+            <article>
+              <LevelsIcon name={feature.icon} />
+              <div>
+                <h3>{feature.title}</h3>
+                <p>{feature.description}</p>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="levels-section competency-section" aria-labelledby="competency-title">
+  <div class="container levels-section-inner">
+    <h2 id="competency-title">Aprendizaje por competencias</h2>
+
+    <ul class="competency-row" aria-label="Competencias del aprendizaje">
+      {
+        competencyCards.map((competency) => (
+          <li>
+            <article>
+              <LevelsIcon name={competency.icon} />
+              <div>
+                <h3>{competency.title}</h3>
+                <p>{competency.description}</p>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .feature-band-section,
+  .competency-section {
+    padding-block: 0.9rem 1.1rem;
+  }
+
+  .levels-section-inner {
+    display: grid;
+    gap: 0.82rem;
+  }
+
+  .levels-section h2 {
+    font-size: clamp(1.45rem, 2.5vw, 1.85rem);
+  }
+
+  .feature-row,
+  .competency-row {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.82);
+    list-style: none;
+    box-shadow: 0 1px 2px rgba(11, 47, 85, 0.04);
+  }
+
+  .feature-row li,
+  .competency-row li {
+    border-right: 1px solid var(--color-border);
+  }
+
+  .feature-row li:last-child,
+  .competency-row li:last-child {
+    border-right: 0;
+  }
+
+  .feature-row article,
+  .competency-row article {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.7rem;
+    min-height: 5.7rem;
+    align-items: center;
+    padding: 0.82rem;
+  }
+
+  .feature-row .levels-icon,
+  .competency-row .levels-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--color-blue-dark);
+  }
+
+  .feature-row h3,
+  .competency-row h3 {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .feature-row p,
+  .competency-row p {
+    margin: 0.28rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.68rem;
+    line-height: 1.42;
+  }
+
+  @media (max-width: 1060px) {
+    .feature-row,
+    .competency-row {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .feature-row li:nth-child(3n),
+    .competency-row li:nth-child(3n) {
+      border-right: 0;
+    }
+
+    .feature-row li:nth-child(-n + 3),
+    .competency-row li:nth-child(-n + 3) {
+      border-bottom: 1px solid var(--color-border);
+    }
+  }
+
+  @media (max-width: 680px) {
+    .feature-row,
+    .competency-row {
+      grid-template-columns: 1fr;
+    }
+
+    .feature-row li,
+    .feature-row li:nth-child(3n),
+    .competency-row li,
+    .competency-row li:nth-child(3n) {
+      border-right: 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .feature-row li:last-child,
+    .competency-row li:last-child {
+      border-bottom: 0;
+    }
+
+    .feature-row article,
+    .competency-row article {
+      min-height: 5rem;
+    }
+  }
+</style>

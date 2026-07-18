@@ -20,6 +20,9 @@ const grammarLessons = allContent
   .sort((a, b) => (a.data.lessonOrder ?? 999) - (b.data.lessonOrder ?? 999));
 
 const lessonById = new Map(grammarLessons.map((lesson) => [lesson.id, lesson]));
+const isGrammarLesson = (
+  lesson: (typeof grammarLessons)[number] | undefined,
+): lesson is (typeof grammarLessons)[number] => Boolean(lesson);
 const topicFromLesson = (
   id: string,
   fallback: {
@@ -46,7 +49,7 @@ const topicFromLesson = (
 const planned = (title: string, levels: string[], goal?: string) => ({
   title,
   levels,
-  status: "planned",
+  status: "planned" as const,
   goal,
 });
 
@@ -188,7 +191,7 @@ const featuredOrder = [
 ];
 const featuredLessons = featuredOrder
   .map((id) => lessonById.get(id))
-  .filter(Boolean);
+  .filter(isGrammarLesson);
 ---
 
 <BaseLayout

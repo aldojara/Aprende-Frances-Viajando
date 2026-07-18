@@ -1,0 +1,263 @@
+---
+import { featuredContent } from "../../data/levelsLanding";
+import { withBase } from "../../utils/paths";
+---
+
+<section class="levels-section featured-content-section" aria-labelledby="featured-content-title">
+  <div class="container levels-section-inner">
+    <h2 id="featured-content-title">Contenidos destacados</h2>
+
+    <ul class="featured-grid" aria-label="Contenidos destacados por nivel">
+      {
+        featuredContent.map((item) => (
+          <li>
+            <article class={`featured-card level-tone-${item.tone}`}>
+              <div class={`featured-scene scene-${item.scene}`} aria-hidden="true">
+                <span>{item.level}</span>
+                <svg viewBox="0 0 260 112" focusable="false">
+                  <path class="skyline" d="M8 92c24-13 47-13 68-2 20-14 41-14 64-1 28-14 64-14 112 1" />
+                  <path class="ground" d="M8 96h244" />
+                  <path class="tower" d="M200 18 178 96M200 18l22 78M188 52h25M183 70h35M174 96h53" />
+                  {item.scene === "conversation" && (
+                    <>
+                      <path class="figure" d="M56 82v-19a12 12 0 0 1 24 0v19" />
+                      <path class="figure" d="M47 82c3-11 10-17 21-17s18 6 21 17" />
+                      <path class="figure" d="M68 52a8 8 0 1 0 0-16 8 8 0 0 0 0 16" />
+                      <path class="accent" d="M96 42h44v24H96z" />
+                      <path class="accent" d="M104 51h28M104 58h20" />
+                    </>
+                  )}
+                  {item.scene === "metro" && (
+                    <>
+                      <path class="accent" d="M42 76h96V45H42z" />
+                      <path class="accent" d="M54 56h22M86 56h22M118 56h10" />
+                      <path class="figure" d="M58 76a8 8 0 1 0 16 0M110 76a8 8 0 1 0 16 0" />
+                      <path class="accent" d="M60 33h60" />
+                      <path class="accent" d="M74 27h32" />
+                    </>
+                  )}
+                  {item.scene === "cafe" && (
+                    <>
+                      <path class="accent" d="M40 64h105" />
+                      <path class="accent" d="M52 64v31M132 64v31M70 49h44v15H70z" />
+                      <path class="figure" d="M74 95c0-15 10-24 23-24s23 9 23 24" />
+                      <path class="figure" d="M97 62a9 9 0 1 0 0-18 9 9 0 0 0 0 18" />
+                    </>
+                  )}
+                  {item.scene === "museum" && (
+                    <>
+                      <path class="accent" d="M42 50h104l-52-24z" />
+                      <path class="accent" d="M52 50v42M76 50v42M100 50v42M124 50v42M42 92h104" />
+                      <path class="figure" d="M160 86c10-16 25-18 42-4" />
+                    </>
+                  )}
+                  {item.scene === "palace" && (
+                    <>
+                      <path class="accent" d="M36 92V45h112v47" />
+                      <path class="accent" d="M52 92V58h18v34M84 92V58h18v34M116 92V58h18v34" />
+                      <path class="accent" d="M28 45h128l-20-16H48z" />
+                      <path class="figure" d="M170 88c10-12 24-14 42-2" />
+                    </>
+                  )}
+                </svg>
+              </div>
+
+              <div class="featured-copy">
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                {item.href ? (
+                  <a href={withBase(item.href)} aria-label={`Ver contenido ${item.level}`}>
+                    Ver contenido
+                  </a>
+                ) : (
+                  <span aria-disabled="true">Próximamente</span>
+                )}
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .featured-content-section {
+    padding-block: 0.9rem 1.2rem;
+  }
+
+  .levels-section-inner {
+    display: grid;
+    gap: 0.82rem;
+  }
+
+  .levels-section h2 {
+    font-size: clamp(1.45rem, 2.5vw, 1.85rem);
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .featured-card {
+    display: grid;
+    min-height: 100%;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(11, 47, 85, 0.05);
+  }
+
+  .level-tone-blue {
+    --level-accent: #1f5aa6;
+    --level-soft: #edf5ff;
+  }
+
+  .level-tone-green {
+    --level-accent: #2f8b4c;
+    --level-soft: #eff8f0;
+  }
+
+  .level-tone-gold {
+    --level-accent: #d89211;
+    --level-soft: #fff7e7;
+  }
+
+  .level-tone-purple {
+    --level-accent: #7050b8;
+    --level-soft: #f4efff;
+  }
+
+  .level-tone-teal {
+    --level-accent: #157487;
+    --level-soft: #edf8fa;
+  }
+
+  .featured-scene {
+    position: relative;
+    overflow: hidden;
+    min-height: 7rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(11, 47, 85, 0.08)),
+      var(--level-soft);
+    color: var(--level-accent);
+  }
+
+  .featured-scene span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: grid;
+    min-width: 2.5rem;
+    min-height: 2.2rem;
+    place-items: center;
+    background: var(--level-accent);
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 800;
+  }
+
+  .featured-scene svg {
+    position: absolute;
+    inset: auto 0 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .featured-scene path {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .skyline {
+    opacity: 0.22;
+    stroke-width: 1.4;
+  }
+
+  .ground {
+    opacity: 0.32;
+    stroke-width: 1.3;
+  }
+
+  .tower {
+    opacity: 0.55;
+    stroke-width: 1.25;
+  }
+
+  .accent {
+    stroke-width: 2;
+  }
+
+  .figure {
+    opacity: 0.78;
+    stroke-width: 1.8;
+  }
+
+  .featured-copy {
+    display: grid;
+    gap: 0.42rem;
+    padding: 0.85rem;
+  }
+
+  .featured-copy h3 {
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 900;
+    line-height: 1.28;
+  }
+
+  .featured-copy p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.73rem;
+    line-height: 1.45;
+  }
+
+  .featured-copy a,
+  .featured-copy span {
+    display: inline-flex;
+    min-height: 2rem;
+    align-items: end;
+    justify-self: start;
+    color: var(--level-accent);
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .featured-copy span {
+    color: var(--color-text-muted);
+  }
+
+  .featured-copy a:hover,
+  .featured-copy a:focus-visible {
+    color: var(--color-blue-dark);
+  }
+
+  @media (max-width: 1120px) {
+    .featured-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 760px) {
+    .featured-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 540px) {
+    .featured-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

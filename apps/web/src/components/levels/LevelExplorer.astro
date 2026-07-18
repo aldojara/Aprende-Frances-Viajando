@@ -1,0 +1,271 @@
+---
+import LevelsIcon from "./LevelsIcon.astro";
+import { levelCards, levelStatusLabels } from "../../data/levelsLanding";
+import { withBase } from "../../utils/paths";
+---
+
+<section
+  id="explora-niveles"
+  class="levels-section level-explorer-section"
+  aria-labelledby="level-explorer-title"
+>
+  <div class="container levels-section-inner">
+    <h2 id="level-explorer-title">Explora por nivel</h2>
+
+    <ul class="level-card-grid" aria-label="Niveles A1 a C1">
+      {
+        levelCards.map((level) => (
+          <li>
+            <article class={`level-card level-tone-${level.tone}`}>
+              <div>
+                <p class="level-code">{level.code}</p>
+                <h3>{level.name}</h3>
+                <p class="level-description">{level.description}</p>
+              </div>
+
+              <ul class="level-goals">
+                {level.goals.map((goal) => (
+                  <li>{goal}</li>
+                ))}
+              </ul>
+
+              <div class="level-card-bottom">
+                <span class={`level-status level-status-${level.status}`}>
+                  {levelStatusLabels[level.status]}
+                </span>
+
+                {level.href ? (
+                  <a class="level-link" href={withBase(level.href)}>
+                    {level.cta}
+                    <LevelsIcon name="arrow" />
+                  </a>
+                ) : (
+                  <span
+                    class="level-link level-link-disabled"
+                    aria-disabled="true"
+                  >
+                    {level.cta}
+                  </span>
+                )}
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .level-explorer-section {
+    padding-block: 0.9rem 1.2rem;
+  }
+
+  .levels-section-inner {
+    display: grid;
+    gap: 0.82rem;
+  }
+
+  .levels-section h2 {
+    font-size: clamp(1.45rem, 2.5vw, 1.85rem);
+  }
+
+  .level-card-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .level-card-grid > li {
+    min-width: 0;
+  }
+
+  .level-card {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100%;
+    overflow: hidden;
+    padding: 1rem;
+    border: 1px solid color-mix(in srgb, var(--level-accent) 28%, var(--color-border));
+    border-radius: var(--radius-md);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.78)),
+      var(--level-soft);
+    box-shadow: 0 1px 2px rgba(11, 47, 85, 0.05);
+  }
+
+  .level-card::after {
+    position: absolute;
+    right: -0.6rem;
+    bottom: -0.45rem;
+    width: 5.2rem;
+    height: 5.2rem;
+    border: 1px solid color-mix(in srgb, var(--level-accent) 35%, transparent);
+    border-radius: 50% 50% 0 50%;
+    opacity: 0.34;
+    content: "";
+  }
+
+  .level-tone-blue {
+    --level-accent: #1f5aa6;
+    --level-soft: #edf5ff;
+  }
+
+  .level-tone-green {
+    --level-accent: #2f8b4c;
+    --level-soft: #eff8f0;
+  }
+
+  .level-tone-gold {
+    --level-accent: #d89211;
+    --level-soft: #fff7e7;
+  }
+
+  .level-tone-purple {
+    --level-accent: #7050b8;
+    --level-soft: #f4efff;
+  }
+
+  .level-tone-teal {
+    --level-accent: #157487;
+    --level-soft: #edf8fa;
+  }
+
+  .level-code {
+    margin: 0;
+    color: var(--level-accent);
+    font-family: var(--font-display);
+    font-size: clamp(2.45rem, 4vw, 3.1rem);
+    font-weight: 800;
+    line-height: 0.92;
+    text-align: center;
+  }
+
+  .level-card h3 {
+    margin-top: 0.22rem;
+    color: var(--level-accent);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 900;
+    text-align: center;
+  }
+
+  .level-description {
+    min-height: 4rem;
+    margin: 0.82rem 0 0;
+    color: var(--color-heading);
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.48;
+  }
+
+  .level-goals {
+    display: grid;
+    gap: 0.38rem;
+    padding: 0;
+    margin: 0.7rem 0 0;
+    list-style: none;
+  }
+
+  .level-goals li {
+    position: relative;
+    padding-left: 1.25rem;
+    color: var(--color-heading);
+    font-size: 0.74rem;
+    line-height: 1.45;
+  }
+
+  .level-goals li::before {
+    position: absolute;
+    top: 0.1rem;
+    left: 0;
+    color: var(--level-accent);
+    font-weight: 900;
+    content: "✓";
+  }
+
+  .level-card-bottom {
+    display: grid;
+    gap: 0.7rem;
+    justify-items: center;
+    margin-top: 1.3rem;
+  }
+
+  .level-status {
+    display: inline-flex;
+    min-height: 1.75rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.22rem 0.68rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+
+  .level-status-available {
+    background: #e8f4ec;
+    color: #247144;
+  }
+
+  .level-status-expanding {
+    background: #f2eafb;
+    color: #6d4ab3;
+  }
+
+  .level-status-planned {
+    background: #eef1f4;
+    color: #51606f;
+  }
+
+  .level-link {
+    display: inline-flex;
+    min-height: 2.35rem;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-blue-dark);
+    font-size: 0.76rem;
+    font-weight: 900;
+  }
+
+  .level-link .levels-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .level-link:hover,
+  .level-link:focus-visible {
+    color: var(--level-accent);
+  }
+
+  .level-link-disabled {
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 1120px) {
+    .level-card-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 760px) {
+    .level-card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 540px) {
+    .level-card-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .level-description {
+      min-height: auto;
+    }
+  }
+</style>

@@ -1,0 +1,142 @@
+---
+import LevelsIcon from "./LevelsIcon.astro";
+import { howToSteps } from "../../data/levelsLanding";
+---
+
+<section class="levels-section how-to-section" aria-labelledby="how-to-title">
+  <div class="container levels-section-inner">
+    <h2 id="how-to-title">Cómo usar esta sección</h2>
+
+    <ol class="how-to-list">
+      {
+        howToSteps.map((step, index) => (
+          <li>
+            <article>
+              <span class="step-number" aria-label={`Paso ${index + 1}`}>
+                {index + 1}
+              </span>
+              <LevelsIcon name={step.icon} />
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .how-to-section {
+    padding-block: 0.95rem 1.2rem;
+  }
+
+  .levels-section-inner {
+    display: grid;
+    gap: 0.82rem;
+  }
+
+  .levels-section h2 {
+    font-size: clamp(1.45rem, 2.5vw, 1.85rem);
+  }
+
+  .how-to-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 1px 2px rgba(11, 47, 85, 0.04);
+    list-style: none;
+  }
+
+  .how-to-list li {
+    border-right: 1px solid var(--color-border);
+  }
+
+  .how-to-list li:last-child {
+    border-right: 0;
+  }
+
+  .how-to-list article {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.8rem 0.9rem;
+    min-height: 7.8rem;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .step-number {
+    position: absolute;
+    top: 0.9rem;
+    left: 0.9rem;
+    display: grid;
+    width: 1.75rem;
+    aspect-ratio: 1;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-blue-dark);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .how-to-list .levels-icon {
+    align-self: end;
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-top: 1.6rem;
+    color: var(--color-blue-dark);
+  }
+
+  .how-to-list h3 {
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .how-to-list p {
+    margin: 0.42rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.76rem;
+    line-height: 1.48;
+  }
+
+  @media (max-width: 980px) {
+    .how-to-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .how-to-list li:nth-child(2n) {
+      border-right: 0;
+    }
+
+    .how-to-list li:nth-child(-n + 2) {
+      border-bottom: 1px solid var(--color-border);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .how-to-list {
+      grid-template-columns: 1fr;
+    }
+
+    .how-to-list li,
+    .how-to-list li:nth-child(2n) {
+      border-right: 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .how-to-list li:last-child {
+      border-bottom: 0;
+    }
+  }
+</style>
