@@ -4,6 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import StatusBadge from "../../components/shared/StatusBadge.astro";
 import GrammarLessonBody from "../../components/grammar/GrammarLessonBody.astro";
 import GrammarLessonCard from "../../components/grammar/GrammarLessonCard.astro";
+import { withBase } from "../../utils/paths";
 
 export async function getStaticPaths() {
   const lessons = (await getCollection("content"))
@@ -95,7 +96,7 @@ const { Content } = await render(lesson);
             <nav class="lesson-nav" aria-label="Navegación de lecciones">
               {
                 previousLesson ? (
-                  <a href={`/gramatica/${previousLesson.id}/`}>
+                  <a href={withBase(`/gramatica/${previousLesson.id}/`)}>
                     Anterior: {previousLesson.data.title}
                   </a>
                 ) : (
@@ -104,7 +105,7 @@ const { Content } = await render(lesson);
               }
               {
                 nextLesson ? (
-                  <a href={`/gramatica/${nextLesson.id}/`}>
+                  <a href={withBase(`/gramatica/${nextLesson.id}/`)}>
                     Siguiente: {nextLesson.data.title}
                   </a>
                 ) : (

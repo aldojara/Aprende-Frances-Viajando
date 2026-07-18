@@ -1,5 +1,6 @@
 ﻿---
 import StatusBadge from "../shared/StatusBadge.astro";
+import { withBase } from "../../utils/paths";
 
 interface Props {
   id: string;
@@ -26,7 +27,7 @@ const compactIcon = id.includes("passe")
 
 {
   variant === "compact" ? (
-    <a class="grammar-card-compact" href={`/gramatica/${id}/`}>
+    <a class="grammar-card-compact" href={withBase(`/gramatica/${id}/`)}>
       <span class="compact-icon" aria-hidden="true">
         {
           compactIcon === "pen" ? (
@@ -67,7 +68,7 @@ const compactIcon = id.includes("passe")
       </svg>
     </a>
   ) : (
-    <a class="grammar-card card" href={`/gramatica/${id}/`}>
+    <a class="grammar-card card" href={withBase(`/gramatica/${id}/`)}>
       <div class="grammar-card-top">
         <StatusBadge status={coverageStatus} />
         <span>{levels.join(" · ")}</span>

@@ -1,0 +1,193 @@
+---
+import { delfExamSpecs } from "../../data/delfExamSpecs";
+
+const levels = ["A1", "A2", "B1", "B2"] as const;
+const stats = [
+  { value: "4", label: "competencias" },
+  { value: delfExamSpecs.B1.totalScore.replace(" puntos", ""), label: "puntos" },
+  { value: "25", label: "por prueba" },
+  { value: delfExamSpecs.B1.globalMinimum, label: "mínimo global" },
+  { value: delfExamSpecs.B1.minimumPerSkill.replace(" por prueba", ""), label: "mínimo por prueba" },
+];
+---
+
+<aside class="journey-panel" aria-labelledby="journey-title">
+  <div class="journey-top">
+    <span aria-hidden="true"></span>
+    <h2 id="journey-title">Tu camino DELF</h2>
+    <span aria-hidden="true"></span>
+  </div>
+
+  <ol class="journey-levels" aria-label="Niveles DELF A1 a B2">
+    {levels.map((level) => <li class={`level-${level.toLowerCase()}`}>{level}</li>)}
+  </ol>
+
+  <dl class="journey-stats">
+    {
+      stats.map((stat) => (
+        <div>
+          <dt>{stat.label}</dt>
+          <dd>{stat.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+
+  <p>
+    Diploma reconocido internacionalmente. Aprende Francés Viajando es un
+    proyecto educativo independiente.
+  </p>
+</aside>
+
+<style>
+  .journey-panel {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid rgba(184, 134, 11, 0.32);
+    border-radius: var(--radius-lg);
+    background: #ffffff;
+    box-shadow: 0 22px 60px rgba(11, 47, 85, 0.16);
+  }
+
+  .journey-top {
+    display: grid;
+    grid-template-columns: minmax(2.5rem, 1fr) auto minmax(2.5rem, 1fr);
+    gap: 0.8rem;
+    align-items: center;
+    padding: 1.35rem 1.35rem 0.6rem;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.14), transparent 28%),
+      #062653;
+    color: #ffffff;
+  }
+
+  .journey-top span {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.24);
+  }
+
+  .journey-top h2 {
+    color: #ffffff;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    text-align: center;
+  }
+
+  .journey-levels {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.55rem;
+    padding: 0.8rem 1.35rem 1.6rem;
+    margin: 0;
+    background: #062653;
+    list-style: none;
+  }
+
+  .journey-levels li {
+    position: relative;
+    display: grid;
+    aspect-ratio: 1;
+    place-items: center;
+    border: 2px solid rgba(255, 255, 255, 0.78);
+    border-radius: 999px;
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 800;
+    min-width: 0;
+  }
+
+  .journey-levels li + li::before {
+    position: absolute;
+    right: calc(100% + 0.1rem);
+    width: 0.65rem;
+    border-top: 2px dashed #f4c45f;
+    content: "";
+  }
+
+  .level-a1 {
+    background: #174f8f;
+  }
+
+  .level-a2 {
+    background: #3e8b53;
+  }
+
+  .level-b1 {
+    background: #d79a19;
+  }
+
+  .level-b2 {
+    background: #7954bf;
+  }
+
+  .journey-stats {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin: 0;
+    padding: 1.2rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .journey-stats div {
+    display: grid;
+    gap: 0.2rem;
+    justify-items: center;
+    padding-inline: 0.5rem;
+    text-align: center;
+  }
+
+  .journey-stats div + div {
+    border-left: 1px solid var(--color-border);
+  }
+
+  .journey-stats dd {
+    order: -1;
+    margin: 0;
+    color: var(--color-blue-dark);
+    font-size: clamp(0.96rem, 2vw, 1.35rem);
+    font-weight: 900;
+    line-height: 1.05;
+  }
+
+  .journey-stats dt {
+    color: var(--color-text-muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .journey-panel p {
+    margin: 0;
+    padding: 0.95rem 1.1rem 1.1rem;
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .journey-levels {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.32rem;
+      padding-inline: 0.8rem;
+    }
+
+    .journey-levels li {
+      font-size: 1.15rem;
+    }
+
+    .journey-levels li + li::before {
+      display: none;
+    }
+
+    .journey-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+      padding-inline: 0.8rem;
+    }
+
+    .journey-stats div + div {
+      border-left: 0;
+    }
+  }
+</style>

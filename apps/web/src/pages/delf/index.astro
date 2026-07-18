@@ -1,0 +1,259 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DelfHero from "../../components/delf/DelfHero.astro";
+import DelfHowToUse from "../../components/delf/DelfHowToUse.astro";
+import DelfExamMap from "../../components/delf/DelfExamMap.astro";
+import DelfLevelGrid from "../../components/delf/DelfLevelGrid.astro";
+import DelfContentCard from "../../components/delf/DelfContentCard.astro";
+import DelfNextSteps from "../../components/delf/DelfNextSteps.astro";
+import { withBase } from "../../utils/paths";
+
+const delfContents = (await getCollection("content"))
+  .filter(
+    (item) =>
+      item.data.domain === "delf" &&
+      item.data.publicationStatus === "published" &&
+      item.data.demonstration === false,
+  )
+  .sort((a, b) => (a.data.examOrder ?? 999) - (b.data.examOrder ?? 999));
+
+const strategies = [
+  ["Entender la consigna", "Disponible"],
+  ["Gestionar el tiempo", "Disponible"],
+  ["Tomar notas", "Disponible"],
+  ["Organizar una respuesta", "Próximamente"],
+  ["Revisar con criterios", "Próximamente"],
+];
+---
+
+<BaseLayout
+  title="Preparación DELF A1-B2"
+  description="Sección DELF independiente para comprender el examen, entrenar competencias y avanzar desde A1 hasta B2."
+>
+  <main>
+    <DelfHero />
+    <DelfHowToUse />
+
+    <section class="delf-main container" aria-label="Exploración DELF">
+      <div class="exam-level-layout">
+        <DelfExamMap />
+        <DelfLevelGrid />
+      </div>
+
+      <section id="contenidos-disponibles" class="delf-section" aria-labelledby="content-title">
+        <h2 id="content-title">Contenidos disponibles</h2>
+        <ul class="delf-content-grid">
+          {delfContents.map((item) => <li><DelfContentCard item={item} /></li>)}
+        </ul>
+      </section>
+
+      <section class="delf-section strategies-section" aria-labelledby="strategies-title">
+        <h2 id="strategies-title">Estrategias y metodología</h2>
+        <ul>
+          {
+            strategies.map(([title, status]) => (
+              <li>
+                <article>
+                  <strong>{title}</strong>
+                  <span>{status}</span>
+                </article>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="delf-section resources-section" aria-labelledby="resources-title">
+        <div>
+          <h2 id="resources-title">Gramática y recursos relacionados</h2>
+          <div class="resource-panels">
+            <article>
+              <h3>Para reforzar tu francés</h3>
+              <a href={withBase("/gramatica/")}>Gramática</a>
+              <a href={withBase("/contenidos/?domain=vocabulary")}>Vocabulario</a>
+              <a href={withBase("/contenidos/?domain=pronunciation")}>Pronunciación</a>
+              <a href={withBase("/contenidos/?domain=grammar")}>Conectores</a>
+            </article>
+            <article>
+              <h3>Para practicar el examen</h3>
+              <a href={withBase("/delf/b2/comprehension-orale/")}>Comprensión oral</a>
+              <a href={withBase("/delf/b1/criterios-evaluacion/")}>Rúbricas</a>
+              <a href={withBase("/delf/b1/production-orale/")}>Producción oral</a>
+              <a href={withBase("/contenidos/?domain=delf")}>Catálogo DELF</a>
+            </article>
+          </div>
+        </div>
+        <svg class="metro-scene" viewBox="0 0 360 230" aria-hidden="true" focusable="false">
+          <path d="M14 190c43-24 78-27 106-10 35-24 70-26 105-5 38-18 77-18 121 2" />
+          <path d="M40 198h292M250 176v-64M232 112h36M243 98h14M238 88h24M250 74v14" />
+          <path d="M72 180v-44h38v44M82 158h18M132 180v-58h46v58M146 148h18M202 180v-34h30v34" />
+          <path d="M286 146h42v28h-42z" />
+          <path d="M292 155h30M292 165h30" />
+        </svg>
+      </section>
+    </section>
+
+    <DelfNextSteps />
+  </main>
+</BaseLayout>
+
+<style>
+  .delf-main {
+    display: grid;
+    gap: 1.55rem;
+    padding-block: 1.2rem 1.3rem;
+  }
+
+  .exam-level-layout {
+    display: grid;
+    grid-template-columns: minmax(14rem, 0.27fr) minmax(0, 0.73fr);
+    gap: 1.35rem;
+    align-items: start;
+  }
+
+  .delf-section {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .delf-section h2 {
+    font-size: clamp(1.45rem, 2.5vw, 1.85rem);
+    overflow-wrap: anywhere;
+  }
+
+  .delf-section h2::after {
+    display: block;
+    width: 2rem;
+    height: 2px;
+    margin-top: 0.45rem;
+    background: var(--color-gold);
+    content: "";
+  }
+
+  .delf-content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .strategies-section ul {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .strategies-section article {
+    min-height: 4.4rem;
+    padding: 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .strategies-section strong,
+  .strategies-section span {
+    display: block;
+  }
+
+  .strategies-section strong {
+    color: var(--color-blue-dark);
+    font-size: 0.82rem;
+  }
+
+  .strategies-section span {
+    margin-top: 0.45rem;
+    color: #247144;
+    font-size: 0.68rem;
+    font-weight: 900;
+  }
+
+  .resources-section {
+    grid-template-columns: minmax(0, 0.7fr) minmax(17rem, 0.3fr);
+    align-items: end;
+    overflow: hidden;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.48);
+  }
+
+  .resource-panels {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .resource-panels article {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: #ffffff;
+  }
+
+  .resource-panels h3 {
+    margin-bottom: 0.35rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 900;
+  }
+
+  .resource-panels a {
+    min-height: 2rem;
+    color: var(--color-blue-dark);
+    font-size: 0.84rem;
+    font-weight: 800;
+  }
+
+  .resource-panels a::after {
+    float: right;
+    content: ">";
+  }
+
+  .metro-scene {
+    color: var(--color-blue-dark);
+    opacity: 0.5;
+  }
+
+  .metro-scene path {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  .metro-scene path:nth-last-child(2) {
+    fill: #ffffff;
+  }
+
+  @media (max-width: 1040px) {
+    .exam-level-layout,
+    .resources-section {
+      grid-template-columns: 1fr;
+    }
+
+    .delf-content-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .strategies-section ul {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 680px) {
+    .delf-content-grid,
+    .strategies-section ul,
+    .resource-panels {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

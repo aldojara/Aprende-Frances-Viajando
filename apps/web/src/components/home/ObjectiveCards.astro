@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../../utils/paths";
+
 const objectives = [
   {
     title: "Aprender por niveles",
@@ -13,7 +15,7 @@ const objectives = [
     description:
       "Estrategias, modelos, práctica y recursos para las competencias del examen.",
     tags: ["Comprensión", "producción", "simulacros"],
-    status: "En construcción",
+    status: "En expansión",
     href: "/delf/",
   },
   {
@@ -26,7 +28,8 @@ const objectives = [
   },
 ];
 
-const isAvailable = (status: string) => status === "Disponible";
+const isAvailable = (status: string) =>
+  status === "Disponible" || status === "En expansión";
 ---
 
 <section class="section objective-section" aria-labelledby="objective-heading">
@@ -49,11 +52,19 @@ const isAvailable = (status: string) => status === "Disponible";
         objectives.map((objective) => (
           <li>
             {isAvailable(objective.status) ? (
-              <a class="objective-card card objective-card-link" href={objective.href}>
+              <a class="objective-card card objective-card-link" href={withBase(objective.href)}>
                 <div class="objective-card-header">
                   <h3>{objective.title}</h3>
 
-                  <span class="objective-status objective-status-available">
+                  <span
+                    class:list={[
+                      "objective-status",
+                      {
+                        "objective-status-available": objective.status === "Disponible",
+                        "objective-status-expanding": objective.status === "En expansión",
+                      },
+                    ]}
+                  >
                     {objective.status}
                   </span>
                 </div>
@@ -182,6 +193,11 @@ const isAvailable = (status: string) => status === "Disponible";
   .objective-status-available {
     background: #e8f4ec;
     color: #247144;
+  }
+
+  .objective-status-expanding {
+    background: var(--color-blue-light, #ebf2fb);
+    color: var(--color-blue);
   }
 
   .objective-tags {

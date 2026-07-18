@@ -1,0 +1,157 @@
+---
+import { withBase } from "../../utils/paths";
+
+const cards = [
+  {
+    title: "Empezar con DELF B1",
+    description: "Accede a los contenidos disponibles para B1.",
+    href: "/delf/b1/",
+    action: "Comenzar ahora",
+    icon: "target",
+  },
+  {
+    title: "Entrenar comprensión oral B2",
+    description: "Practica con estrategias de escucha.",
+    href: "/delf/b2/comprehension-orale/",
+    action: "Entrenar ahora",
+    icon: "headphones",
+  },
+  {
+    title: "Explorar todo DELF",
+    description: "Descubre todos los niveles, contenidos y recursos.",
+    href: "/delf/",
+    action: "Explorar ahora",
+    icon: "tower",
+  },
+];
+---
+
+<section class="next-steps" aria-labelledby="next-steps-title">
+  <div class="container next-steps-inner">
+    <h2 id="next-steps-title" class="visually-hidden">Próximos pasos DELF</h2>
+    <ul>
+      {
+        cards.map((card) => (
+          <li>
+            <a href={withBase(card.href)}>
+              <span class={`next-icon ${card.icon}`} aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  {card.icon === "target" && <><circle cx="12" cy="12" r="8" /><circle cx="12" cy="12" r="4" /><path d="M12 12l6-6" /></>}
+                  {card.icon === "headphones" && <><path d="M4 13a8 8 0 0 1 16 0" /><path d="M6 13v5h3v-6H6z" /><path d="M18 13v5h-3v-6h3z" /></>}
+                  {card.icon === "tower" && <><path d="M12 3 8 21M12 3l4 18M9 12h6M7 21h10M10 7h4" /></>}
+                </svg>
+              </span>
+              <span>
+                <strong>{card.title}</strong>
+                <small>{card.description}</small>
+                <em>{card.action}</em>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .next-steps {
+    padding-block: 1.6rem;
+    background: var(--color-bg);
+  }
+
+  .next-steps-inner {
+    padding: 1.45rem;
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(circle at 95% 45%, rgba(184, 134, 11, 0.24), transparent 16%),
+      #062653;
+  }
+
+  .next-steps ul {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .next-steps a {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1rem;
+    min-height: 8.5rem;
+    align-items: center;
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+  }
+
+  .next-steps a:hover,
+  .next-steps a:focus-visible {
+    outline: 3px solid rgba(244, 196, 95, 0.48);
+    outline-offset: 3px;
+  }
+
+  .next-icon {
+    display: grid;
+    width: 3.9rem;
+    height: 3.9rem;
+    place-items: center;
+    color: var(--color-blue-dark);
+  }
+
+  .next-icon svg {
+    width: 3rem;
+    height: 3rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.6;
+  }
+
+  .next-steps strong,
+  .next-steps small,
+  .next-steps em {
+    display: block;
+  }
+
+  .next-steps strong {
+    color: var(--color-blue-dark);
+    font-family: var(--font-display);
+    font-size: 1rem;
+  }
+
+  .next-steps small {
+    margin-top: 0.28rem;
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .next-steps em {
+    margin-top: 0.6rem;
+    color: var(--color-gold);
+    font-size: 0.8rem;
+    font-style: normal;
+    font-weight: 900;
+  }
+
+  @media (max-width: 900px) {
+    .next-steps ul {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .next-steps-inner {
+      padding: 1rem;
+    }
+
+    .next-steps a {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

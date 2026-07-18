@@ -1,6 +1,7 @@
 export type FooterLinkStatus =
   | "Disponible"
   | "En construcción"
+  | "En expansión"
   | "Próximamente";
 
 export type FooterLink = {
@@ -48,7 +49,8 @@ export const footerSections: FooterSection[] = [
       },
       {
         label: "DELF",
-        status: "En construcción",
+        href: "/delf/",
+        status: "En expansión",
       },
       {
         label: "Rutas de aprendizaje",
@@ -162,6 +164,3 @@ export const legalLinks: FooterLink[] = [
     status: "En construcción",
   },
 ];
-
-
-

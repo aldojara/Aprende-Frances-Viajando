@@ -46,6 +46,23 @@ const communicationGoalSchema = z.enum([
   "contar-lo-que-alguien-dijo",
   "causa-y-consecuencia",
 ]);
+const examVersionSchema = z.enum(["tout-public", "junior-scolaire", "prim"]);
+const examSkillSchema = z.enum([
+  "overview",
+  "listening",
+  "reading",
+  "writing",
+  "speaking",
+]);
+const examContentTypeSchema = z.enum([
+  "exam-overview",
+  "skill-guide",
+  "task-guide",
+  "strategy",
+  "evaluation",
+  "practice",
+  "mock-exam",
+]);
 
 const baseEditorialSchema = z.object({
   title: z.string(),
@@ -95,6 +112,12 @@ const content = defineCollection({
     series: reference("series").optional(),
     episodeNumber: z.number().int().positive().optional(),
     relatedResources: z.array(reference("resources")).default([]),
+    examVersion: examVersionSchema.optional(),
+    examSkill: examSkillSchema.optional(),
+    examContentType: examContentTypeSchema.optional(),
+    taskType: z.string().optional(),
+    examOrder: z.number().int().positive().optional(),
+    sourceCheckedAt: z.string().optional(),
   }),
 });
 

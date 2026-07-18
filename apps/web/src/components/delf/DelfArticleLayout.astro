@@ -1,0 +1,323 @@
+---
+import type { DelfExamSpec } from "../../data/delfExamSpecs";
+import { getContentRoute } from "../../utils/contentRoutes";
+import { withBase } from "../../utils/paths";
+import StatusBadge from "../shared/StatusBadge.astro";
+import DelfContentCard from "./DelfContentCard.astro";
+
+interface TocItem {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  entry: any;
+  spec: DelfExamSpec;
+  toc: TocItem[];
+  relatedItems: any[];
+  nextItem?: any;
+}
+
+const { entry, spec, toc, relatedItems, nextItem } = Astro.props;
+const levelHref = withBase(`/delf/${spec.level.toLowerCase()}/`);
+---
+
+<main class="delf-article-page">
+  <section class="article-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Miga de pan">
+        <a href={withBase("/delf/")}>DELF</a>
+        <span aria-hidden="true">/</span>
+        <a href={levelHref}>{spec.level}</a>
+        <span aria-hidden="true">/</span>
+        <span>{entry.data.title.replace(/^DELF [A-Z0-9]+ · /, "")}</span>
+      </nav>
+
+      <div class="article-hero-grid">
+        <div>
+          <p class="eyebrow">DELF {spec.level} · {entry.data.duration ?? "Lectura guiada"}</p>
+          <h1>{entry.data.title}</h1>
+          <p>{entry.data.description}</p>
+          <a class="button button-primary" href={nextItem ? getContentRoute(nextItem) : levelHref}>
+            {entry.id.endsWith("estructura-del-examen") ? "Quiero entrenar producción oral" : "Seguir con el siguiente contenido"}
+          </a>
+        </div>
+
+        <aside class="article-meta card">
+          <StatusBadge status={entry.data.coverageStatus} />
+          <dl>
+            <div><dt>Nivel</dt><dd>{entry.data.levels.join(" · ")}</dd></div>
+            <div><dt>Tipo</dt><dd>{entry.data.examContentType ?? "Guía"}</dd></div>
+            <div><dt>Variante</dt><dd>{spec.variant}</dd></div>
+            <div><dt>Verificado</dt><dd>{entry.data.sourceCheckedAt ?? spec.sourceCheckedAt}</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="container article-shell">
+    <aside class="article-sidebar" aria-label="Índice del artículo">
+      <nav>
+        <p>Índice</p>
+        <ol>
+          {toc.map((item) => <li><a href={`#${item.id}`}>{item.label}</a></li>)}
+        </ol>
+      </nav>
+    </aside>
+
+    <article class="article-body">
+      <details class="article-mobile-toc">
+        <summary>Índice del artículo</summary>
+        <ol>
+          {toc.map((item) => <li><a href={`#${item.id}`}>{item.label}</a></li>)}
+        </ol>
+      </details>
+
+      <slot />
+
+      <section id="recursos-relacionados" class="article-related">
+        <h2>Recursos relacionados</h2>
+        {
+          relatedItems.length > 0 ? (
+            <ul>
+              {relatedItems.map((item) => <li><DelfContentCard item={item} /></li>)}
+            </ul>
+          ) : (
+            <p>Los recursos enlazados se activarán solo cuando exista contenido publicado y revisado.</p>
+          )
+        }
+      </section>
+
+      <section id="siguiente-paso" class="article-next">
+        <h2>Siguiente paso</h2>
+        {
+          nextItem ? (
+            <a class="button button-secondary" href={getContentRoute(nextItem)}>
+              {nextItem.data.title}
+            </a>
+          ) : (
+            <a class="button button-secondary" href={levelHref}>Volver a DELF {spec.level}</a>
+          )
+        }
+      </section>
+    </article>
+  </section>
+</main>
+
+<style>
+  .delf-article-page {
+    background: var(--color-bg);
+  }
+
+  .article-hero {
+    padding-block: 2.5rem 2rem;
+    border-bottom: 1px solid var(--color-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(247, 244, 237, 0.66)),
+      var(--color-bg);
+  }
+
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .breadcrumb a {
+    color: var(--color-blue-dark);
+  }
+
+  .article-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.32fr);
+    gap: 1.4rem;
+    align-items: end;
+    margin-top: 1.4rem;
+  }
+
+  .article-hero h1 {
+    max-width: 17ch;
+    font-size: clamp(2.35rem, 5vw, 4.6rem);
+    line-height: 1.02;
+  }
+
+  .article-hero p:not(.eyebrow) {
+    max-width: 46rem;
+    margin: 1rem 0 0;
+    color: var(--color-heading);
+  }
+
+  .article-hero .button {
+    margin-top: 1rem;
+  }
+
+  .article-meta {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .article-meta dl {
+    display: grid;
+    gap: 0.65rem;
+    margin: 0;
+  }
+
+  .article-meta dt {
+    color: var(--color-text-muted);
+    font-size: 0.66rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .article-meta dd {
+    margin: 0.1rem 0 0;
+    color: var(--color-blue-dark);
+    font-size: 0.84rem;
+    font-weight: 900;
+  }
+
+  .article-shell {
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.25fr) minmax(0, 0.75fr);
+    gap: 1.5rem;
+    align-items: start;
+    padding-block: 1.5rem 3rem;
+  }
+
+  .article-sidebar {
+    position: sticky;
+    top: 6.5rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: #ffffff;
+  }
+
+  .article-sidebar p {
+    margin: 0 0 0.6rem;
+    color: var(--color-blue-dark);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .article-sidebar ol,
+  .article-mobile-toc ol {
+    display: grid;
+    gap: 0.42rem;
+    padding-left: 1rem;
+    margin: 0;
+  }
+
+  .article-sidebar a,
+  .article-mobile-toc a {
+    color: var(--color-heading);
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  .article-body {
+    display: grid;
+    gap: 1rem;
+    min-width: 0;
+    padding: 1.35rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .article-mobile-toc {
+    display: none;
+  }
+
+  .article-body :global(h2) {
+    margin-top: 1.4rem;
+    scroll-margin-top: 6.5rem;
+    font-size: clamp(1.45rem, 2.6vw, 2rem);
+  }
+
+  .article-body :global(h3) {
+    margin-top: 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 900;
+  }
+
+  .article-body :global(p),
+  .article-body :global(li) {
+    color: var(--color-text);
+    font-size: 0.98rem;
+  }
+
+  .article-body :global(ul),
+  .article-body :global(ol) {
+    padding-left: 1.25rem;
+  }
+
+  .article-body :global(blockquote) {
+    margin: 0;
+    padding: 1rem;
+    border-left: 4px solid var(--color-gold);
+    background: #fff8ea;
+    color: var(--color-heading);
+  }
+
+  .article-related,
+  .article-next {
+    border-top: 1px solid var(--color-border);
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+
+  .article-related ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+    padding: 0;
+    margin: 1rem 0 0;
+    list-style: none;
+  }
+
+  @media (max-width: 920px) {
+    .article-hero-grid,
+    .article-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .article-sidebar {
+      display: none;
+    }
+
+    .article-mobile-toc {
+      display: block;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      background: var(--color-surface-soft);
+    }
+
+    .article-mobile-toc summary {
+      cursor: pointer;
+      color: var(--color-blue-dark);
+      font-weight: 900;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .article-body {
+      padding: 1rem;
+    }
+
+    .article-related ul {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

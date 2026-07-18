@@ -7,6 +7,7 @@ import GrammarHero from "../../components/grammar/GrammarHero.astro";
 import GrammarIndex from "../../components/grammar/GrammarIndex.astro";
 import GrammarLessonCard from "../../components/grammar/GrammarLessonCard.astro";
 import GrammarLevelStrip from "../../components/grammar/GrammarLevelStrip.astro";
+import { withBase } from "../../utils/paths";
 
 const allContent = await getCollection("content");
 const grammarLessons = allContent
@@ -35,7 +36,7 @@ const topicFromLesson = (
     title: fallback.title ?? lesson?.data.title ?? id,
     levels: fallback.levels ?? lesson?.data.levels ?? [],
     status: fallback.status ?? lesson?.data.coverageStatus ?? "planned",
-    href: lesson ? `/gramatica/${lesson.id}/` : undefined,
+    href: lesson ? withBase(`/gramatica/${lesson.id}/`) : undefined,
     goal: fallback.goal ?? lesson?.data.communicativeNeeds?.[0],
     duration: lesson?.data.duration,
     includes: fallback.includes,
@@ -225,7 +226,7 @@ const featuredLessons = featuredOrder
       <section class="grammar-section featured-lessons">
         <div class="section-action-row">
           <h2 class="grammar-section-title">Lecciones disponibles ahora</h2>
-          <a class="grammar-text-link" href="/contenidos/?domain=grammar">Ver todas las lecciones</a>
+          <a class="grammar-text-link" href={withBase("/contenidos/?domain=grammar")}>Ver todas las lecciones</a>
         </div>
 
         <ul class="lesson-grid">
@@ -279,7 +280,7 @@ const featuredLessons = featuredOrder
             <p>
               Guías, fichas y materiales para profundizar y seguir aprendiendo.
             </p>
-            <a class="closing-button" href="/contenidos/?domain=grammar">
+            <a class="closing-button" href={withBase("/contenidos/?domain=grammar")}>
               Explorar catálogo
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path d="M5 12h14M13 6l6 6-6 6" />

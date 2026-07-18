@@ -40,6 +40,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
+  overflow-x: hidden;
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
@@ -58,6 +59,29 @@ svg {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+main,
+main * {
+  min-width: 0;
+}
+
+main h1,
+main h2,
+main h3,
+main p,
+main li,
+main a,
+main span {
+  overflow-wrap: anywhere;
+}
+
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 3px solid rgba(184, 134, 11, 0.34);
+  outline-offset: 3px;
 }
 
 button,
@@ -167,5 +191,27 @@ p {
 @media (max-width: 768px) {
   .section {
     padding-block: 3.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    width: min(100% - 2rem, 340px);
+    margin-left: 1rem;
+    margin-right: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

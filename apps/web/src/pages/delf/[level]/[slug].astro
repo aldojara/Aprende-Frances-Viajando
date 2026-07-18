@@ -1,0 +1,135 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import DelfArticleLayout from "../../../components/delf/DelfArticleLayout.astro";
+import { delfExamSpecs } from "../../../data/delfExamSpecs";
+import { getDelfContentLevel, getFinalContentSlug } from "../../../utils/contentRoutes";
+
+const tocById: Record<string, { id: string; label: string }[]> = {
+  "delf/b1/estructura-del-examen": [
+    { id: "resumen-del-examen", label: "Resumen del examen" },
+    { id: "las-cuatro-pruebas", label: "Las cuatro pruebas" },
+    { id: "recorrido-del-dia-del-examen", label: "Recorrido del día del examen" },
+    { id: "como-se-obtiene-el-diploma", label: "Cómo se obtiene el diploma" },
+    { id: "que-evalua-realmente-el-delf-b1", label: "Qué evalúa realmente el DELF B1" },
+    { id: "errores-frecuentes", label: "Errores frecuentes" },
+    { id: "recursos-relacionados", label: "Recursos relacionados" },
+    { id: "siguiente-paso", label: "Siguiente paso" },
+  ],
+  "delf/b1/production-orale": [
+    { id: "objetivo-de-la-prueba", label: "Objetivo de la prueba" },
+    { id: "partes-y-duracion", label: "Partes y duración" },
+    { id: "estrategia-de-preparacion", label: "Estrategia" },
+    { id: "interaccion", label: "Interacción" },
+    { id: "ejemplo-original", label: "Ejemplo original" },
+    { id: "criterios", label: "Criterios" },
+    { id: "errores-frecuentes", label: "Errores frecuentes" },
+    { id: "recursos-relacionados", label: "Recursos relacionados" },
+    { id: "siguiente-paso", label: "Siguiente paso" },
+  ],
+  "delf/b1/monologue-suivi": [
+    { id: "relacion-con-el-punto-de-vista", label: "Punto de vista" },
+    { id: "analisis-de-consigna", label: "Consigna" },
+    { id: "preparacion-paso-a-paso", label: "Preparación" },
+    { id: "estructura", label: "Estructura" },
+    { id: "argumentos-y-ejemplos", label: "Argumentos" },
+    { id: "conectores", label: "Conectores" },
+    { id: "mini-plan-modelo", label: "Mini plan" },
+    { id: "actividad-practica", label: "Práctica" },
+    { id: "autoevaluacion", label: "Autoevaluación" },
+    { id: "errores-frecuentes", label: "Errores frecuentes" },
+  ],
+  "delf/b1/criterios-evaluacion": [
+    { id: "finalidad-de-los-criterios", label: "Finalidad" },
+    { id: "cumplimiento-de-la-tarea", label: "Tarea" },
+    { id: "coherencia", label: "Coherencia" },
+    { id: "vocabulario", label: "Vocabulario" },
+    { id: "correccion-gramatical", label: "Gramática" },
+    { id: "pronunciacion", label: "Pronunciación" },
+    { id: "fluidez", label: "Fluidez" },
+    { id: "interaccion", label: "Interacción" },
+    { id: "checklist", label: "Checklist" },
+    { id: "errores-frecuentes", label: "Errores frecuentes" },
+  ],
+  "delf/b2/comprehension-orale": [
+    { id: "objetivo", label: "Objetivo" },
+    { id: "formato-y-variantes", label: "Formato y variantes" },
+    { id: "lectura-previa", label: "Lectura previa" },
+    { id: "situacion-comunicativa", label: "Situación comunicativa" },
+    { id: "idea-global-y-detalles", label: "Idea global y detalles" },
+    { id: "opiniones-y-posiciones", label: "Opiniones" },
+    { id: "toma-de-notas", label: "Notas" },
+    { id: "distractores", label: "Distractores" },
+    { id: "estrategia-por-escucha", label: "Estrategia" },
+    { id: "practica-original", label: "Práctica" },
+    { id: "errores-frecuentes", label: "Errores frecuentes" },
+  ],
+  "delf/b2/estrategias-de-escucha": [
+    { id: "antes-de-escuchar", label: "Antes de escuchar" },
+    { id: "primera-escucha", label: "Primera escucha" },
+    { id: "segunda-escucha", label: "Segunda escucha" },
+    { id: "una-sola-escucha", label: "Una sola escucha" },
+    { id: "toma-de-notas", label: "Notas" },
+    { id: "tesis-y-argumentos", label: "Tesis y argumentos" },
+    { id: "tonos-actitudes-inferencias", label: "Tonos e inferencias" },
+    { id: "rutina-de-entrenamiento", label: "Rutina" },
+    { id: "autoevaluacion", label: "Autoevaluación" },
+    { id: "siguiente-paso", label: "Siguiente paso" },
+  ],
+};
+
+const defaultToc = [
+  { id: "objetivo", label: "Objetivo" },
+  { id: "estrategia-de-preparacion", label: "Estrategia" },
+  { id: "errores-frecuentes", label: "Errores frecuentes" },
+  { id: "recursos-relacionados", label: "Recursos relacionados" },
+  { id: "siguiente-paso", label: "Siguiente paso" },
+];
+
+export async function getStaticPaths() {
+  const entries = (await getCollection("content"))
+    .filter(
+      (item) =>
+        item.data.domain === "delf" &&
+        item.data.publicationStatus === "published" &&
+        item.data.demonstration === false &&
+        (item.data.levels.includes("B1") || item.data.levels.includes("B2")),
+    )
+    .sort((a, b) => (a.data.examOrder ?? 999) - (b.data.examOrder ?? 999));
+
+  return entries.map((entry) => ({
+    params: {
+      level: getDelfContentLevel(entry),
+      slug: getFinalContentSlug(entry.id),
+    },
+    props: {
+      entry,
+      allEntries: entries,
+    },
+  }));
+}
+
+const { entry, allEntries } = Astro.props;
+const { Content } = await render(entry);
+const level = entry.data.levels.find((item: string) => item === "B1" || item === "B2");
+const spec = delfExamSpecs[level as "B1" | "B2"];
+const relatedItems = allEntries.filter((item: any) =>
+  entry.data.relatedContent.includes(item.id as any),
+);
+const nextItem = entry.data.nextContent
+  ? allEntries.find((item: any) => item.id === entry.data.nextContent)
+  : undefined;
+const toc = tocById[entry.id] ?? defaultToc;
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description}>
+  <DelfArticleLayout
+    entry={entry}
+    spec={spec}
+    toc={toc}
+    relatedItems={relatedItems}
+    nextItem={nextItem}
+  >
+    <Content />
+  </DelfArticleLayout>
+</BaseLayout>

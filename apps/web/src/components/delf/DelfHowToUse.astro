@@ -1,0 +1,158 @@
+---
+const steps = [
+  {
+    title: "Elige tu objetivo",
+    description: "Selecciona el nivel y familiarízate con el examen.",
+    icon: "compass",
+  },
+  {
+    title: "Comprende el examen",
+    description: "Descubre la estructura, las competencias y los criterios.",
+    icon: "book",
+  },
+  {
+    title: "Entrena con estrategia",
+    description: "Practica con actividades guiadas y recursos específicos.",
+    icon: "dumbbell",
+  },
+  {
+    title: "Evalúa y mejora",
+    description: "Aplica criterios, revisa errores y progresa con confianza.",
+    icon: "target",
+  },
+];
+---
+
+<section class="delf-how container" aria-labelledby="how-title">
+  <h2 id="how-title">Cómo utilizar esta sección</h2>
+  <ol>
+    {
+      steps.map((step, index) => (
+        <li>
+          <span class="step-number">{index + 1}</span>
+          <span class="step-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              {step.icon === "compass" && <><circle cx="12" cy="12" r="9" /><path d="m15 9-2 5-5 2 2-5z" /></>}
+              {step.icon === "book" && <><path d="M4 5.5c3-.9 5.3-.45 7 1.35v11c-1.7-1.8-4-2.25-7-1.35z" /><path d="M20 5.5c-3-.9-5.3-.45-7 1.35v11c1.7-1.8 4-2.25 7-1.35z" /><path d="M12 6.85v11" /></>}
+              {step.icon === "dumbbell" && <><path d="M6 8v8M18 8v8M2 10v4M22 10v4M6 12h12" /></>}
+              {step.icon === "target" && <><circle cx="12" cy="12" r="8" /><circle cx="12" cy="12" r="4" /><path d="M12 12l5-5" /></>}
+            </svg>
+          </span>
+          <div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .delf-how {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: 1rem;
+    margin-top: -0.2rem;
+    padding: 1.15rem 1.45rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 42px rgba(11, 47, 85, 0.07);
+  }
+
+  .delf-how h2 {
+    font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+  }
+
+  .delf-how ol {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .delf-how li {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.9rem;
+    align-items: center;
+    min-height: 7rem;
+    padding: 0.8rem 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .delf-how li + li {
+    border-left: 1px solid var(--color-border);
+  }
+
+  .step-number {
+    position: absolute;
+    top: 0.7rem;
+    left: 0.8rem;
+    display: grid;
+    width: 1.65rem;
+    height: 1.65rem;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--color-blue-dark);
+    color: #ffffff;
+    font-size: 0.76rem;
+    font-weight: 900;
+  }
+
+  .step-icon {
+    display: grid;
+    width: 3.2rem;
+    height: 3.2rem;
+    place-items: center;
+    margin-left: 1.6rem;
+    color: var(--color-blue-dark);
+  }
+
+  .step-icon svg {
+    width: 2.3rem;
+    height: 2.3rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  .delf-how h3 {
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 900;
+  }
+
+  .delf-how p {
+    margin: 0.25rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 980px) {
+    .delf-how ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .delf-how li + li {
+      border-left: 0;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .delf-how {
+      padding: 1rem;
+    }
+
+    .delf-how ol {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

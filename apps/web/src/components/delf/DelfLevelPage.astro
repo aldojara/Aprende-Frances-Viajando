@@ -1,0 +1,451 @@
+---
+import type { DelfExamSpec, DelfSkillId } from "../../data/delfExamSpecs";
+import { getContentRoute } from "../../utils/contentRoutes";
+import { withBase } from "../../utils/paths";
+import DelfContentCard from "./DelfContentCard.astro";
+
+interface Props {
+  spec: DelfExamSpec;
+  contents: any[];
+}
+
+const { spec, contents } = Astro.props;
+const level = spec.level.toLowerCase();
+const availableSkills = new Set(contents.map((item) => item.data.examSkill));
+const firstContent = contents[0];
+const recommended = spec.level === "B1"
+  ? [
+      "Comprende la estructura del examen antes de practicar.",
+      "Entrena producción oral con criterios desde el principio.",
+      "Trabaja el monologue suivi con planes breves y conectores.",
+      "Evalúa tus respuestas con listas de control.",
+    ]
+  : [
+      "Familiarízate con audios largos, posiciones y argumentos.",
+      "Lee las preguntas antes de escuchar y predice el tipo de dato.",
+      "Entrena la toma de notas con abreviaturas estables.",
+      "Revisa distractores y reformula la idea global.",
+    ];
+
+const focusTitle =
+  spec.level === "B1" ? "Producción oral B1" : "Comprensión oral B2";
+const focusText =
+  spec.level === "B1"
+    ? "La cobertura inicial prioriza la estructura general, la producción oral y la evaluación, porque ayudan a practicar con criterios desde el inicio."
+    : "La cobertura inicial se concentra honestamente en comprensión oral: escucha activa, notas, inferencias y estrategia por escucha.";
+---
+
+<main class="delf-level-page">
+  <section class={`level-hero level-hero-${level}`}>
+    <div class="container level-hero-inner">
+      <div>
+        <p class="eyebrow">DELF {spec.level} · {spec.editorialStatus}</p>
+        <h1>
+          {
+            spec.level === "B1"
+              ? "DELF B1: organiza tus ideas, responde con seguridad y supera cada prueba"
+              : "DELF B2: comprende con profundidad, argumenta con claridad y exprésate con fluidez"
+          }
+        </h1>
+        <p>
+          Preparación independiente para entender el formato, practicar con
+          método y usar criterios claros al revisar tus respuestas.
+        </p>
+      </div>
+
+      <aside class="quick-panel" aria-label={`Resumen rápido DELF ${spec.level}`}>
+        <span>{spec.variant}</span>
+        <dl>
+          <div><dt>Total</dt><dd>{spec.totalScore}</dd></div>
+          <div><dt>Por prueba</dt><dd>{spec.scorePerSkill}</dd></div>
+          <div><dt>Mínimo global</dt><dd>{spec.globalMinimum}</dd></div>
+          <div><dt>Mínimo por prueba</dt><dd>{spec.minimumPerSkill}</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <div class="container level-shell">
+    <section class="level-section overview-section" aria-labelledby="overview-title">
+      <div>
+        <p class="eyebrow">Examen de un vistazo</p>
+        <h2 id="overview-title">Cuatro competencias, una puntuación equilibrada</h2>
+        <p>
+          El examen combina tres pruebas colectivas y una prueba individual.
+          Cada competencia se califica sobre 25 puntos y una nota inferior a
+          5/25 en una prueba es eliminatoria.
+        </p>
+      </div>
+      <ul class="summary-grid">
+        {spec.skills.map((skill) => <li><strong>{skill.label}</strong><span>{skill.duration}{skill.preparation ? ` · preparación ${skill.preparation}` : ""}</span></li>)}
+      </ul>
+    </section>
+
+    <section class="level-section" aria-labelledby="skills-title">
+      <p class="eyebrow">Competencias</p>
+      <h2 id="skills-title">Qué debes dominar en {spec.level}</h2>
+      <ul class="skill-grid">
+        {
+          spec.skills.map((skill) => {
+            const hasContent = availableSkills.has(skill.id) || (skill.id === "speaking" && spec.level === "B1");
+            return (
+              <li>
+                <article class={hasContent ? "skill-card" : "skill-card skill-card-muted"}>
+                  <h3>{skill.label}</h3>
+                  <p>{skill.summary}</p>
+                  <span>{hasContent ? "Disponible" : "Próximamente"}</span>
+                </article>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </section>
+
+    <section class="level-section prep-route" aria-labelledby="route-title">
+      <p class="eyebrow">Ruta recomendada</p>
+      <h2 id="route-title">Preparación progresiva</h2>
+      <ol>
+        {recommended.map((step) => <li>{step}</li>)}
+      </ol>
+    </section>
+
+    <section class="level-section" aria-labelledby="available-title">
+      <div class="section-row">
+        <div>
+          <p class="eyebrow">Contenidos disponibles</p>
+          <h2 id="available-title">Empieza con lo publicado</h2>
+        </div>
+        <a href={withBase(`/contenidos/?domain=delf&level=${spec.level.toLowerCase()}`)}>Ver en catálogo</a>
+      </div>
+      <ul class="content-grid">
+        {contents.map((item) => <li><DelfContentCard item={item} /></li>)}
+      </ul>
+    </section>
+
+    <section class="level-section focus-section" aria-labelledby="focus-title">
+      <div>
+        <p class="eyebrow">Foco actual</p>
+        <h2 id="focus-title">{focusTitle}</h2>
+        <p>{focusText}</p>
+      </div>
+      <a class="button button-primary" href={firstContent ? getContentRoute(firstContent) : withBase("/delf/")}>
+        Empezar ahora
+      </a>
+    </section>
+
+    <section class="level-section assessment-section" aria-labelledby="assessment-title">
+      <p class="eyebrow">Cómo se evalúa</p>
+      <h2 id="assessment-title">Criterios visibles desde el entrenamiento</h2>
+      <div class="assessment-grid">
+        <article>
+          <h3>Comprensión</h3>
+          <p>Respuesta precisa a preguntas, identificación de idea global, detalles y relaciones entre información.</p>
+        </article>
+        <article>
+          <h3>Producción</h3>
+          <p>Cumplimiento de la tarea, coherencia, vocabulario, corrección gramatical, pronunciación e interacción.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="level-section resources-section" aria-labelledby="resources-title">
+      <p class="eyebrow">Recursos relacionados</p>
+      <h2 id="resources-title">Refuerza las bases que sostienen el examen</h2>
+      <div class="resource-columns">
+        <a href={withBase("/gramatica/")}>Gramática</a>
+        <a href={withBase("/contenidos/?domain=grammar")}>Conectores</a>
+        <a href={withBase("/contenidos/?domain=pronunciation")}>Pronunciación</a>
+      </div>
+    </section>
+
+    <section class="level-section next-section" aria-labelledby="level-next-title">
+      <div>
+        <p class="eyebrow">Próximo paso</p>
+        <h2 id="level-next-title">Pasa del mapa a la práctica</h2>
+      </div>
+      <a class="button button-secondary" href={firstContent ? getContentRoute(firstContent) : withBase("/delf/")}>
+        Abrir primer contenido
+      </a>
+    </section>
+  </div>
+</main>
+
+<style>
+  .delf-level-page {
+    background: var(--color-bg);
+  }
+
+  .level-hero {
+    padding-block: 4rem 3rem;
+    border-bottom: 1px solid var(--color-border);
+    background:
+      linear-gradient(120deg, rgba(255, 255, 255, 0.86), rgba(247, 244, 237, 0.62)),
+      radial-gradient(circle at 78% 18%, rgba(184, 134, 11, 0.16), transparent 24%),
+      var(--color-bg);
+  }
+
+  .level-hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.36fr);
+    gap: 1.5rem;
+    align-items: end;
+  }
+
+  .level-hero h1 {
+    max-width: 15ch;
+    font-size: clamp(2.55rem, 5.6vw, 5rem);
+    line-height: 1;
+  }
+
+  .level-hero p:not(.eyebrow) {
+    max-width: 42rem;
+    margin-top: 1rem;
+    color: var(--color-heading);
+    font-size: 1rem;
+  }
+
+  .quick-panel {
+    display: grid;
+    gap: 1rem;
+    padding: 1.1rem;
+    border: 1px solid rgba(184, 134, 11, 0.32);
+    border-radius: var(--radius-lg);
+    background: #ffffff;
+    box-shadow: var(--shadow-md);
+  }
+
+  .quick-panel > span {
+    color: var(--color-blue-dark);
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .quick-panel dl {
+    display: grid;
+    gap: 0.7rem;
+    margin: 0;
+  }
+
+  .quick-panel div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.55rem;
+  }
+
+  .quick-panel dt,
+  .quick-panel dd {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 900;
+  }
+
+  .quick-panel dt {
+    color: var(--color-text-muted);
+  }
+
+  .quick-panel dd {
+    color: var(--color-blue-dark);
+    text-align: right;
+  }
+
+  .level-shell {
+    display: grid;
+    gap: 1.2rem;
+    padding-block: 1.5rem 3rem;
+  }
+
+  .level-section {
+    display: grid;
+    gap: 1rem;
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.76);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .level-section h2 {
+    font-size: clamp(1.45rem, 2.6vw, 2rem);
+  }
+
+  .level-section p {
+    max-width: 58rem;
+    margin: 0.45rem 0 0;
+    color: var(--color-text-muted);
+  }
+
+  .overview-section,
+  .focus-section,
+  .next-section {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .summary-grid,
+  .skill-grid,
+  .content-grid {
+    display: grid;
+    gap: 0.85rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-width: 25rem;
+  }
+
+  .summary-grid li,
+  .skill-card,
+  .assessment-grid article {
+    padding: 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+  }
+
+  .summary-grid strong,
+  .summary-grid span {
+    display: block;
+  }
+
+  .summary-grid strong,
+  .skill-card h3,
+  .assessment-grid h3 {
+    color: var(--color-blue-dark);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 900;
+  }
+
+  .summary-grid span,
+  .skill-card p,
+  .assessment-grid p {
+    margin-top: 0.24rem;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+  }
+
+  .skill-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .skill-card {
+    min-height: 100%;
+  }
+
+  .skill-card span {
+    display: inline-flex;
+    margin-top: 0.75rem;
+    color: #247144;
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+
+  .skill-card-muted span {
+    color: var(--color-gold);
+  }
+
+  .prep-route ol {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.85rem;
+    padding: 0;
+    margin: 0;
+    counter-reset: route;
+    list-style: none;
+  }
+
+  .prep-route li {
+    counter-increment: route;
+    padding: 0.9rem;
+    border-left: 3px solid var(--color-gold);
+    background: #fff8ea;
+    color: var(--color-heading);
+    font-size: 0.86rem;
+    font-weight: 800;
+  }
+
+  .prep-route li::before {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: var(--color-gold);
+    content: counter(route, decimal-leading-zero);
+  }
+
+  .section-row {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .section-row > a,
+  .resource-columns a {
+    color: var(--color-blue-dark);
+    font-size: 0.82rem;
+    font-weight: 900;
+  }
+
+  .content-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .assessment-grid,
+  .resource-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .resource-columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .resource-columns a {
+    min-height: 3.2rem;
+    padding: 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+  }
+
+  @media (max-width: 980px) {
+    .level-hero-inner,
+    .overview-section,
+    .focus-section,
+    .next-section {
+      grid-template-columns: 1fr;
+    }
+
+    .summary-grid {
+      min-width: 0;
+    }
+
+    .skill-grid,
+    .prep-route ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 650px) {
+    .summary-grid,
+    .skill-grid,
+    .prep-route ol,
+    .content-grid,
+    .assessment-grid,
+    .resource-columns {
+      grid-template-columns: 1fr;
+    }
+
+    .section-row {
+      align-items: start;
+      flex-direction: column;
+    }
+  }
+</style>

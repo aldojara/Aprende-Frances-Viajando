@@ -1,6 +1,7 @@
 ---
 import ContentCard from "../content/ContentCard.astro";
 import EmptyState from "./EmptyState.astro";
+import { getContentRoute } from "../../utils/contentRoutes";
 
 interface Props {
   items: {
@@ -23,10 +24,7 @@ interface Props {
 
 const { items } = Astro.props;
 
-const getItemHref = (item: Props["items"][number]) =>
-  item.data.domain === "grammar" && !item.data.demonstration
-    ? `/gramatica/${item.id}/`
-    : undefined;
+const getItemHref = (item: Props["items"][number]) => getContentRoute(item);
 ---
 
 <div class="catalog-grid-wrap">

@@ -6,6 +6,7 @@ import {
   type FooterLink,
   type SocialChannel,
 } from "../../data/footer";
+import { withBase } from "../../utils/paths";
 
 const currentYear = new Date().getFullYear();
 
@@ -13,6 +14,7 @@ const statusClass = (status: FooterLink["status"] | SocialChannel["status"]) =>
   ({
     Disponible: "is-available",
     "En construcción": "is-building",
+    "En expansión": "is-expanding",
     Próximamente: "is-upcoming",
   })[status];
 ---
@@ -20,7 +22,7 @@ const statusClass = (status: FooterLink["status"] | SocialChannel["status"]) =>
 <footer class="site-footer" aria-labelledby="site-footer-heading">
   <div class="container footer-main">
     <div class="footer-brand">
-      <a class="footer-brand-link" href="/" aria-label="Ir al inicio">
+      <a class="footer-brand-link" href={withBase("/")} aria-label="Ir al inicio">
         <span class="footer-brand-mark" aria-hidden="true">AFV</span>
         <span class="footer-brand-text">
           <strong id="site-footer-heading">Aprende Francés</strong>
@@ -50,7 +52,7 @@ const statusClass = (status: FooterLink["status"] | SocialChannel["status"]) =>
                 <li>
                   {link.href ? (
                     <a
-                      href={link.href}
+                      href={link.external ? link.href : withBase(link.href)}
                       aria-label={link.ariaLabel}
                       target={link.external ? "_blank" : undefined}
                       rel={link.external ? "noopener noreferrer" : undefined}
@@ -382,6 +384,10 @@ const statusClass = (status: FooterLink["status"] | SocialChannel["status"]) =>
   }
 
   .footer-status.is-building {
+    color: var(--color-blue);
+  }
+
+  .footer-status.is-expanding {
     color: var(--color-blue);
   }
 

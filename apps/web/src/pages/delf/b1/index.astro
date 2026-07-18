@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import DelfLevelPage from "../../../components/delf/DelfLevelPage.astro";
+import { delfExamSpecs } from "../../../data/delfExamSpecs";
+
+const contents = (await getCollection("content"))
+  .filter(
+    (item) =>
+      item.data.domain === "delf" &&
+      item.data.publicationStatus === "published" &&
+      item.data.demonstration === false &&
+      item.data.levels.includes("B1"),
+  )
+  .sort((a, b) => (a.data.examOrder ?? 999) - (b.data.examOrder ?? 999));
+---
+
+<BaseLayout
+  title="DELF B1 en expansión"
+  description="Ruta inicial DELF B1 con estructura del examen, producción oral, monologue suivi y criterios de evaluación."
+>
+  <DelfLevelPage spec={delfExamSpecs.B1} contents={contents} />
+</BaseLayout>

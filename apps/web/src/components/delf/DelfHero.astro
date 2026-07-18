@@ -1,0 +1,208 @@
+---
+import DelfJourneyPanel from "./DelfJourneyPanel.astro";
+import { withBase } from "../../utils/paths";
+---
+
+<section class="delf-hero" aria-labelledby="delf-hero-title">
+  <div class="container delf-hero-inner">
+    <div class="hero-copy">
+      <p class="hero-eyebrow">Preparación DELF A1-B2</p>
+      <h1 id="delf-hero-title">Prepárate para el DELF con método y criterios claros</h1>
+      <p>
+        Comprende cómo funciona cada prueba, entrena las cuatro competencias y
+        desarrolla estrategias concretas para avanzar desde A1 hasta B2.
+      </p>
+
+      <div class="hero-actions">
+        <a class="button button-primary" href="#explorar-por-nivel">Elegir mi nivel</a>
+        <a class="button button-secondary" href="#contenidos-disponibles">
+          Ver contenidos disponibles
+        </a>
+      </div>
+    </div>
+
+    <div class="paris-illustration" aria-hidden="true">
+      <svg viewBox="0 0 360 420" focusable="false">
+        <path class="paper-plane" d="M265 34 319 14l-23 48-9-22-22-6Z" />
+        <path class="paper-plane-line" d="M259 45c-26 3-38 12-39 25 17 4 31 2 42-8" />
+        <path class="tower" d="M170 36 211 364M170 36 128 364M145 170h51M134 236h73M119 330h103M153 108h34M145 170l53 194M194 170l-52 194M161 86h18M154 125h33M137 220l67 0M126 284h88" />
+        <path class="tower" d="M170 36c-8 28-10 65-9 111M170 36c8 28 10 65 9 111M144 364c7-36 23-55 26-55s20 19 27 55" />
+        <path class="city" d="M4 366c30-14 54-16 73-8 17-18 39-19 62-4 21-15 43-16 65-2 31-17 61-17 90 1 20-10 40-10 61 1" />
+        <path class="city" d="M24 374h317M63 358v-42l18-18 18 18v42M73 336h16M238 354v-56l21-18 20 18v56M248 326h21M301 355v-34h29v34" />
+        <path class="dashed" d="M76 265c26-15 38-32 34-50-5-20-30-23-37-5-8 20 25 25 43 5 19-20 24-49 14-74" />
+      </svg>
+    </div>
+
+    <DelfJourneyPanel />
+  </div>
+</section>
+
+<style>
+  .delf-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: 4.2rem 1.7rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(247, 244, 237, 0.62)),
+      var(--color-bg);
+  }
+
+  .delf-hero::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 5rem;
+    background:
+      linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.55)),
+      repeating-linear-gradient(90deg, rgba(11, 47, 85, 0.16) 0 1px, transparent 1px 68px);
+    opacity: 0.32;
+    content: "";
+  }
+
+  .delf-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(11rem, 0.45fr) minmax(22rem, 0.8fr);
+    gap: 1.2rem;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .hero-copy {
+    max-width: 40rem;
+    min-width: 0;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    margin: 0 0 0.7rem;
+    padding: 0.25rem 0.58rem;
+    border-radius: 999px;
+    background: #f4dfaa;
+    color: var(--color-blue-dark);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .hero-copy h1 {
+    max-width: 13ch;
+    font-size: clamp(3rem, 6vw, 5.25rem);
+    line-height: 0.98;
+    overflow-wrap: break-word;
+  }
+
+  .hero-copy > p:not(.hero-eyebrow) {
+    max-width: 37rem;
+    margin: 1.05rem 0 0;
+    color: var(--color-heading);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.35rem;
+  }
+
+  .hero-actions .button {
+    min-height: 3rem;
+  }
+
+  .paris-illustration {
+    align-self: end;
+    color: var(--color-blue-dark);
+    opacity: 0.82;
+  }
+
+  .paris-illustration svg {
+    width: min(100%, 24rem);
+    margin-inline: auto;
+  }
+
+  .tower,
+  .city,
+  .paper-plane,
+  .paper-plane-line,
+  .dashed {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tower {
+    stroke-width: 2.2;
+  }
+
+  .city {
+    opacity: 0.42;
+    stroke-width: 1.25;
+  }
+
+  .paper-plane,
+  .paper-plane-line,
+  .dashed {
+    color: var(--color-gold);
+    stroke-width: 1.4;
+  }
+
+  .dashed {
+    stroke-dasharray: 8 9;
+  }
+
+  @media (max-width: 1120px) {
+    .delf-hero-inner {
+      grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.8fr);
+    }
+
+    .paris-illustration {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      max-height: 15rem;
+      overflow: hidden;
+      opacity: 0.45;
+    }
+  }
+
+  @media (max-width: 780px) {
+    .delf-hero {
+      padding-block: 3rem 1.2rem;
+    }
+
+    .delf-hero-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-copy h1 {
+      max-width: 100%;
+      font-size: clamp(2.2rem, 10vw, 3rem);
+      line-height: 1.04;
+    }
+
+    .paris-illustration {
+      grid-row: auto;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-copy h1 {
+      max-width: 11ch;
+      font-size: clamp(1.95rem, 8vw, 2.35rem);
+    }
+
+    .hero-copy > p:not(.hero-eyebrow) {
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .hero-actions .button {
+      width: 100%;
+    }
+  }
+</style>

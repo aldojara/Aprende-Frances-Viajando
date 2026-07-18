@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import DelfLevelPage from "../../../components/delf/DelfLevelPage.astro";
+import { delfExamSpecs } from "../../../data/delfExamSpecs";
+
+const contents = (await getCollection("content"))
+  .filter(
+    (item) =>
+      item.data.domain === "delf" &&
+      item.data.publicationStatus === "published" &&
+      item.data.demonstration === false &&
+      item.data.levels.includes("B2"),
+  )
+  .sort((a, b) => (a.data.examOrder ?? 999) - (b.data.examOrder ?? 999));
+---
+
+<BaseLayout
+  title="DELF B2 en expansión"
+  description="Ruta inicial DELF B2 centrada en comprensión oral y estrategias de escucha."
+>
+  <DelfLevelPage spec={delfExamSpecs.B2} contents={contents} />
+</BaseLayout>

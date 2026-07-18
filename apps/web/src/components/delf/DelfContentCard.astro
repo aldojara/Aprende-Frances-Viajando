@@ -1,0 +1,152 @@
+---
+import { getContentRoute } from "../../utils/contentRoutes";
+
+interface Props {
+  item: {
+    id: string;
+    data: {
+      title: string;
+      description: string;
+      levels: string[];
+      duration?: string;
+      examSkill?: string;
+      examContentType?: string;
+      coverageStatus: string;
+      demonstration?: boolean;
+      domain: string;
+    };
+  };
+}
+
+const { item } = Astro.props;
+const href = getContentRoute(item);
+const skillLabels: Record<string, string> = {
+  overview: "General",
+  listening: "Oral",
+  reading: "Escrita",
+  writing: "Escrita",
+  speaking: "Oral",
+};
+const typeLabels: Record<string, string> = {
+  "exam-overview": "Guía",
+  "skill-guide": "Guía",
+  "task-guide": "Guía",
+  strategy: "Estrategia",
+  evaluation: "Evaluación",
+  practice: "Práctica",
+  "mock-exam": "Simulacro",
+};
+---
+
+<a class="delf-content-card" href={href}>
+  <span class="content-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" focusable="false">
+      {item.data.examSkill === "listening" && <><path d="M4 13a8 8 0 0 1 16 0" /><path d="M6 13v5a2 2 0 0 0 2 2h1v-7z" /><path d="M18 13v5a2 2 0 0 1-2 2h-1v-7z" /></>}
+      {item.data.examSkill === "speaking" && <><path d="M5 6h14v9H9l-4 4z" /><path d="M9 10h6" /></>}
+      {item.data.examContentType === "evaluation" && <><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.2 6.4 20.2 7.5 14 3 9.6l6.2-.9z" /></>}
+      {(!item.data.examSkill || item.data.examSkill === "overview") && item.data.examContentType !== "evaluation" && <><path d="M6 3h9l3 3v15H6z" /><path d="M14 3v4h4" /><path d="M9 12h6M9 16h6" /></>}
+    </svg>
+  </span>
+
+  <div>
+    <h3>{item.data.title}</h3>
+    <p>{item.data.description}</p>
+    <ul aria-label="Metadatos">
+      <li>Nivel: {item.data.levels.join(" · ")}</li>
+      <li>Competencia: {skillLabels[item.data.examSkill ?? "overview"] ?? "General"}</li>
+      <li>Tipo: {typeLabels[item.data.examContentType ?? "skill-guide"] ?? "Guía"}</li>
+      <li>Estado: Disponible</li>
+    </ul>
+  </div>
+</a>
+
+<style>
+  .delf-content-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1rem;
+    min-height: 8.1rem;
+    height: 100%;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .delf-content-card:hover,
+  .delf-content-card:focus-visible {
+    transform: translateY(-2px);
+    border-color: rgba(0, 85, 164, 0.3);
+    box-shadow: var(--shadow-md);
+  }
+
+  .delf-content-card:focus-visible {
+    outline: 3px solid rgba(184, 134, 11, 0.28);
+    outline-offset: 4px;
+  }
+
+  .content-icon {
+    display: grid;
+    width: 2.7rem;
+    height: 2.7rem;
+    place-items: center;
+    color: var(--color-blue-dark);
+  }
+
+  .content-icon svg {
+    width: 1.9rem;
+    height: 1.9rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  .delf-content-card h3 {
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+  }
+
+  .delf-content-card p {
+    margin: 0.35rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .delf-content-card ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.38rem;
+    padding: 0;
+    margin: 0.7rem 0 0;
+    list-style: none;
+  }
+
+  .delf-content-card li {
+    padding: 0.18rem 0.42rem;
+    border-radius: 999px;
+    background: #e9f4ec;
+    color: #246b42;
+    font-size: 0.62rem;
+    font-weight: 900;
+    overflow-wrap: anywhere;
+  }
+
+  .delf-content-card li:nth-child(-n + 3) {
+    background: var(--color-surface-soft);
+    color: var(--color-heading);
+  }
+
+  @media (max-width: 520px) {
+    .delf-content-card {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
