@@ -1,3 +1,7 @@
+---
+import { withBase } from "../../utils/paths";
+---
+
 <section class="hero">
   <div class="container hero-grid">
     <div class="hero-content">
@@ -13,11 +17,11 @@
       </p>
 
       <div class="hero-actions">
-        <a class="button button-primary" href="/niveles/">
+        <a class="button button-primary" href={withBase("/niveles/")}>
           Empieza con tu nivel
         </a>
 
-        <a class="button button-secondary" href="/contenidos/">
+        <a class="button button-secondary" href={withBase("/contenidos/")}>
           Explorar contenidos
         </a>
       </div>

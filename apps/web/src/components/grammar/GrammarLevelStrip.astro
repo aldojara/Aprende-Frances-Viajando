@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../../utils/paths";
+
 const levelLinks = [
   { level: "A1", state: "En expansión", tone: "expanding", href: "/contenidos/?domain=grammar&level=a1" },
   { level: "A2", state: "En expansión", tone: "expanding", href: "/contenidos/?domain=grammar&level=a2" },
@@ -12,7 +14,7 @@ const levelLinks = [
   {
     levelLinks.map((item) => (
       <li>
-        <a href={item.href} class={`level-${item.tone}`}>
+        <a href={withBase(item.href)} class={`level-${item.tone}`}>
           <strong>{item.level}</strong>
           <span>· {item.state}</span>
           {
