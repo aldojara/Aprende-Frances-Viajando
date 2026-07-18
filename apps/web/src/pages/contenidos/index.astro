@@ -8,9 +8,9 @@ import ResourcesCatalog from "../../components/resources/ResourcesCatalog.astro"
 import ResourcesHero from "../../components/resources/ResourcesHero.astro";
 import {
   domainToTopic,
-  formatCategories,
   formatLabels,
   normalizeText,
+  resourceFormatCategoryIds,
   topicFilters,
   type ResourceCompetencyId,
   type ResourceFormatCategoryId,
@@ -22,7 +22,6 @@ import {
   levels,
   type CoverageStatus,
   type FormatId,
-  type LevelId,
 } from "../../data/taxonomies";
 import { getContentRoute, getFinalContentSlug } from "../../utils/contentRoutes";
 import { withBase } from "../../utils/paths";
@@ -282,7 +281,7 @@ const counts = {
     "produccion-oral",
     "produccion-escrita",
   ] as const),
-  formats: zeroCounts(formatCategories.map((format) => format.id)),
+  formats: zeroCounts(resourceFormatCategoryIds),
   topics: zeroCounts([...topicFilters.map((topic) => topic.id), "delf"] as const),
   availability: zeroCounts(coverageStatuses.map((status) => status.id)),
 };

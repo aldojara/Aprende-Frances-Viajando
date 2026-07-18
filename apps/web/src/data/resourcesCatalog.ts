@@ -184,6 +184,11 @@ export const formatCategories = [
   icon: string;
 }>;
 
+export const resourceFormatCategoryIds = [
+  "articulos",
+  ...formatCategories.map((format) => format.id),
+] as const satisfies readonly ResourceFormatCategoryId[];
+
 export const availabilityLabels: Record<CoverageStatus, string> = {
   available: "Disponible",
   expanding: "En expansión",
