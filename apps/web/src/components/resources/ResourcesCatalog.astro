@@ -58,7 +58,7 @@ const { items, featuredItems, counts } = Astro.props;
 </section>
 
 <script>
-  const normalizeResourceText = (value: string) =>
+  const normalizeResourceText = (value: string | undefined) =>
     String(value || "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
