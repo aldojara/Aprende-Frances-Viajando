@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Pagina no encontrada"
+  description="La pagina solicitada no existe o todavia no forma parte de la version Astro."
+>
+  <main class="not-found">
+    <section class="container not-found-inner">
+      <p class="eyebrow">404</p>
+      <h1>Pagina no encontrada</h1>
+      <p>
+        Esta ruta no existe o aun no esta activa en la arquitectura Astro. Puedes
+        volver al inicio, revisar niveles A1-C1 o explorar el catalogo inicial.
+      </p>
+
+      <div class="not-found-actions">
+        <a class="button button-primary" href="/">Volver al inicio</a>
+        <a class="button button-secondary" href="/niveles/">Ver niveles</a>
+        <a class="button button-secondary" href="/contenidos/">Explorar catalogo</a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    min-height: 64vh;
+    align-items: center;
+  }
+
+  .not-found-inner {
+    max-width: 760px;
+    padding-block: 4rem;
+  }
+
+  .not-found h1 {
+    font-size: clamp(2.5rem, 5vw, 4.8rem);
+  }
+
+  .not-found p:not(.eyebrow) {
+    margin: 1rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+  }
+
+  .not-found-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.6rem;
+  }
+</style>

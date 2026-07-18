@@ -1,0 +1,416 @@
+---
+import { getCollection } from "astro:content";
+import ListingLayout from "../../layouts/ListingLayout.astro";
+import SectionHeader from "../../components/shared/SectionHeader.astro";
+import StatusBadge from "../../components/shared/StatusBadge.astro";
+import GrammarLessonCard from "../../components/grammar/GrammarLessonCard.astro";
+import { levels } from "../../data/taxonomies";
+
+const allContent = await getCollection("content");
+const grammarLessons = allContent
+  .filter(
+    (item) =>
+      item.data.domain === "grammar" &&
+      item.data.contentKind === "lesson" &&
+      !item.data.demonstration,
+  )
+  .sort(
+    (a, b) => (a.data.lessonOrder ?? 999) - (b.data.lessonOrder ?? 999),
+  );
+
+const availableLessons = grammarLessons.filter(
+  (item) => item.data.publicationStatus === "published",
+);
+
+const families = [
+  "Tiempos del pasado",
+  "Futuro y condicional",
+  "Subjuntivo",
+  "Pronombres y determinantes",
+  "Discurso indirecto",
+  "Conectores y argumentacion",
+  "Formas verbales avanzadas",
+  "Fundamentos A1-A2",
+];
+
+const needs = [
+  "Hablar del pasado",
+  "Expresar una opinion",
+  "Formular hipotesis",
+  "Dar consejos",
+  "Expresar obligacion",
+  "Argumentar",
+  "Expresar causa y consecuencia",
+  "Contar lo que alguien dijo",
+];
+
+const getLessonCount = (predicate: (item: (typeof grammarLessons)[number]) => boolean) =>
+  grammarLessons.filter(predicate).length;
+---
+
+<ListingLayout
+  eyebrow="Gramatica aplicada"
+  title="Gramática francesa para comunicar mejor"
+  description="Una biblioteca editorial para entender estructuras, comparar usos y llevar la gramatica a situaciones reales desde A1 hasta C1."
+>
+  <section class="grammar-hero-panel">
+    <div class="container grammar-hero-grid">
+      <div>
+        <p class="eyebrow">Metodo editorial</p>
+        <h2>Reglas claras, ejemplos utiles y decisiones de uso</h2>
+        <p>
+          Cada leccion conecta forma, uso y comunicacion. La cobertura empieza
+          con temas nucleares y crecera por nivel, familia gramatical y
+          necesidad comunicativa.
+        </p>
+      </div>
+
+      <div class="grammar-map card" aria-label="Cobertura de gramatica">
+        <span>Arquitectura A1-C1</span>
+        <strong>{availableLessons.length} lecciones iniciales</strong>
+        <p>Contenido real publicado con expansion progresiva.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grammar-section">
+      <SectionHeader
+        eyebrow="Explora por nivel"
+        title="Una progresion completa A1-C1"
+        description="La arquitectura no se limita a B1/B2: todos los niveles tienen lugar desde el inicio, aunque la cobertura avance por fases."
+      />
+
+      <ul class="level-strip" aria-label="Niveles gramaticales">
+        {
+          levels.map((level) => (
+            <li class="card">
+              <span>{level.label}</span>
+              <strong>{level.name}</strong>
+              <small>
+                {getLessonCount((item) => item.data.levels.includes(level.id))} lecciones
+              </small>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section grammar-bands">
+    <div class="container grammar-band-grid">
+      <div>
+        <SectionHeader
+          eyebrow="Familias gramaticales"
+          title="Encuentra el tema por estructura"
+        />
+
+        <ul class="pill-grid">
+          {
+            families.map((family) => (
+              <li>
+                <a href={`/contenidos/?domain=grammar`}>
+                  <span>{family}</span>
+                  <small>
+                    {getLessonCount((item) => item.data.grammarFamily === family)} disponibles
+                  </small>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <SectionHeader
+          eyebrow="Necesidades comunicativas"
+          title="Empieza por lo que quieres decir"
+        />
+
+        <ul class="pill-grid">
+          {
+            needs.map((need) => (
+              <li>
+                <a href={`/contenidos/?domain=grammar`}>
+                  <span>{need}</span>
+                  <small>
+                    {getLessonCount((item) =>
+                      item.data.communicativeNeeds.includes(need),
+                    )} disponibles
+                  </small>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grammar-section">
+      <SectionHeader
+        eyebrow="Rutas destacadas"
+        title="Secuencias para estudiar con intencion"
+        description="Rutas editoriales sugeridas, sin progreso personalizado ni funciones EdTech activas todavia."
+      />
+
+      <div class="route-cards">
+        <article class="card">
+          <StatusBadge status="available" />
+          <h3>Hablar del pasado con precision</h3>
+          <p>Passe compose vs imparfait como punto de partida para narrar viajes, experiencias y anecdotas.</p>
+        </article>
+        <article class="card">
+          <StatusBadge status="expanding" />
+          <h3>Opinar, aconsejar y matizar</h3>
+          <p>Conditionnel, subjonctif y conectores para comunicar postura sin sonar rigido.</p>
+        </article>
+        <article class="card">
+          <StatusBadge status="planned" />
+          <h3>De B2 a C1 con estructuras avanzadas</h3>
+          <p>Argumentacion, discurso indirecto y formas verbales para una produccion mas flexible.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section featured-lessons">
+    <div class="container grammar-section">
+      <SectionHeader
+        eyebrow="Lecciones destacadas"
+        title="Empieza con temas de alto impacto"
+        description="Las primeras lecciones publicadas vienen del material disponible y cubren temas frecuentes para hispanohablantes."
+      />
+
+      <ul class="lesson-grid">
+        {
+          availableLessons.map((lesson) => (
+            <li>
+              <GrammarLessonCard
+                id={lesson.id}
+                title={lesson.data.title}
+                description={lesson.data.description}
+                levels={lesson.data.levels}
+                coverageStatus={lesson.data.coverageStatus}
+                grammarFamily={lesson.data.grammarFamily}
+                duration={lesson.data.duration}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section grammar-closing">
+    <div class="container closing-grid">
+      <article class="card">
+        <p class="eyebrow">Errores frecuentes</p>
+        <h2>Especial para hispanohablantes</h2>
+        <p>
+          La seccion prioriza contrastes donde el espanol suele interferir:
+          tiempos del pasado, subjuntivo, pronombres, orden de la frase y
+          discurso indirecto.
+        </p>
+      </article>
+
+      <article class="card">
+        <p class="eyebrow">Recursos relacionados</p>
+        <h2>Mapas, listas y practica guiada</h2>
+        <p>
+          Los descargables finales llegaran progresivamente. Por ahora, las
+          lecciones enlazan hacia el catalogo y materiales semilla disponibles.
+        </p>
+        <a class="button button-primary" href="/contenidos/">Explorar catalogo</a>
+      </article>
+    </div>
+  </section>
+</ListingLayout>
+
+<style>
+  .grammar-hero-panel {
+    border-bottom: 1px solid var(--color-border);
+    background:
+      radial-gradient(circle at 88% 16%, rgba(184, 134, 11, 0.12), transparent 26%),
+      var(--color-bg);
+  }
+
+  .grammar-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.34fr);
+    gap: 1.25rem;
+    align-items: center;
+    padding-block: 2rem 3rem;
+  }
+
+  .grammar-hero-grid h2 {
+    max-width: 760px;
+    font-size: clamp(2rem, 3.4vw, 3.3rem);
+  }
+
+  .grammar-hero-grid p:not(.eyebrow),
+  .grammar-map p,
+  .route-cards p,
+  .closing-grid p:not(.eyebrow) {
+    color: var(--color-text-muted);
+  }
+
+  .grammar-map {
+    display: grid;
+    gap: 0.4rem;
+    padding: 1.25rem;
+  }
+
+  .grammar-map span,
+  .pill-grid small,
+  .level-strip small {
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .grammar-map strong {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+  }
+
+  .grammar-section {
+    display: grid;
+    gap: 1.4rem;
+  }
+
+  .level-strip,
+  .lesson-grid,
+  .route-cards,
+  .closing-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .level-strip {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .level-strip li {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem;
+  }
+
+  .level-strip span {
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+  }
+
+  .grammar-bands {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface-soft);
+  }
+
+  .grammar-band-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .grammar-band-grid > div {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .pill-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .pill-grid a {
+    display: grid;
+    gap: 0.22rem;
+    min-height: 100%;
+    padding: 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+  }
+
+  .pill-grid span {
+    color: var(--color-heading);
+    font-weight: 800;
+  }
+
+  .route-cards,
+  .closing-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .route-cards article,
+  .closing-grid article {
+    padding: 1.25rem;
+  }
+
+  .route-cards h3,
+  .closing-grid h2 {
+    margin-top: 0.8rem;
+    font-size: 1.35rem;
+  }
+
+  .featured-lessons {
+    background: var(--color-bg);
+  }
+
+  .lesson-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .grammar-closing {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .closing-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .closing-grid .button {
+    justify-self: start;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 980px) {
+    .grammar-hero-grid,
+    .grammar-band-grid,
+    .closing-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .level-strip,
+    .lesson-grid,
+    .route-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .level-strip,
+    .lesson-grid,
+    .route-cards,
+    .pill-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

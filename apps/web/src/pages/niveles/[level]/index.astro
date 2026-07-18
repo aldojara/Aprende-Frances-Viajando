@@ -1,0 +1,179 @@
+---
+import { getCollection } from "astro:content";
+import ListingLayout from "../../../layouts/ListingLayout.astro";
+import StatusBadge from "../../../components/shared/StatusBadge.astro";
+import SectionHeader from "../../../components/shared/SectionHeader.astro";
+import CatalogGrid from "../../../components/catalog/CatalogGrid.astro";
+import { levels } from "../../../data/taxonomies";
+
+export function getStaticPaths() {
+  return levels.map((level) => ({
+    params: { level: level.slug },
+    props: { level },
+  }));
+}
+
+const { level } = Astro.props;
+const contentItems = await getCollection("content");
+const levelContent = contentItems.filter((item) =>
+  item.data.levels.includes(level.id),
+);
+---
+
+<ListingLayout
+  eyebrow={`Nivel ${level.label}`}
+  title={`${level.label} · ${level.name}`}
+  description={level.description}
+>
+  <section class="section level-detail">
+    <div class="container level-detail-grid">
+      <aside class="level-summary card">
+        <div class="level-summary-top">
+          <span class="level-code">{level.label}</span>
+          <StatusBadge status={level.coverageStatus} />
+        </div>
+
+        <p>
+          Cobertura honesta para esta fase: la pagina existe desde el inicio,
+          pero el catalogo se completara progresivamente.
+        </p>
+      </aside>
+
+      <div class="level-main">
+        <SectionHeader
+          eyebrow="Capacidades generales"
+          title={`Que deberia poder hacer un estudiante ${level.label}`}
+          description="Estas capacidades orientan la arquitectura editorial. No implican que todo el contenido definitivo ya este publicado."
+        />
+
+        <ul class="capability-list">
+          {level.capabilities.map((capability) => <li>{capability}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section level-content">
+    <div class="container level-content-layout">
+      <SectionHeader
+        eyebrow="Contenido semilla"
+        title={`Material inicial relacionado con ${level.label}`}
+        description={
+          levelContent.length > 0
+            ? "Entradas demostrativas para validar rutas, schemas y estados."
+            : "Este nivel forma parte de la arquitectura A1-C1, aunque su cobertura editorial aun este planificada."
+        }
+      />
+
+      {levelContent.length > 0 ? (
+        <CatalogGrid items={levelContent} />
+      ) : (
+        <div class="level-empty card">
+          <StatusBadge status={level.coverageStatus} />
+          <h2>Cobertura en preparacion</h2>
+          <p>
+            La pagina del nivel esta disponible para sostener la arquitectura,
+            pero todavia no hay contenido semilla asociado a este nivel.
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+</ListingLayout>
+
+<style>
+  .level-detail {
+    background: var(--color-surface);
+  }
+
+  .level-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.26fr) minmax(0, 0.74fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .level-summary {
+    position: sticky;
+    top: 6rem;
+    padding: 1rem;
+  }
+
+  .level-summary-top {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .level-code {
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .level-summary p {
+    margin: 1rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+  }
+
+  .level-main {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .capability-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .capability-list li {
+    min-height: 100%;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-heading);
+    font-weight: 700;
+  }
+
+  .level-content {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .level-content-layout {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .level-empty {
+    max-width: 680px;
+    padding: 1.25rem;
+  }
+
+  .level-empty h2 {
+    margin-top: 0.85rem;
+    font-size: 1.45rem;
+  }
+
+  .level-empty p {
+    margin: 0.55rem 0 0;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 900px) {
+    .level-detail-grid,
+    .capability-list {
+      grid-template-columns: 1fr;
+    }
+
+    .level-summary {
+      position: static;
+    }
+  }
+</style>
