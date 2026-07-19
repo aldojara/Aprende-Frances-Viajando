@@ -1,0 +1,1293 @@
+---
+import {
+  delfB1ContentCards,
+  delfB1EvaluationCriteria,
+  delfB1ExamCards,
+  delfB1FinalSteps,
+  delfB1OralExercises,
+  delfB1RelatedResources,
+  delfB1RouteSteps,
+} from "../../data/delfB1Landing";
+import { withBase } from "../../utils/paths";
+import DelfB1Icon from "./DelfB1Icon.astro";
+---
+
+<main class="delf-b1-page">
+  <section class="b1-hero" aria-labelledby="b1-title">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Miga de pan">
+        <a href={withBase("/")}>Inicio</a>
+        <span aria-hidden="true">›</span>
+        <a href={withBase("/delf/")}>DELF</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">DELF B1</span>
+      </nav>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="level-pill">DIPLOMA DELF · NIVEL B1</span>
+          <h1 id="b1-title">Prepárate para comunicarte, opinar y defender tu punto de vista</h1>
+          <p>
+            El DELF B1 certifica que puedes desenvolverte en situaciones habituales,
+            comprender información relevante y expresar tu opinión con cierta autonomía.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href={withBase("/delf/b1/estructura-del-examen/")}>
+              Ver estructura del examen
+              <span aria-hidden="true">→</span>
+            </a>
+            <a class="button button-secondary" href={withBase("/delf/b1/production-orale/")}>
+              Empezar producción oral
+              <DelfB1Icon name="headphones" />
+            </a>
+          </div>
+        </div>
+
+        <aside class="quick-card" aria-label="Ficha rápida DELF B1">
+          <div class="quick-card-header">
+            <h2>Ficha rápida DELF B1</h2>
+            <span>B1</span>
+          </div>
+
+          <div class="quick-card-body">
+            <dl class="quick-stats">
+              <div>
+                <dt><DelfB1Icon name="headphones" />Competencias</dt>
+                <dd><strong>4</strong><span>competencias</span></dd>
+              </div>
+              <div>
+                <dt><DelfB1Icon name="star" />Puntuación total</dt>
+                <dd><strong>100</strong><span>puntos</span></dd>
+              </div>
+              <div>
+                <dt><DelfB1Icon name="target" />Por prueba</dt>
+                <dd><strong>25</strong><span>puntos por prueba</span></dd>
+              </div>
+            </dl>
+
+            <dl class="minimums">
+              <div>
+                <dt><DelfB1Icon name="medal" />Mínimo global</dt>
+                <dd><span>mínimo</span><strong>50/100</strong></dd>
+              </div>
+              <div>
+                <dt><DelfB1Icon name="check" />Mínimo por prueba</dt>
+                <dd><span>mínimo</span><strong>5/25</strong><small>por prueba</small></dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="quick-status">
+            <DelfB1Icon name="chart" />
+            <span>En expansión</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <svg class="hero-eiffel" viewBox="0 0 180 330" aria-hidden="true" focusable="false">
+      <path d="M88 18 31 302M92 18l57 284M55 176h70M43 236h96M69 105h43M90 18v284" />
+      <path d="M72 82c13 13 23 13 36 0M57 176c21 19 45 19 66 0M42 236c32 27 65 27 98 0" />
+      <path d="M28 302h124M52 302l37-66 39 66" />
+    </svg>
+    <svg class="hero-plane" viewBox="0 0 110 92" aria-hidden="true" focusable="false">
+      <path d="M8 50 98 9 67 82 50 55z" />
+      <path d="M50 55 98 9 36 45" />
+      <path class="dash" d="M3 84c18-19 36-29 57-29" />
+    </svg>
+    <svg class="hero-skyline" viewBox="0 0 1200 115" aria-hidden="true" focusable="false">
+      <path d="M5 104h1190" />
+      <path d="M35 104V78h28v26M51 78V61M91 104V68h44v36M110 68V48M162 104V81h34v23M238 104V66h48v38M262 66V43M312 104V75h31v29M395 104V60h42v44M416 60V34M468 104V79h50v25M560 104V64h45v40M582 64V39M635 104V72h35v32M718 104V58h52v46M744 58V31M795 104V78h36v26M872 104V65h44v39M894 65V39M946 104V82h38v22M1030 104V61h47v43M1054 61V36M1110 104V75h40v29" />
+      <path d="M150 104c32-25 62-25 92 0M520 104c33-22 66-22 100 0M970 104c30-24 60-24 90 0" />
+    </svg>
+  </section>
+
+  <div class="container b1-shell">
+    <section class="b1-section" aria-labelledby="exam-glance-title">
+      <h2 id="exam-glance-title">Tu examen en una mirada</h2>
+      <ul class="exam-grid">
+        {
+          delfB1ExamCards.map((card) => (
+            <li>
+              <article class:list={["exam-card", { "exam-card-focus": Boolean(card.badge) }]}>
+                {card.badge && <span class="corner-label">{card.badge}</span>}
+                <span class="icon-disc"><DelfB1Icon name={card.icon} /></span>
+                <div>
+                  <h3>{card.title}</h3>
+                  <p class="mini-meta">
+                    <span>{card.duration}</span>
+                    <span>{card.points}</span>
+                  </p>
+                  <p>{card.description}</p>
+                </div>
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="b1-section" aria-labelledby="route-title">
+      <h2 id="route-title">Ruta recomendada B1</h2>
+      <ol class="route-grid">
+        {
+          delfB1RouteSteps.map((step, index) => (
+            <li>
+              <article>
+                <span class="step-number">{index + 1}</span>
+                <span class="step-icon"><DelfB1Icon name={step.icon} /></span>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="b1-section" aria-labelledby="available-title">
+      <h2 id="available-title">Contenidos disponibles</h2>
+      <ul class="content-grid">
+        {
+          delfB1ContentCards.map((card) => (
+            <li>
+              <a class:list={["content-card", { "content-card-highlight": card.highlighted }]} href={withBase(card.href)}>
+                <span class="content-icon"><DelfB1Icon name={card.icon} /></span>
+                <div>
+                  <h3>{card.title}</h3>
+                  <p>{card.description}</p>
+                  <ul class="tag-list" aria-label="Metadatos">
+                    {card.tags.map((tag) => <li>{tag}</li>)}
+                  </ul>
+                  <span class:list={["status-badge", card.status === "Disponible" ? "is-available" : "is-expanding"]}>
+                    {card.status}
+                  </span>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="oral-focus" aria-labelledby="oral-focus-title">
+      <div class="oral-intro">
+        <span class="spark" aria-hidden="true">✦</span>
+        <h2 id="oral-focus-title">Foco en la producción oral</h2>
+        <p>Tres ejercicios, un objetivo: expresarte con claridad, coherencia y seguridad.</p>
+        <a href={withBase("/delf/b1/production-orale/")}>
+          <DelfB1Icon name="star" />
+          Empieza por la tarea más trabajada del sitio.
+        </a>
+      </div>
+
+      <ol class="oral-grid">
+        {
+          delfB1OralExercises.map((exercise) => (
+            <li>
+              <article class:list={["oral-card", { "oral-card-featured": Boolean(exercise.badge) }]}>
+                {exercise.badge && <span class="corner-label">{exercise.badge}</span>}
+                <span class="oral-number">{exercise.number}</span>
+                <span class="content-icon"><DelfB1Icon name={exercise.icon} /></span>
+                <h3>{exercise.title}</h3>
+                <p>{exercise.description}</p>
+                <p class="mini-meta">
+                  <span>{exercise.duration}</span>
+                  <span>{exercise.points}</span>
+                </p>
+                <span class="status-badge is-available">Disponible</span>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+      <svg class="focus-eiffel" viewBox="0 0 150 260" aria-hidden="true" focusable="false">
+        <path d="M75 12 28 238M78 12l45 226M48 145h55M38 190h76M59 82h33M76 12v226" />
+        <path d="M30 238h93M54 238l22-48 23 48" />
+      </svg>
+    </section>
+
+    <section class="evaluation-section" aria-labelledby="evaluation-title">
+      <div class="evaluation-copy">
+        <h2 id="evaluation-title">Cómo se evalúa</h2>
+        <p>Seis criterios para medir tu desempeño en cada producción oral del DELF B1.</p>
+        <a href={withBase("/delf/b1/criterios-evaluacion/")}>
+          Ver criterios completos
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <ol class="criteria-grid">
+        {
+          delfB1EvaluationCriteria.map((criterion, index) => (
+            <li>
+              <article>
+                <span class="content-icon"><DelfB1Icon name={criterion.icon} /></span>
+                <strong>{index + 1}</strong>
+                <span>{criterion.name}</span>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="resources-block" aria-labelledby="resources-title">
+      <h2 id="resources-title">Gramática y recursos relacionados</h2>
+      <div class="resource-panel-grid">
+        {
+          delfB1RelatedResources.map((group) => (
+            <article class="resource-panel">
+              <h3>{group.title}</h3>
+              <ul>
+                {
+                  group.items.map((item) => (
+                    <li>
+                      {item.href ? (
+                        <a href={withBase(item.href)}>
+                          <DelfB1Icon name={item.icon} />
+                          <span>{item.label}</span>
+                          {item.status === "En expansion" && <small>En expansión</small>}
+                        </a>
+                      ) : (
+                        <span class="resource-static">
+                          <DelfB1Icon name={item.icon} />
+                          <span>{item.label}</span>
+                          <small>En expansión</small>
+                        </span>
+                      )}
+                    </li>
+                  ))
+                }
+              </ul>
+            </article>
+          ))
+        }
+        <svg class="metro-scene" viewBox="0 0 330 205" aria-hidden="true" focusable="false">
+          <path d="M12 176c39-22 71-24 96-9 31-21 63-23 95-5 35-17 70-17 112 2" />
+          <path d="M34 184h262M220 162v-58M204 104h32M214 92h12M209 83h22M220 70v13" />
+          <path d="M62 162v-40h35v40M72 143h15M118 162v-52h42v52M131 134h17M182 162v-31h27v31" />
+          <path d="M250 132h38v26h-38z" />
+          <path d="M256 141h26M256 151h26" />
+        </svg>
+      </div>
+    </section>
+  </div>
+
+  <section class="final-cta" aria-labelledby="next-step-title">
+    <div class="container final-cta-inner">
+      <div class="final-title">
+        <span aria-hidden="true">✦</span>
+        <h2 id="next-step-title">Elige tu próximo paso</h2>
+      </div>
+      <ul>
+        {
+          delfB1FinalSteps.map((step) => (
+            <li>
+              <a href={withBase(step.href)}>
+                <DelfB1Icon name={step.icon} />
+                <span>
+                  <strong>{step.title}</strong>
+                  <small>{step.description}</small>
+                  <em>{step.cta} <span aria-hidden="true">→</span></em>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</main>
+
+<style>
+  .delf-b1-page {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 8% 8%, rgba(184, 134, 11, 0.07), transparent 18rem),
+      radial-gradient(circle at 92% 34%, rgba(0, 85, 164, 0.06), transparent 20rem),
+      var(--color-bg);
+  }
+
+  .b1-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: 1.2rem 2.25rem;
+    border-bottom: 1px solid rgba(226, 222, 215, 0.7);
+  }
+
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: var(--color-blue-dark);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .breadcrumb a {
+    color: var(--color-blue);
+  }
+
+  .breadcrumb a:hover,
+  .breadcrumb a:focus-visible {
+    color: var(--color-blue-dark);
+  }
+
+  .hero-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(22rem, 0.72fr);
+    gap: clamp(1.2rem, 4vw, 4rem);
+    align-items: center;
+  }
+
+  .hero-copy {
+    padding-block: 0.5rem 1rem;
+  }
+
+  .level-pill,
+  .status-badge,
+  .corner-label,
+  .mini-meta span {
+    display: inline-flex;
+    align-items: center;
+    width: max-content;
+    max-width: 100%;
+    border: 1px solid rgba(184, 134, 11, 0.35);
+    border-radius: var(--radius-sm);
+    background: #fff6e5;
+    color: #855f06;
+    font-size: 0.72rem;
+    font-weight: 900;
+    line-height: 1.1;
+  }
+
+  .level-pill {
+    margin-bottom: 0.8rem;
+    padding: 0.28rem 0.62rem;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-copy h1 {
+    max-width: 13.4ch;
+    font-size: clamp(2.5rem, 5.4vw, 5rem);
+    line-height: 0.98;
+  }
+
+  .hero-copy p {
+    max-width: 37rem;
+    margin: 1rem 0 0;
+    color: var(--color-blue-dark);
+    font-size: clamp(0.98rem, 1.5vw, 1.1rem);
+    line-height: 1.48;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.35rem;
+  }
+
+  .hero-actions .button {
+    gap: 0.45rem;
+    min-height: 2.85rem;
+    padding-inline: 1.25rem;
+    font-size: 0.86rem;
+  }
+
+  .hero-actions .button-secondary {
+    --b1-icon-size: 1rem;
+  }
+
+  .quick-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(184, 134, 11, 0.38);
+    border-radius: 1rem;
+    background: #fffdf8;
+    box-shadow: 0 16px 38px rgba(11, 47, 85, 0.16);
+  }
+
+  .quick-card-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.15rem 1.3rem;
+    background: linear-gradient(135deg, #0b2f55, #003d78);
+    color: #ffffff;
+  }
+
+  .quick-card-header h2 {
+    color: #ffffff;
+    font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+    text-align: center;
+  }
+
+  .quick-card-header > span {
+    display: grid;
+    width: 4.25rem;
+    height: 4.25rem;
+    place-items: center;
+    border: 2px solid #f7dc9b;
+    border-radius: 999px;
+    background: var(--color-gold);
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 800;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.22);
+  }
+
+  .quick-card-body {
+    padding: 1.15rem 1.35rem 0.95rem;
+  }
+
+  .quick-card dl {
+    margin: 0;
+  }
+
+  .quick-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .quick-stats div {
+    display: grid;
+    gap: 0.3rem;
+    justify-items: center;
+    min-height: 7rem;
+    padding: 0.5rem;
+    text-align: center;
+  }
+
+  .quick-stats div + div {
+    border-left: 1px solid var(--color-border);
+  }
+
+  .quick-card dt {
+    --b1-icon-size: 2.35rem;
+    display: grid;
+    place-items: center;
+    color: var(--color-blue-dark);
+    font-size: 0.01rem;
+  }
+
+  .quick-card dd {
+    display: grid;
+    justify-items: center;
+    margin: 0;
+    color: var(--color-blue-dark);
+    font-weight: 900;
+    line-height: 1.05;
+  }
+
+  .quick-card dd strong {
+    font-size: 1.65rem;
+  }
+
+  .quick-card dd span,
+  .quick-card dd small {
+    font-size: 0.68rem;
+    font-weight: 800;
+  }
+
+  .minimums {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    padding-top: 0.8rem;
+    border-top: 1px dashed rgba(11, 47, 85, 0.25);
+  }
+
+  .minimums div {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.7rem;
+    align-items: center;
+    padding: 0.5rem 1rem;
+  }
+
+  .minimums div + div {
+    border-left: 1px solid var(--color-border);
+  }
+
+  .minimums dd {
+    justify-items: start;
+  }
+
+  .minimums dd span,
+  .minimums dd small {
+    color: var(--color-text-muted);
+  }
+
+  .quick-status {
+    --b1-icon-size: 1.45rem;
+    display: flex;
+    min-height: 3.4rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    border-top: 1px solid rgba(184, 134, 11, 0.34);
+    background: #fff7e8;
+    color: #855f06;
+    font-weight: 900;
+  }
+
+  .delf-b1-page svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.65;
+  }
+
+  .hero-eiffel {
+    position: absolute;
+    right: max(38%, 25rem);
+    bottom: -0.45rem;
+    z-index: 1;
+    width: clamp(7rem, 13vw, 12rem);
+    color: rgba(11, 47, 85, 0.4);
+  }
+
+  .hero-plane {
+    position: absolute;
+    top: 2.6rem;
+    left: min(48vw, 38rem);
+    z-index: 1;
+    width: 7rem;
+    color: var(--color-gold);
+  }
+
+  .hero-plane .dash {
+    stroke-dasharray: 4 6;
+  }
+
+  .hero-skyline {
+    position: absolute;
+    right: 0;
+    bottom: -0.1rem;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    color: rgba(11, 47, 85, 0.16);
+  }
+
+  .b1-shell {
+    display: grid;
+    gap: 1.25rem;
+    padding-block: 1.1rem 1.2rem;
+  }
+
+  .b1-section {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .b1-section > h2,
+  .evaluation-copy h2,
+  .resources-block h2,
+  .final-title h2 {
+    font-size: clamp(1.45rem, 2.3vw, 1.9rem);
+  }
+
+  .exam-grid,
+  .route-grid,
+  .content-grid,
+  .oral-grid,
+  .criteria-grid,
+  .final-cta ul,
+  .resource-panel ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .exam-grid,
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .exam-card,
+  .content-card,
+  .oral-card,
+  .criteria-grid article {
+    position: relative;
+    height: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.76);
+    box-shadow: 0 1px 2px rgba(11, 47, 85, 0.05);
+  }
+
+  .exam-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.9rem;
+    min-height: 11rem;
+    padding: 1rem;
+  }
+
+  .exam-card-focus,
+  .content-card-highlight,
+  .oral-card-featured {
+    border-color: rgba(184, 134, 11, 0.72);
+    background:
+      linear-gradient(135deg, rgba(255, 248, 234, 0.78), rgba(255, 255, 255, 0.9)),
+      #ffffff;
+  }
+
+  .corner-label {
+    position: absolute;
+    top: -0.75rem;
+    right: 0.85rem;
+    padding: 0.24rem 0.55rem;
+    font-size: 0.63rem;
+  }
+
+  .icon-disc,
+  .content-icon,
+  .step-icon {
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    color: var(--color-blue-dark);
+  }
+
+  .icon-disc {
+    --b1-icon-size: 2rem;
+    width: 3.6rem;
+    height: 3.6rem;
+    background: var(--color-surface-soft);
+  }
+
+  .exam-card h3,
+  .content-card h3,
+  .oral-card h3,
+  .resource-panel h3 {
+    color: var(--color-blue-dark);
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+  }
+
+  .exam-card p,
+  .content-card p,
+  .oral-card p,
+  .evaluation-copy p,
+  .final-cta small {
+    margin: 0.55rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .mini-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .mini-meta span {
+    min-height: 1.35rem;
+    padding: 0.2rem 0.48rem;
+    border-color: var(--color-border);
+    background: #ffffff;
+    color: var(--color-blue-dark);
+    font-size: 0.68rem;
+  }
+
+  .route-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.7rem;
+    counter-reset: route;
+  }
+
+  .route-grid li {
+    position: relative;
+  }
+
+  .route-grid li:not(:last-child)::after {
+    position: absolute;
+    top: 2rem;
+    right: -1.45rem;
+    width: 1.2rem;
+    border-top: 2px dashed rgba(11, 47, 85, 0.35);
+    content: "";
+  }
+
+  .route-grid article {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem;
+    min-height: 9.7rem;
+    align-items: start;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.76);
+  }
+
+  .step-number,
+  .oral-number {
+    display: grid;
+    width: 1.65rem;
+    height: 1.65rem;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--color-blue-dark);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 900;
+  }
+
+  .step-icon {
+    --b1-icon-size: 2rem;
+    width: 2.8rem;
+    height: 2.8rem;
+    background: transparent;
+  }
+
+  .route-grid h3,
+  .route-grid p {
+    grid-column: 2;
+  }
+
+  .route-grid h3 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+  }
+
+  .route-grid p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .content-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.85rem;
+    min-height: 11.8rem;
+    overflow: hidden;
+    padding: 1rem;
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .content-card:hover,
+  .content-card:focus-visible,
+  .final-cta a:hover,
+  .final-cta a:focus-visible {
+    transform: translateY(-2px);
+    border-color: rgba(184, 134, 11, 0.55);
+    box-shadow: var(--shadow-md);
+  }
+
+  .content-card .content-icon {
+    --b1-icon-size: 2rem;
+    width: 2.8rem;
+    height: 2.8rem;
+    background: rgba(239, 237, 232, 0.72);
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding: 0;
+    margin: 0.8rem 0 0.65rem;
+    list-style: none;
+  }
+
+  .tag-list li {
+    padding: 0.22rem 0.48rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.35rem;
+    background: #f7f9fc;
+    color: var(--color-blue-dark);
+    font-size: 0.64rem;
+    font-weight: 800;
+  }
+
+  .status-badge {
+    min-height: 1.7rem;
+    padding: 0.32rem 0.56rem;
+    font-size: 0.68rem;
+  }
+
+  .status-badge.is-available {
+    border-color: rgba(36, 113, 68, 0.24);
+    background: #e9f4ec;
+    color: #247144;
+  }
+
+  .status-badge.is-expanding {
+    border-color: rgba(112, 83, 184, 0.24);
+    background: #f2edff;
+    color: #5f409e;
+  }
+
+  .oral-focus,
+  .evaluation-section,
+  .resources-block {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(184, 134, 11, 0.44);
+    border-radius: 0.75rem;
+    background:
+      linear-gradient(125deg, rgba(255, 248, 234, 0.74), rgba(255, 255, 255, 0.82)),
+      #ffffff;
+  }
+
+  .oral-focus {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.25fr) minmax(0, 0.75fr);
+    gap: 1.2rem;
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .oral-intro {
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+    padding: 0.1rem 0.3rem 0.1rem 0;
+  }
+
+  .spark,
+  .final-title > span {
+    color: var(--color-gold);
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .oral-intro h2 {
+    max-width: 11ch;
+    font-size: clamp(1.6rem, 2.7vw, 2rem);
+  }
+
+  .oral-intro p {
+    margin: 0;
+    color: var(--color-blue-dark);
+    font-size: 0.88rem;
+    line-height: 1.42;
+  }
+
+  .oral-intro a {
+    --b1-icon-size: 1.3rem;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.65rem;
+    align-items: center;
+    margin-top: 0.8rem;
+    padding: 0.85rem;
+    border: 1px solid rgba(184, 134, 11, 0.35);
+    border-radius: var(--radius-sm);
+    background: #fff8ea;
+    color: #855f06;
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+
+  .oral-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    z-index: 1;
+  }
+
+  .oral-card {
+    display: grid;
+    gap: 0.5rem;
+    min-height: 13.2rem;
+    padding: 1rem;
+  }
+
+  .oral-card .content-icon {
+    --b1-icon-size: 2rem;
+    justify-self: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    color: var(--color-blue-dark);
+  }
+
+  .oral-number {
+    background: var(--color-gold);
+  }
+
+  .focus-eiffel {
+    position: absolute;
+    right: 1.2rem;
+    bottom: -0.15rem;
+    width: 5.8rem;
+    color: rgba(184, 134, 11, 0.32);
+  }
+
+  .evaluation-section {
+    display: grid;
+    grid-template-columns: minmax(11rem, 0.22fr) minmax(0, 0.78fr);
+    gap: 0.85rem;
+    padding: 1rem;
+    border-color: var(--color-border);
+    background: rgba(255, 255, 255, 0.74);
+  }
+
+  .evaluation-copy {
+    display: grid;
+    align-content: center;
+    gap: 0.45rem;
+  }
+
+  .evaluation-copy a {
+    display: inline-flex;
+    width: max-content;
+    max-width: 100%;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.25rem;
+    color: var(--color-blue-dark);
+    font-size: 0.82rem;
+    font-weight: 900;
+  }
+
+  .criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .criteria-grid article {
+    display: grid;
+    min-height: 8.6rem;
+    justify-items: center;
+    align-content: center;
+    gap: 0.4rem;
+    padding: 0.85rem;
+    text-align: center;
+  }
+
+  .criteria-grid .content-icon {
+    --b1-icon-size: 2rem;
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+
+  .criteria-grid strong {
+    color: var(--color-blue-dark);
+    font-size: 1rem;
+  }
+
+  .criteria-grid span {
+    color: var(--color-blue-dark);
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .resources-block {
+    display: grid;
+    gap: 0.85rem;
+    padding: 1rem;
+    border-color: var(--color-border);
+    background: rgba(255, 255, 255, 0.58);
+  }
+
+  .resource-panel-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(16rem, 0.48fr);
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .resource-panel {
+    display: grid;
+    gap: 0.6rem;
+    padding: 1rem;
+    border: 1px solid rgba(184, 134, 11, 0.32);
+    border-radius: 0.75rem;
+    background: #fffdf8;
+  }
+
+  .resource-panel a,
+  .resource-static {
+    --b1-icon-size: 1rem;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.65rem;
+    align-items: center;
+    min-height: 2rem;
+    color: var(--color-blue-dark);
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+
+  .resource-panel a::after {
+    content: "›";
+  }
+
+  .resource-panel small {
+    color: var(--color-gold);
+    font-size: 0.62rem;
+    font-weight: 900;
+  }
+
+  .resource-static {
+    color: var(--color-text-muted);
+  }
+
+  .metro-scene {
+    align-self: end;
+    color: rgba(11, 47, 85, 0.42);
+  }
+
+  .final-cta {
+    padding: 0 0 1.7rem;
+  }
+
+  .final-cta-inner {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.25fr) minmax(0, 0.75fr);
+    gap: 1.2rem;
+    align-items: center;
+    padding: 1.2rem;
+    border-radius: 1rem;
+    background:
+      linear-gradient(135deg, #003d78, #0b2f55),
+      var(--color-blue-dark);
+    color: #ffffff;
+    box-shadow: 0 18px 44px rgba(11, 47, 85, 0.2);
+  }
+
+  .final-title h2 {
+    max-width: 10ch;
+    color: #ffffff;
+  }
+
+  .final-cta ul {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .final-cta a {
+    --b1-icon-size: 2.25rem;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.85rem;
+    min-height: 7.3rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 0.75rem;
+    background: #fffdf8;
+    color: var(--color-blue-dark);
+    transition:
+      transform 160ms ease,
+      box-shadow 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .final-cta strong,
+  .final-cta small,
+  .final-cta em {
+    display: block;
+  }
+
+  .final-cta strong {
+    font-family: var(--font-display);
+    font-size: 0.98rem;
+    line-height: 1.15;
+  }
+
+  .final-cta em {
+    margin-top: 0.65rem;
+    color: var(--color-gold);
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 900;
+  }
+
+  @media (max-width: 1120px) {
+    .exam-grid,
+    .content-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .criteria-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .hero-eiffel {
+      right: 47%;
+    }
+  }
+
+  @media (max-width: 980px) {
+    .hero-grid,
+    .oral-focus,
+    .evaluation-section,
+    .final-cta-inner,
+    .resource-panel-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-copy h1 {
+      max-width: 16ch;
+    }
+
+    .quick-card {
+      max-width: 38rem;
+    }
+
+    .hero-eiffel {
+      right: 5%;
+      width: 8rem;
+      opacity: 0.45;
+    }
+
+    .route-grid,
+    .oral-grid,
+    .final-cta ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .route-grid li:not(:last-child)::after {
+      display: none;
+    }
+
+    .oral-intro h2,
+    .final-title h2 {
+      max-width: none;
+    }
+
+    .metro-scene {
+      max-height: 12rem;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .b1-hero {
+      padding-block: 1rem 1.6rem;
+    }
+
+    .hero-grid,
+    .b1-shell {
+      gap: 1rem;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(2.18rem, 12vw, 3.2rem);
+    }
+
+    .hero-actions,
+    .hero-actions .button {
+      width: 100%;
+    }
+
+    .quick-stats,
+    .minimums,
+    .exam-grid,
+    .route-grid,
+    .content-grid,
+    .oral-grid,
+    .criteria-grid,
+    .final-cta ul {
+      grid-template-columns: 1fr;
+    }
+
+    .quick-stats div + div,
+    .minimums div + div {
+      border-left: 0;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .quick-stats div {
+      min-height: 5.8rem;
+    }
+
+    .exam-card,
+    .content-card {
+      min-height: auto;
+    }
+
+    .route-grid {
+      gap: 0.85rem;
+    }
+
+    .route-grid article {
+      min-height: auto;
+    }
+
+    .resource-panel a,
+    .resource-static {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .resource-panel a::after,
+    .resource-panel small {
+      grid-column: 2;
+    }
+
+    .hero-plane {
+      top: 3.2rem;
+      right: 1rem;
+      left: auto;
+      width: 4.7rem;
+      opacity: 0.72;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .breadcrumb {
+      font-size: 0.72rem;
+    }
+
+    .level-pill {
+      font-size: 0.64rem;
+    }
+
+    .hero-copy p,
+    .oral-intro p {
+      font-size: 0.9rem;
+    }
+
+    .quick-card-header {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .quick-card-header > span {
+      width: 3.7rem;
+      height: 3.7rem;
+      font-size: 1.45rem;
+    }
+
+    .exam-card,
+    .content-card,
+    .route-grid article,
+    .oral-card,
+    .criteria-grid article,
+    .resource-panel,
+    .final-cta a {
+      border-radius: var(--radius-sm);
+    }
+
+    .final-cta-inner {
+      border-radius: 0;
+    }
+  }
+</style>
