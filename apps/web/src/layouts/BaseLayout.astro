@@ -7,17 +7,20 @@ import { withBase } from "../utils/paths";
 interface Props {
   title?: string;
   description?: string;
+  canonical?: string;
 }
 
 const {
   title = "Aprende Francés Viajando",
   description = "Plataforma para aprender francés por niveles, preparar el DELF y practicar con recursos guiados.",
+  canonical,
 } = Astro.props;
 
 const pageTitle =
   title === "Aprende Francés Viajando"
     ? title
     : `${title} | Aprende Francés Viajando`;
+const canonicalHref = canonical ? withBase(canonical) : undefined;
 ---
 
 <!doctype html>
@@ -33,6 +36,11 @@ const pageTitle =
     <meta name="description" content={description} />
 
     <title>{pageTitle}</title>
+    {canonicalHref && <link rel="canonical" href={canonicalHref} />}
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {canonicalHref && <meta property="og:url" content={canonicalHref} />}
 
     <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
     <link rel="icon" href={withBase("/favicon.ico")} />

@@ -1,0 +1,970 @@
+---
+import type { DelfExamSpec } from "../../data/delfExamSpecs";
+import { getContentRoute } from "../../utils/contentRoutes";
+import { withBase } from "../../utils/paths";
+import DelfContentCard from "./DelfContentCard.astro";
+import DelfInlineIcon from "./DelfInlineIcon.astro";
+
+interface Props {
+  entry: any;
+  spec: DelfExamSpec;
+  relatedItems: any[];
+  nextItem?: any;
+}
+
+const { entry, spec, relatedItems, nextItem } = Astro.props;
+const levelHref = withBase("/delf/b2/");
+const listeningItem = relatedItems.find((item: any) => item.id === "delf/b2/comprehension-orale");
+const listeningHref =
+  (listeningItem ? getContentRoute(listeningItem) : undefined) ?? withBase("/delf/b2/comprehension-orale/");
+const nextHref = (nextItem ? getContentRoute(nextItem) : undefined) ?? listeningHref;
+
+const toc = [
+  { id: "resumen-del-examen", label: "Resumen del examen" },
+  { id: "las-4-pruebas", label: "Las 4 pruebas del DELF B2" },
+  { id: "recorrido-del-dia-del-examen", label: "Recorrido del día del examen" },
+  { id: "como-se-obtiene-el-diploma", label: "Cómo se obtiene el diploma" },
+  { id: "que-evalua-el-delf-b2", label: "Qué evalúa el DELF B2" },
+  { id: "errores-frecuentes", label: "Errores frecuentes" },
+  { id: "recursos-relacionados", label: "Recursos relacionados" },
+  { id: "siguiente-paso", label: "Siguiente paso" },
+];
+
+const quickStats = [
+  { icon: "target", value: "4 competencias", label: "Evaluadas", tone: "blue" },
+  { icon: "trophy", value: spec.totalScore, label: "Puntuación total", tone: "gold" },
+  { icon: "star", value: spec.scorePerSkill, label: "Por cada prueba", tone: "orange" },
+  { icon: "check", value: spec.globalMinimum, label: "Mínimo global para aprobar", tone: "green" },
+  { icon: "shield", value: spec.minimumPerSkill, label: "Mínimo por competencia", tone: "violet" },
+];
+
+const examSkills = [
+  {
+    number: "1.",
+    title: "Compréhension de l'oral",
+    label: "Comprensión oral",
+    icon: "headphones",
+    tone: "blue",
+    href: listeningHref,
+    status: "Disponible para practicar",
+    objective:
+      "Comprender documentos orales, seguir una postura y reconocer argumentos, detalles y matices.",
+    duration: spec.skills[0].duration,
+    score: spec.skills[0].score,
+    documents: "Audios de tipo entrevista, debate, reportaje, crónica o exposición.",
+    task:
+      "Leer las preguntas, escuchar de forma estratégica, tomar notas útiles y responder con precisión.",
+  },
+  {
+    number: "2.",
+    title: "Compréhension des écrits",
+    label: "Comprensión escrita",
+    icon: "book",
+    tone: "green",
+    status: "Disponible para practicar",
+    objective:
+      "Comprender textos complejos de la vida cotidiana, académica o profesional.",
+    duration: spec.skills[1].duration,
+    score: spec.skills[1].score,
+    documents: "Textos informativos, argumentativos, de opinión o de interés general.",
+    task:
+      "Localizar información, distinguir tesis y argumentos, interpretar relaciones lógicas y evitar distractores.",
+  },
+  {
+    number: "3.",
+    title: "Production écrite",
+    label: "Producción escrita",
+    icon: "pen",
+    tone: "orange",
+    status: "Disponible para practicar",
+    objective:
+      "Expresarse por escrito de manera clara, detallada y argumentada sobre temas generales.",
+    duration: spec.skills[2].duration,
+    score: spec.skills[2].score,
+    documents: "Consigna de producción argumentada con extensión mínima indicada.",
+    task:
+      "Definir una postura, organizar ideas, justificar con ejemplos y revisar coherencia, registro y lengua.",
+  },
+  {
+    number: "4.",
+    title: "Production orale",
+    label: "Producción oral",
+    icon: "chat",
+    tone: "violet",
+    status: "Próximamente",
+    objective:
+      "Argumentar y expresar opiniones con fluidez y precisión en una situación de interacción.",
+    duration: `${spec.skills[3].duration} + ${spec.skills[3].preparation} de preparación`,
+    score: spec.skills[3].score,
+    documents: "Exposición individual y conversación con el jurado.",
+    task:
+      "Preparar un punto de vista, defenderlo con argumentos y responder a objeciones del examinador.",
+  },
+];
+
+const timeline = [
+  { step: "1", icon: "id", title: "Llegada e identificación", text: "Presentas tu documento y te registras." },
+  { step: "2", icon: "group", title: "Pruebas colectivas", text: "Comienzas con comprensión oral y luego comprensión escrita." },
+  { step: "3", icon: "clock", title: "Producción escrita", text: "Realizas la tarea de producción escrita." },
+  { step: "4", icon: "mic", title: "Preparación oral", text: "Tienes 30 minutos para preparar tu exposición." },
+  { step: "5", icon: "chat", title: "Producción oral", text: "Interactúas con el examinador o jurado." },
+  { step: "6", icon: "clipboard", title: "Entrega y cierre", text: "Los resultados llegan después según el centro." },
+];
+
+const evaluationItems = [
+  "Comprender ideas principales y detalles en textos y audios complejos.",
+  "Interactuar con fluidez y espontaneidad.",
+  "Argumentar, defender opiniones y justificar ideas.",
+  "Organizar un discurso claro y coherente.",
+  "Usar vocabulario amplio y variado.",
+  "Mostrar corrección gramatical y registro adecuado a la situación.",
+];
+
+const frequentErrors = [
+  "No leer bien las consignas.",
+  "No gestionar el tiempo.",
+  "Responder demasiado corto.",
+  "No estructurar los argumentos.",
+  "Cometer errores básicos que afectan la claridad.",
+];
+
+const nextLinks = [
+  { label: "Entrenar Comprensión oral", href: listeningHref, primary: true },
+  { label: "Volver a DELF B2", href: levelHref },
+  { label: "Ver recursos DELF B2", href: withBase("/contenidos/?domain=delf&level=b2") },
+];
+---
+
+<main class="b2-structure-page">
+  <div class="container page-container">
+    <nav class="breadcrumb" aria-label="Miga de pan">
+      <a href={withBase("/")}>Inicio</a>
+      <span aria-hidden="true">›</span>
+      <a href={withBase("/delf/")}>DELF</a>
+      <span aria-hidden="true">›</span>
+      <a href={levelHref}>B2</a>
+      <span aria-hidden="true">›</span>
+      <span>Estructura del examen</span>
+    </nav>
+
+    <div class="exam-layout">
+      <aside class="page-index" aria-label="Índice de la página">
+        <div class="level-chip" aria-hidden="true">B2</div>
+        <h2>DELF B2</h2>
+        <nav>
+          <p>Índice de la página</p>
+          <ol>
+            {toc.map((item) => <li><a href={`#${item.id}`}>{item.label}</a></li>)}
+          </ol>
+        </nav>
+        <a class="download-card" href={levelHref}>
+          <span aria-hidden="true">▣</span>
+          <strong>Guía completa DELF B2</strong>
+          <small>Todo lo que necesitas saber para avanzar paso a paso.</small>
+        </a>
+      </aside>
+
+      <div class="main-column">
+        <details class="mobile-index">
+          <summary>Índice de la página</summary>
+          <ol>
+            {toc.map((item) => <li><a href={`#${item.id}`}>{item.label}</a></li>)}
+          </ol>
+        </details>
+
+        <section class="hero-section" aria-labelledby="page-title">
+          <div class="hero-copy">
+            <div class="hero-badges" aria-label="Metadatos de la guía">
+              <span class="badge badge-level">B2</span>
+              <span class="badge">Guía del examen</span>
+              <span class="badge badge-time">{entry.data.duration} de lectura</span>
+              <span class="badge badge-ready">Disponible</span>
+            </div>
+            <h1 id="page-title">Comprende la estructura del DELF B2 para prepararte con confianza</h1>
+            <p>
+              Conoce cómo se organiza el examen, qué se evalúa en cada prueba,
+              cuánto dura y qué necesitas para obtener tu diploma. Una visión
+              clara para planificar tu preparación.
+            </p>
+            <a class="button button-primary hero-action" href={nextHref}>
+              Quiero entrenar Comprensión oral
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <figure class="hero-visual">
+            <img src={withBase("/images/hero-paris.jpg")} alt="Vista de París con la Torre Eiffel" />
+          </figure>
+        </section>
+
+        <section id="resumen-del-examen" class="summary-section" aria-labelledby="summary-title">
+          <h2 id="summary-title">Resumen rápido del DELF B2</h2>
+          <ul class="stat-grid">
+            {
+              quickStats.map((item) => (
+                <li class={`stat-card tone-${item.tone}`}>
+                    <span class="stat-icon" aria-hidden="true">
+                    <DelfInlineIcon name={item.icon} />
+                  </span>
+                  <strong>{item.value}</strong>
+                  <span>{item.label}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section id="las-4-pruebas" class="skills-section" aria-labelledby="skills-title">
+          <div class="section-heading">
+            <h2 id="skills-title">Las 4 pruebas del DELF B2</h2>
+            <p>Cada competencia tiene el mismo valor: 25 puntos.</p>
+          </div>
+          <ul class="exam-card-grid">
+            {
+              examSkills.map((skill) => (
+                <li>
+                  <article class={`exam-card tone-${skill.tone}`}>
+                    <div class="exam-card-header">
+                      <h3>{skill.number} {skill.title}</h3>
+                    </div>
+                    <span class="exam-icon" aria-hidden="true"><DelfInlineIcon name={skill.icon} /></span>
+                    <dl>
+                      <div>
+                        <dt>Objetivo</dt>
+                        <dd>{skill.objective}</dd>
+                      </div>
+                      <div>
+                        <dt>Duración</dt>
+                        <dd>{skill.duration}</dd>
+                      </div>
+                      <div>
+                        <dt>Puntuación</dt>
+                        <dd>{skill.score}</dd>
+                      </div>
+                      <div>
+                        <dt>Documentos</dt>
+                        <dd>{skill.documents}</dd>
+                      </div>
+                      <div>
+                        <dt>Tarea</dt>
+                        <dd>{skill.task}</dd>
+                      </div>
+                    </dl>
+                    {
+                      skill.href ? (
+                        <a class="practice-link" href={skill.href}>{skill.status}</a>
+                      ) : (
+                        <span class="practice-link practice-link-muted">{skill.status}</span>
+                      )
+                    }
+                  </article>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section id="recorrido-del-dia-del-examen" class="timeline-section" aria-labelledby="timeline-title">
+          <h2 id="timeline-title">Recorrido del día del examen</h2>
+          <ol class="timeline">
+            {
+              timeline.map((item) => (
+                <li>
+                  <span class="timeline-number">{item.step}</span>
+                  <span class="timeline-icon" aria-hidden="true"><DelfInlineIcon name={item.icon} /></span>
+                  <strong>{item.title}</strong>
+                  <p>{item.text}</p>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
+
+        <section id="recursos-relacionados" class="related-section" aria-labelledby="related-title">
+          <h2 id="related-title">Recursos relacionados</h2>
+          <ul>
+            {relatedItems.map((item: any) => <li><DelfContentCard item={item} /></li>)}
+          </ul>
+        </section>
+      </div>
+
+      <aside class="side-rail" aria-label="Información complementaria DELF B2">
+        <section id="como-se-obtiene-el-diploma" class="rail-card diploma-card" aria-labelledby="diploma-title">
+          <h2 id="diploma-title">¿Cómo se obtiene el diploma?</h2>
+          <ul>
+            <li><strong>Puntuación total mínima:</strong> {spec.globalMinimum}.</li>
+            <li><strong>Mínimo por competencia:</strong> {spec.minimumPerSkill}.</li>
+            <li>Cada prueba vale {spec.skills[0].score}.</li>
+            <li>Resultado final: apto o no apto.</li>
+          </ul>
+        </section>
+
+        <section id="que-evalua-el-delf-b2" class="rail-card evaluate-card" aria-labelledby="evaluate-title">
+          <h2 id="evaluate-title">¿Qué evalúa el DELF B2?</h2>
+          <ul>
+            {evaluationItems.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+
+        <section id="errores-frecuentes" class="rail-card errors-card" aria-labelledby="errors-title">
+          <h2 id="errors-title">Errores frecuentes</h2>
+          <ul>
+            {frequentErrors.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+
+        <section id="siguiente-paso" class="next-panel" aria-labelledby="next-title">
+          <div>
+            <h2 id="next-title">Tu próximo paso</h2>
+            <p>Elige por dónde quieres continuar tu preparación y avanza paso a paso.</p>
+          </div>
+          <nav aria-label="Navegación relacionada">
+            {nextLinks.map((link) => <a class:list={["next-link", { "next-link-primary": link.primary }]} href={link.href}>{link.label}<span aria-hidden="true">→</span></a>)}
+          </nav>
+        </section>
+      </aside>
+    </div>
+
+    <p class="source-note">
+      Esta información se basa en el formato DELF B2 tout public y en las referencias internas revisadas el {entry.data.sourceCheckedAt}. Los detalles pueden variar según el centro examinador; consulta siempre la guía oficial antes del examen.
+    </p>
+  </div>
+</main>
+
+<style>
+  .b2-structure-page {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 244, 237, 0.82)),
+      var(--color-bg);
+  }
+
+  .page-container {
+    padding-block: 1.2rem 2.2rem;
+  }
+
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .breadcrumb a {
+    color: var(--color-blue-dark);
+  }
+
+  .exam-layout {
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.24fr) minmax(0, 1fr) minmax(14rem, 0.28fr);
+    gap: 1.2rem;
+    align-items: start;
+    margin-top: 1.4rem;
+  }
+
+  .page-index,
+  .rail-card,
+  .next-panel,
+  .stat-card,
+  .exam-card,
+  .source-note {
+    border: 1px solid rgba(11, 47, 85, 0.12);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .page-index,
+  .side-rail {
+    position: sticky;
+    top: 6.1rem;
+  }
+
+  .page-index {
+    overflow: hidden;
+  }
+
+  .level-chip {
+    display: grid;
+    width: 2.35rem;
+    height: 2.35rem;
+    margin: 1rem 1rem 0;
+    place-items: center;
+    border-radius: 0.55rem;
+    background: linear-gradient(135deg, #5a28c9, #30107d);
+    color: #ffffff;
+    font-weight: 900;
+  }
+
+  .page-index h2 {
+    margin: -1.9rem 1rem 0 4rem;
+    font-size: 1.25rem;
+  }
+
+  .page-index nav {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .page-index p {
+    margin: 0 0 0.7rem;
+    color: var(--color-blue-dark);
+    font-weight: 900;
+  }
+
+  .page-index ol,
+  .mobile-index ol,
+  .rail-card ul,
+  .related-section ul {
+    display: grid;
+    gap: 0.55rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .page-index a {
+    display: block;
+    min-height: 2.2rem;
+    padding: 0.48rem 0.58rem;
+    border-radius: 0.42rem;
+    color: var(--color-heading);
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .page-index nav a:hover,
+  .page-index nav a:focus-visible {
+    background: #eee8ff;
+    color: #3814a2;
+  }
+
+  .download-card {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0 1rem 1rem;
+    padding: 0.8rem;
+    border: 1px solid var(--color-border);
+    background: #fbfaff;
+  }
+
+  .download-card span {
+    color: #3b16a6;
+  }
+
+  .download-card strong {
+    display: block;
+    color: var(--color-blue-dark);
+    font-size: 0.82rem;
+  }
+
+  .download-card small {
+    display: block;
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    line-height: 1.45;
+  }
+
+  .main-column,
+  .side-rail {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .mobile-index {
+    display: none;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+  }
+
+  .mobile-index summary {
+    cursor: pointer;
+    color: var(--color-blue-dark);
+    font-weight: 900;
+  }
+
+  .hero-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.96fr) minmax(18rem, 0.76fr);
+    gap: 1.3rem;
+    align-items: center;
+    min-height: 22rem;
+  }
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-bottom: 1rem;
+  }
+
+  .badge {
+    display: inline-flex;
+    min-height: 1.75rem;
+    align-items: center;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background: #f1edff;
+    color: #3814a2;
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .badge-level {
+    background: linear-gradient(135deg, #5628c3, #270b85);
+    color: #ffffff;
+  }
+
+  .badge-time {
+    background: #fff0dc;
+    color: #9b4b00;
+  }
+
+  .badge-ready {
+    background: #e7f6ec;
+    color: #1d6b3d;
+  }
+
+  .hero-copy h1 {
+    max-width: 18ch;
+    font-size: clamp(2.25rem, 3.8vw, 3.45rem);
+    line-height: 1.08;
+  }
+
+  .hero-copy p {
+    max-width: 44rem;
+    margin: 1rem 0 0;
+    color: var(--color-heading);
+    font-size: 0.98rem;
+  }
+
+  .hero-action {
+    gap: 0.6rem;
+    margin-top: 1.15rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #5827c7, #270b85);
+  }
+
+  .hero-visual {
+    position: relative;
+    min-height: 18rem;
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    background: #f8fbff;
+  }
+
+  .hero-visual::after {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.08) 42%, rgba(255, 255, 255, 0.28)),
+      linear-gradient(0deg, rgba(255, 255, 255, 0.9), transparent 42%);
+    content: "";
+  }
+
+  .hero-visual img {
+    width: 100%;
+    height: 100%;
+    min-height: 18rem;
+    object-fit: cover;
+    object-position: 28% center;
+  }
+
+  .summary-section,
+  .skills-section,
+  .timeline-section,
+  .related-section {
+    scroll-margin-top: 6.5rem;
+  }
+
+  .summary-section h2,
+  .skills-section h2,
+  .timeline-section h2,
+  .related-section h2,
+  .rail-card h2,
+  .next-panel h2 {
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding: 0;
+    margin: 0.8rem 0 0;
+    list-style: none;
+  }
+
+  .stat-card {
+    display: grid;
+    min-height: 8.8rem;
+    place-items: center;
+    padding: 1rem 0.75rem;
+    text-align: center;
+  }
+
+  .stat-icon,
+  .exam-icon,
+  .timeline-icon {
+    display: grid;
+    place-items: center;
+    color: currentColor;
+  }
+
+  .stat-icon {
+    width: 2.35rem;
+    height: 2.35rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .stat-card svg,
+  .exam-card svg,
+  .timeline svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+
+  .stat-card strong {
+    color: var(--color-blue-dark);
+    font-size: 0.82rem;
+    font-weight: 900;
+  }
+
+  .stat-card span:last-child {
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+
+  .tone-blue { color: #105be0; }
+  .tone-green { color: #1c8f49; }
+  .tone-gold { color: #c27a00; }
+  .tone-orange { color: #f07800; }
+  .tone-violet { color: #5827c7; }
+
+  .section-heading {
+    margin-top: 0.8rem;
+  }
+
+  .section-heading p {
+    margin: 0.35rem 0 0;
+    color: var(--color-heading);
+  }
+
+  .exam-card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.9rem;
+    padding: 0;
+    margin: 1rem 0 0;
+    list-style: none;
+  }
+
+  .exam-card {
+    display: grid;
+    min-height: 100%;
+    overflow: hidden;
+  }
+
+  .exam-card-header {
+    min-height: 3rem;
+    padding: 0.8rem 1rem;
+    background: color-mix(in srgb, currentColor 12%, #ffffff);
+  }
+
+  .exam-card h3 {
+    font-family: var(--font-body);
+    font-size: 0.93rem;
+    font-weight: 900;
+  }
+
+  .exam-icon {
+    width: 3.15rem;
+    height: 3.15rem;
+    margin: 0.9rem auto 0.2rem;
+  }
+
+  .exam-card dl {
+    display: grid;
+    gap: 0.7rem;
+    padding: 0.8rem 1rem 1rem;
+    margin: 0;
+  }
+
+  .exam-card dt {
+    color: var(--color-blue-dark);
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .exam-card dd {
+    margin: 0.15rem 0 0;
+    color: var(--color-text);
+    font-size: 0.76rem;
+    line-height: 1.48;
+  }
+
+  .practice-link {
+    align-self: end;
+    justify-self: stretch;
+    min-height: 2.2rem;
+    margin: 0 1rem 1rem;
+    padding: 0.52rem 0.7rem;
+    border-radius: 0.42rem;
+    background: #e8f6ec;
+    color: #136a37;
+    font-size: 0.74rem;
+    font-weight: 900;
+    text-align: center;
+  }
+
+  .practice-link-muted {
+    background: #eee8ff;
+    color: #3814a2;
+  }
+
+  .timeline-section {
+    padding-top: 0.6rem;
+  }
+
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.7rem;
+    padding: 0;
+    margin: 1rem 0 0;
+    list-style: none;
+  }
+
+  .timeline li {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .timeline-number {
+    display: grid;
+    width: 1.7rem;
+    height: 1.7rem;
+    place-items: center;
+    border: 1px solid rgba(16, 91, 224, 0.36);
+    border-radius: 50%;
+    background: #eef4ff;
+    color: #1a4ed1;
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .timeline-icon {
+    width: 3.4rem;
+    height: 3.4rem;
+    margin-top: 0.45rem;
+    padding: 0.72rem;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background: #ffffff;
+    color: #1a4ed1;
+  }
+
+  .timeline strong {
+    margin-top: 0.5rem;
+    color: var(--color-blue-dark);
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .timeline p {
+    margin: 0.25rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.68rem;
+    line-height: 1.45;
+  }
+
+  .related-section {
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+  }
+
+  .related-section ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-top: 0.9rem;
+  }
+
+  .rail-card,
+  .next-panel {
+    padding: 1rem;
+    scroll-margin-top: 6.5rem;
+  }
+
+  .rail-card h2,
+  .next-panel h2 {
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    font-weight: 900;
+  }
+
+  .rail-card li {
+    position: relative;
+    padding-left: 1.15rem;
+    color: var(--color-text);
+    font-size: 0.75rem;
+    line-height: 1.55;
+  }
+
+  .rail-card li::before {
+    position: absolute;
+    left: 0;
+    color: #1d8b49;
+    font-weight: 900;
+    content: "✓";
+  }
+
+  .diploma-card {
+    background: linear-gradient(180deg, #f2edff, #ffffff 34%);
+  }
+
+  .errors-card li::before {
+    color: #c7372f;
+    content: "×";
+  }
+
+  .next-panel {
+    display: grid;
+    gap: 0.85rem;
+    background:
+      linear-gradient(130deg, #f1edff, rgba(255, 255, 255, 0.92)),
+      #ffffff;
+  }
+
+  .next-panel p {
+    margin: 0.4rem 0 0;
+    color: var(--color-heading);
+    font-size: 0.78rem;
+  }
+
+  .next-panel nav {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .next-link {
+    display: flex;
+    min-height: 2.4rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #dfd5ff;
+    border-radius: 0.48rem;
+    background: #ffffff;
+    color: #3814a2;
+    font-size: 0.74rem;
+    font-weight: 900;
+  }
+
+  .next-link-primary {
+    border-color: transparent;
+    background: linear-gradient(135deg, #5827c7, #270b85);
+    color: #ffffff;
+  }
+
+  .source-note {
+    margin: 1rem 0 0;
+    padding: 0.85rem 1rem;
+    color: var(--color-heading);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 1180px) {
+    .exam-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.32fr);
+    }
+
+    .page-index {
+      display: none;
+    }
+
+    .mobile-index {
+      display: block;
+    }
+
+    .stat-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .exam-card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .timeline {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 860px) {
+    .exam-layout,
+    .hero-section {
+      grid-template-columns: 1fr;
+    }
+
+    .side-rail {
+      position: static;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .next-panel {
+      grid-column: 1 / -1;
+    }
+
+    .hero-copy h1 {
+      max-width: 18ch;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page-container {
+      padding-block: 1rem 1.6rem;
+    }
+
+    .hero-section {
+      min-height: 0;
+      gap: 0.9rem;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(2rem, 12vw, 3rem);
+    }
+
+    .hero-visual,
+    .hero-visual img {
+      min-height: 13.5rem;
+    }
+
+    .stat-grid,
+    .exam-card-grid,
+    .timeline,
+    .related-section ul,
+    .side-rail {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+      min-height: 7.4rem;
+    }
+  }
+</style>
