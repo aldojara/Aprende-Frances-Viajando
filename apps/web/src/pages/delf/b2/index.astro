@@ -1,8 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import DelfLevelPage from "../../../components/delf/DelfLevelPage.astro";
-import { delfExamSpecs } from "../../../data/delfExamSpecs";
+import DelfB2LandingPage from "../../../components/delf/DelfB2LandingPage.astro";
 
 const contents = (await getCollection("content"))
   .filter(
@@ -16,8 +15,8 @@ const contents = (await getCollection("content"))
 ---
 
 <BaseLayout
-  title="DELF B2 en expansión"
-  description="Ruta inicial DELF B2 centrada en comprensión oral y estrategias de escucha."
+  title="DELF B2: preparación avanzada"
+  description="Página DELF B2 para comprender el examen, preparar las cuatro competencias y empezar con comprensión oral y estrategias de escucha."
 >
-  <DelfLevelPage spec={delfExamSpecs.B2} contents={contents} />
+  <DelfB2LandingPage contents={contents} />
 </BaseLayout>
