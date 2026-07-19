@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import DelfB2ExamStructurePage from "../../../../components/delf/DelfB2ExamStructurePage.astro";
+import { delfExamSpecs } from "../../../../data/delfExamSpecs";
+
+const allEntries = (await getCollection("content"))
+  .filter(
+    (item) =>
+      item.data.domain === "delf" &&
+      item.data.publicationStatus === "published" &&
+      item.data.demonstration === false &&
+      item.data.levels.includes("B2"),
+  )
+  .sort((a, b) => (a.data.examOrder ?? 999) - (b.data.examOrder ?? 999));
+
+const relatedItems = allEntries.filter((item) =>
+  ["delf/b2/comprehension-orale", "delf/b2/estrategias-de-escucha"].includes(item.id),
+);
+const nextItem = allEntries.find((item) => item.id === "delf/b2/comprehension-orale");
+const entry = {
+  data: {
+    duration: "10-12 min",
+    sourceCheckedAt: "2026-07-18",
+  },
+};
+---
+
+<BaseLayout
+  title="Estructura del examen DELF B2"
+  description="Conoce las cuatro pruebas del DELF B2, su duración, puntuación y organización antes de comenzar tu preparación."
+  canonical="/delf/b2/estructura-del-examen/"
+>
+  <DelfB2ExamStructurePage
+    entry={entry}
+    spec={delfExamSpecs.B2}
+    relatedItems={relatedItems}
+    nextItem={nextItem}
+  />
+</BaseLayout>
