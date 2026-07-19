@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="220" viewBox="0 0 320 220" role="img" aria-labelledby="title desc">
+  <title id="title">Libro abierto con notas de preparacion</title>
+  <desc id="desc">Ilustracion editorial de un libro abierto para estrategias de escucha DELF B2.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#fbfff8"/>
+      <stop offset="1" stop-color="#e9f6ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="220" rx="18" fill="url(#bg)"/>
+  <path d="M42 165c38-18 77-21 118-8 41-13 80-10 118 8" fill="#ffffff" stroke="#0b2f55" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M160 67v90" stroke="#2f8b57" stroke-width="5" stroke-linecap="round"/>
+  <path d="M49 73c36-14 73-13 111 4v80c-38-17-75-18-111-4zM271 73c-36-14-73-13-111 4v80c38-17 75-18 111-4z" fill="#ffffff" stroke="#0b2f55" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M76 101h54M76 122h45M190 101h54M190 122h38" stroke="#2f8b57" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="249" cy="45" r="8" fill="#d89512"/>
+  <path d="M66 45l11 5 11-5-5 11 5 11-11-5-11 5 5-11z" fill="#5b36d6" opacity=".9"/>
+  <path d="M82 180h156" stroke="#d89512" stroke-width="6" stroke-linecap="round"/>
+</svg>

@@ -23,6 +23,8 @@ const isActive = (href: string) => {
 
   return normalizedCurrentPath.startsWith(href);
 };
+
+const isCurrentPage = (href: string) => normalizedCurrentPath === href;
 ---
 
 <div class="tricolor-bar" aria-hidden="true"></div>
@@ -47,7 +49,7 @@ const isActive = (href: string) => {
               { "nav-link-active": isActive(item.href) },
             ]}
             href={withBase(item.href)}
-            aria-current={isActive(item.href) ? "page" : undefined}
+            aria-current={isCurrentPage(item.href) ? "page" : undefined}
           >
             {item.label}
           </a>
@@ -81,7 +83,7 @@ const isActive = (href: string) => {
                 { "mobile-nav-link-active": isActive(item.href) },
               ]}
               href={withBase(item.href)}
-              aria-current={isActive(item.href) ? "page" : undefined}
+              aria-current={isCurrentPage(item.href) ? "page" : undefined}
             >
               {item.label}
             </a>
@@ -293,7 +295,7 @@ const isActive = (href: string) => {
     width: 100%;
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 900px) {
     .header-inner {
       grid-template-columns: auto minmax(0, 1fr) auto;
     }

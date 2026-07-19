@@ -80,7 +80,7 @@ a:focus-visible,
 button:focus-visible,
 select:focus-visible,
 summary:focus-visible {
-  outline: 3px solid rgba(184, 134, 11, 0.34);
+  outline: 3px solid rgba(0, 85, 164, 0.72);
   outline-offset: 3px;
 }
 

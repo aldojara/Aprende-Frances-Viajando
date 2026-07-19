@@ -1,0 +1,1378 @@
+---
+import StatusBadge from "../shared/StatusBadge.astro";
+import {
+  b2AvailableContents,
+  b2EvaluationCriteria,
+  b2ExamSkills,
+  b2FinalActions,
+  b2FocusSkills,
+  b2PreparationResources,
+  b2RouteSteps,
+  type B2IconName,
+} from "../../data/delfB2Page";
+import { getContentRoute, getFinalContentSlug } from "../../utils/contentRoutes";
+import { withBase } from "../../utils/paths";
+
+interface Props {
+  contents: Array<{
+    id: string;
+    data: {
+      domain: string;
+      levels?: string[];
+      demonstration?: boolean;
+    };
+  }>;
+}
+
+const { contents } = Astro.props;
+const contentRoutesBySlug = new Map(
+  contents.map((item) => [getFinalContentSlug(item.id), getContentRoute(item)]),
+);
+const catalogHref = withBase("/contenidos/?domain=delf&level=b2");
+
+const icons: Record<B2IconName, string> = {
+  headphones:
+    '<path d="M4 13a8 8 0 0 1 16 0"/><path d="M6 13v5a2 2 0 0 0 2 2h1v-7z"/><path d="M18 13v5a2 2 0 0 1-2 2h-1v-7z"/>',
+  book: '<path d="M5 4c2.7-.8 5-.4 7 1.2 2-1.6 4.3-2 7-1.2v15c-2.7-.8-5-.4-7 1.2-2-1.6-4.3-2-7-1.2z"/><path d="M12 5.2v15"/>',
+  pen: '<path d="m14 4 6 6-9.5 9.5-6.8 1.3 1.3-6.8z"/><path d="m12 6 6 6"/>',
+  users:
+    '<path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.3a4 4 0 0 1 0 7.4"/>',
+  target:
+    '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 2v3M22 12h-3M12 22v-3M2 12h3"/><path d="m16.5 7.5 3-3"/>',
+  ear: '<path d="M6 8a6 6 0 0 1 12 0c0 6-6 5.5-6 10a3 3 0 0 1-5.3 1.9"/><path d="M9 8a3 3 0 0 1 6 0c0 2.6-2.8 3-3.7 4.7"/>',
+  note: '<path d="M6 3h10l3 3v15H6z"/><path d="M16 3v4h4"/><path d="M9 12h6M9 16h5"/>',
+  award:
+    '<circle cx="12" cy="8" r="5"/><path d="m8.5 12-1.5 8 5-3 5 3-1.5-8"/><path d="m10 8 1.2 1.2L14.5 6"/>',
+  spark: '<path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M5 19h.01M19 5h.01"/>',
+  grammar:
+    '<path d="M5 19V5h7a4 4 0 0 1 0 8H5"/><path d="M14 11h5M17 8v6"/><path d="M9 13l5 6"/>',
+  download: '<path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/>',
+};
+---
+
+<main class="delf-b2-page">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Migas de pan">
+      <ol>
+        <li><a href={withBase("/")}>Inicio</a></li>
+        <li><a href={withBase("/delf/")}>DELF</a></li>
+        <li aria-current="page">DELF B2</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="b2-hero" aria-labelledby="b2-title">
+    <div class="container b2-hero-grid">
+      <div class="hero-copy">
+        <p class="level-pill">Diploma DELF · Nivel B2</p>
+        <h1 id="b2-title">
+          DELF B2: comprende con profundidad, argumenta con claridad y exprésate con fluidez.
+        </h1>
+        <p>
+          El DELF B2 certifica un nivel avanzado de francés, capaz de comprender textos complejos,
+          interactuar con fluidez y producir textos claros, detallados y bien estructurados.
+        </p>
+        <div class="hero-actions" role="group" aria-label="Acciones principales DELF B2">
+          <a class="button button-primary b2-button-primary" href="#examen-b2">
+            Ver estructura del examen
+            <span aria-hidden="true">→</span>
+          </a>
+          <a class="button button-secondary b2-button-secondary" href={catalogHref}>
+            Explorar contenidos
+          </a>
+        </div>
+      </div>
+
+      <div class="paris-line-art" aria-hidden="true">
+        <svg viewBox="0 0 470 260" focusable="false">
+          <path class="bird" d="M47 38c7-6 15-6 22 0M83 55c7-6 15-6 22 0M29 61c5-4 10-4 15 0" />
+          <path d="M300 224 352 32l52 192" />
+          <path d="M326 130h52M316 168h72M307 202h90M352 32v-16M342 49h20M336 72h32" />
+          <path d="M330 224c14-36 30-54 44-54s30 18 44 54" />
+          <path d="M62 224v-62h54v62M78 190h22M139 224v-84h66v84M154 174h36M154 198h36" />
+          <path d="M214 224v-54h48v54M226 192h24" />
+          <path d="M18 224c50-29 96-34 139-17 38-19 76-19 114 0 53-23 104-21 153 6" />
+        </svg>
+      </div>
+
+      <aside class="path-card" aria-label="Resumen del camino DELF B2">
+        <div class="path-card-top">
+          <h2>Tu camino DELF B2</h2>
+          <ol class="level-progress" aria-label="Progresión de niveles">
+            {["A1", "A2", "B1", "B2"].map((level) => (
+              <li class={`level-node level-${level.toLowerCase()}`}>{level}</li>
+            ))}
+          </ol>
+        </div>
+
+        <dl class="exam-metrics">
+          <div>
+            <dt>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons.headphones} />
+              <strong>4</strong>
+            </dt>
+            <dd>competencias</dd>
+          </div>
+          <div>
+            <dt>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons.spark} />
+              <strong>100</strong>
+            </dt>
+            <dd>puntos</dd>
+          </div>
+          <div>
+            <dt>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons.target} />
+              <strong>25</strong>
+            </dt>
+            <dd>por prueba</dd>
+          </div>
+          <div>
+            <dt>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons.award} />
+              <strong>5/25</strong>
+            </dt>
+            <dd>mínimo por prueba</dd>
+          </div>
+        </dl>
+
+        <p class="diploma-note">
+          Para obtener el diploma se requieren al menos 50/100 puntos en total.
+        </p>
+        <div class="platform-status">
+          <span>Estado en la plataforma:</span>
+          <StatusBadge status="expanding" />
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <div class="container b2-shell">
+    <section id="examen-b2" class="b2-panel exam-overview" aria-labelledby="exam-title">
+      <header class="numbered-heading">
+        <span aria-hidden="true">1</span>
+        <h2 id="exam-title">Tu examen DELF B2 de un vistazo</h2>
+      </header>
+
+      <ul class="exam-skill-grid">
+        {
+          b2ExamSkills.map((skill) => {
+            const href = skill.hrefSlug ? contentRoutesBySlug.get(skill.hrefSlug) : undefined;
+            return (
+              <li>
+                <article class={`exam-skill-card tone-${skill.tone}`}>
+                  <span class="icon-ring" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false" set:html={icons[skill.icon]} />
+                  </span>
+                  <h3>{skill.title}</h3>
+                  <p><strong>Duración:</strong> {skill.duration}</p>
+                  {skill.preparation && <p><strong>Preparación:</strong> {skill.preparation}</p>}
+                  <p><strong>Puntuación:</strong> {skill.score}</p>
+                  <p><strong>Tipo:</strong> {skill.type}</p>
+                  <div class="card-footer">
+                    <StatusBadge status={skill.status} />
+                    {href && <a href={href}>Ver contenidos <span aria-hidden="true">→</span></a>}
+                  </div>
+                </article>
+              </li>
+            );
+          })
+        }
+      </ul>
+
+      <p class="section-note">
+        Las duraciones se presentan como referencia del DELF B2 tout public y deben verificarse siempre con la convocatoria o centro de examen correspondiente.
+      </p>
+    </section>
+
+    <div class="route-content-grid">
+      <section id="ruta-b2" class="b2-panel route-panel" aria-labelledby="route-title">
+        <header class="numbered-heading">
+          <span aria-hidden="true">2</span>
+          <h2 id="route-title">Ruta recomendada para tu preparación B2</h2>
+        </header>
+
+        <ol class="route-steps">
+          {
+            b2RouteSteps.map((step, index) => (
+              <li>
+                <span class="route-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false" set:html={icons[step.icon]} />
+                </span>
+                <span class="step-number">{index + 1}</span>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="b2-panel available-panel" aria-labelledby="available-title">
+        <header class="numbered-heading">
+          <span aria-hidden="true">3</span>
+          <h2 id="available-title">Contenidos disponibles</h2>
+        </header>
+
+        <ul class="available-list">
+          {
+            b2AvailableContents.map((item) => {
+              const href = item.hrefSlug ? contentRoutesBySlug.get(item.hrefSlug) : undefined;
+              return (
+                <li>
+                  <article class="available-item">
+                    <img src={withBase(item.image)} width="96" height="72" alt={item.alt} loading="lazy" />
+                    <div>
+                      <div class="available-title-row">
+                        <h3>{item.title}</h3>
+                        <StatusBadge status={item.status} />
+                      </div>
+                      <p>{item.description}</p>
+                      <ul aria-label="Metadatos del contenido">
+                        <li>{item.meta}</li>
+                        <li>{item.duration}</li>
+                      </ul>
+                    </div>
+                    {href && <a class="item-link" href={href} aria-label={`Abrir ${item.title}`}>→</a>}
+                  </article>
+                </li>
+              );
+            })
+          }
+        </ul>
+
+        <a class="button button-secondary panel-button" href={catalogHref}>Ver todos los contenidos B2</a>
+      </section>
+    </div>
+
+    <section class="focus-panel" aria-labelledby="focus-title">
+      <div class="focus-copy">
+        <header class="numbered-heading">
+          <span aria-hidden="true">4</span>
+          <h2 id="focus-title">Foco actual: Comprensión oral B2</h2>
+        </header>
+        <p>
+          Trabajamos para que desarrolles una escucha analítica y eficaz frente a documentos auténticos de nivel avanzado.
+        </p>
+      </div>
+
+      <ul class="focus-grid">
+        {
+          b2FocusSkills.map((skill) => (
+            <li>
+              <span aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false" set:html={icons[skill.icon]} />
+              </span>
+              <h3>{skill.title}</h3>
+              <p>{skill.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <svg class="bridge-art" viewBox="0 0 300 150" aria-hidden="true" focusable="false">
+        <path d="M12 118c33-20 70-21 111-2 41-20 83-20 126 0" />
+        <path d="M42 104h210M58 104c12-38 34-57 66-57s54 19 66 57M118 104c9-27 25-41 48-41s39 14 48 41" />
+        <path d="M52 118v-52M238 118v-52M145 118V51" />
+        <path d="M92 39c8-7 16-7 24 0M226 36c7-6 14-6 21 0" />
+      </svg>
+    </section>
+
+    <div class="evaluation-resources-grid">
+      <section id="criterios-b2" class="b2-panel evaluation-panel" aria-labelledby="evaluation-title">
+        <header class="numbered-heading">
+          <span aria-hidden="true">5</span>
+          <h2 id="evaluation-title">Cómo se evalúa en DELF B2</h2>
+        </header>
+        <p>Criterios aplicados en las cuatro competencias.</p>
+        <ul id="criterios-detalle-b2" class="criteria-grid">
+          {
+            b2EvaluationCriteria.map((criterion) => (
+              <li>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons[criterion.icon]} />
+                <span>{criterion.title}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <a class="button button-secondary panel-button" href="#criterios-detalle-b2">
+          Ver criterios en detalle
+          <span aria-hidden="true">→</span>
+        </a>
+      </section>
+
+      <section class="b2-panel resources-panel" aria-labelledby="resources-title">
+        <header class="numbered-heading">
+          <span aria-hidden="true">6</span>
+          <h2 id="resources-title">Recursos para tu preparación</h2>
+        </header>
+        <div class="resource-columns">
+          <div>
+            <h3>Para reforzar tu francés</h3>
+            <ul>
+              {
+                b2PreparationResources.reinforcement.map((item) => (
+                  <li>
+                    {item.href ? <a href={withBase(item.href)}>{item.label}</a> : <span>{item.label}</span>}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div>
+            <h3>Para practicar el examen</h3>
+            <ul>
+              {
+                b2PreparationResources.examPractice.map((item) => (
+                  <li>
+                    {item.href ? <a href={withBase(item.href)}>{item.label}</a> : <span>{item.label}</span>}
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+        <svg class="dome-art" viewBox="0 0 180 170" aria-hidden="true" focusable="false">
+          <path d="M26 142h128M42 142V78h96v64M58 142v-35h18v35M104 142v-35h18v35" />
+          <path d="M48 78c8-32 22-48 42-48s34 16 42 48M58 78h64M90 30V12M82 18h16" />
+          <path d="M67 91h14M99 91h14" />
+        </svg>
+      </section>
+    </div>
+
+    <section class="final-cta" aria-labelledby="cta-title">
+      <h2 id="cta-title" class="visually-hidden">Siguientes pasos DELF B2</h2>
+      <svg class="travel-line" viewBox="0 0 940 155" aria-hidden="true" focusable="false">
+        <path d="M20 116c155-80 245 43 360-14 107-53 165-89 277-35 85 40 154 29 252-26" />
+        <path d="M111 62l43 18-41 21 8-24z" />
+        <path d="M35 43h18M44 34v18M796 46h14M803 39v14" />
+      </svg>
+
+      <div class="cta-cards">
+        {
+          b2FinalActions.map((item) => (
+            <article>
+              <span aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false" set:html={icons[item.icon]} />
+              </span>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+                <a href={withBase(item.href)}>{item.action} <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <p class="travel-stamp" aria-hidden="true">Préparer<br />Réussir<br />Voyager</p>
+    </section>
+  </div>
+</main>
+
+<style>
+  .delf-b2-page {
+    background:
+      radial-gradient(circle at 92% 12%, rgba(91, 54, 214, 0.08), transparent 21rem),
+      radial-gradient(circle at 8% 38%, rgba(216, 149, 18, 0.08), transparent 20rem),
+      #fbf9f4;
+  }
+
+  .breadcrumb {
+    padding-block: 1.1rem 0.55rem;
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .breadcrumb li:not(:last-child)::after {
+    margin-left: 0.45rem;
+    color: #5b36d6;
+    content: ">";
+  }
+
+  .breadcrumb a:hover,
+  .breadcrumb a:focus-visible {
+    color: var(--color-blue-dark);
+  }
+
+  .b2-hero {
+    padding-block: 0.65rem 1.25rem;
+  }
+
+  .b2-hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.58fr) minmax(19rem, 0.42fr);
+    gap: clamp(1rem, 3vw, 2rem);
+    align-items: center;
+  }
+
+  .hero-copy {
+    position: relative;
+    z-index: 2;
+    padding-block: 1.6rem;
+  }
+
+  .level-pill {
+    display: inline-flex;
+    margin: 0 0 0.85rem;
+    padding: 0.32rem 0.62rem;
+    border-radius: 999px;
+    background: rgba(91, 54, 214, 0.13);
+    color: #3e22a3;
+    font-size: 0.73rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .hero-copy h1 {
+    max-width: 16.2ch;
+    font-size: clamp(2.25rem, 4.15vw, 3.9rem);
+    line-height: 1.02;
+  }
+
+  .hero-copy > p:not(.level-pill) {
+    max-width: 40rem;
+    margin: 1rem 0 0;
+    color: #182a45;
+    font-size: clamp(0.95rem, 1.35vw, 1.05rem);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 1.5rem;
+  }
+
+  .hero-actions .button {
+    min-width: min(100%, 13.4rem);
+  }
+
+  .b2-button-primary {
+    background: linear-gradient(135deg, #5b36d6, #2e1a91);
+  }
+
+  .b2-button-secondary {
+    border-color: rgba(91, 54, 214, 0.45);
+    color: #321b9b;
+  }
+
+  .paris-line-art {
+    position: absolute;
+    right: 31%;
+    bottom: 0;
+    width: min(44vw, 33rem);
+    color: rgba(11, 47, 85, 0.42);
+    pointer-events: none;
+  }
+
+  .paris-line-art svg,
+  .bridge-art,
+  .dome-art {
+    overflow: visible;
+  }
+
+  .paris-line-art path,
+  .bridge-art path,
+  .dome-art path {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  .paris-line-art .bird {
+    color: #162c8d;
+  }
+
+  .path-card {
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+    border: 1px solid rgba(11, 47, 85, 0.16);
+    border-radius: var(--radius-md);
+    background: #ffffff;
+    box-shadow: 0 18px 44px rgba(11, 47, 85, 0.14);
+  }
+
+  .path-card-top {
+    padding: 1.2rem 1.35rem 1.35rem;
+    background:
+      radial-gradient(circle at 10% 14%, rgba(91, 54, 214, 0.35), transparent 12rem),
+      linear-gradient(135deg, #062858, #0c3670 62%, #072653);
+    color: #ffffff;
+  }
+
+  .path-card h2 {
+    color: #ffffff;
+    text-align: center;
+    font-size: clamp(1.18rem, 2vw, 1.55rem);
+  }
+
+  .level-progress {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.85rem;
+    align-items: center;
+    padding: 0;
+    margin: 1.2rem 0 0;
+    list-style: none;
+  }
+
+  .level-progress::before {
+    position: absolute;
+    right: 11%;
+    left: 11%;
+    top: 50%;
+    border-top: 2px dashed rgba(255, 213, 91, 0.9);
+    content: "";
+  }
+
+  .level-node {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: clamp(3rem, 7vw, 4.15rem);
+    aspect-ratio: 1;
+    place-items: center;
+    justify-self: center;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 50%;
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-size: clamp(1.12rem, 2.2vw, 1.65rem);
+    font-weight: 800;
+    box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.14), 0 8px 22px rgba(0, 0, 0, 0.22);
+  }
+
+  .level-a1 {
+    background: #2d65d8;
+  }
+
+  .level-a2 {
+    background: #2d8c56;
+  }
+
+  .level-b1 {
+    background: #d89512;
+  }
+
+  .level-b2 {
+    background: #5b36d6;
+    outline: 3px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 3px;
+  }
+
+  .exam-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .exam-metrics div {
+    display: grid;
+    gap: 0.18rem;
+    justify-items: center;
+    min-height: 7.3rem;
+    padding: 1rem 0.55rem;
+    border-right: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  .exam-metrics div:last-child {
+    border-right: 0;
+  }
+
+  .exam-metrics dt,
+  .exam-metrics dd {
+    margin: 0;
+  }
+
+  .exam-metrics dt {
+    display: grid;
+    gap: 0.3rem;
+    place-items: center;
+    color: var(--color-blue-dark);
+  }
+
+  .exam-metrics svg {
+    width: 2rem;
+    height: 2rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  .exam-metrics strong {
+    color: #1f1594;
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+
+  .exam-metrics dd {
+    color: var(--color-blue-dark);
+    font-size: 0.68rem;
+    font-weight: 900;
+  }
+
+  .diploma-note {
+    margin: 0;
+    padding: 0.8rem 1rem;
+    background: rgba(91, 54, 214, 0.12);
+    color: var(--color-blue-dark);
+    text-align: center;
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+
+  .platform-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    align-items: center;
+    padding: 0.85rem 1rem;
+    color: var(--color-blue-dark);
+    font-size: 0.76rem;
+    font-weight: 900;
+  }
+
+  .b2-shell {
+    display: grid;
+    gap: 1rem;
+    padding-block: 0.45rem 2.5rem;
+  }
+
+  .b2-panel,
+  .focus-panel,
+  .final-cta {
+    border: 1px solid rgba(68, 54, 159, 0.18);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .b2-panel {
+    padding: 1rem;
+  }
+
+  .numbered-heading {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  .numbered-heading > span {
+    display: grid;
+    flex: 0 0 auto;
+    width: 1.75rem;
+    height: 1.75rem;
+    place-items: center;
+    border-radius: 50%;
+    background: #1d1b8f;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 900;
+  }
+
+  .numbered-heading h2 {
+    font-size: clamp(1.32rem, 2.3vw, 1.9rem);
+  }
+
+  .exam-skill-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.9rem;
+    padding: 0;
+    margin: 1rem 0 0;
+    list-style: none;
+  }
+
+  .exam-skill-card {
+    display: grid;
+    min-height: 100%;
+    gap: 0.34rem;
+    padding: 1rem;
+    border: 1px solid rgba(68, 54, 159, 0.16);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+  }
+
+  .icon-ring,
+  .route-icon {
+    display: grid;
+    place-items: center;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+    color: var(--tone, #1f1594);
+  }
+
+  .icon-ring {
+    width: 3.4rem;
+    aspect-ratio: 1;
+    margin-bottom: 0.2rem;
+  }
+
+  .tone-blue {
+    --tone: #113f9f;
+  }
+
+  .tone-green {
+    --tone: #2d8c56;
+  }
+
+  .tone-orange {
+    --tone: #d5780d;
+  }
+
+  .tone-violet {
+    --tone: #5b36d6;
+  }
+
+  .exam-skill-card svg,
+  .route-icon svg,
+  .focus-grid svg,
+  .criteria-grid svg,
+  .cta-cards svg {
+    width: 1.85rem;
+    height: 1.85rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  .exam-skill-card h3 {
+    margin-top: 0.15rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 900;
+  }
+
+  .exam-skill-card p {
+    margin: 0;
+    color: #172b49;
+    font-size: 0.76rem;
+    line-height: 1.48;
+  }
+
+  .card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .card-footer a,
+  .available-item a,
+  .resource-columns a,
+  .cta-cards a {
+    color: #2217a0;
+    font-size: 0.74rem;
+    font-weight: 900;
+  }
+
+  .section-note {
+    margin: 0.85rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    text-align: center;
+  }
+
+  .route-content-grid,
+  .evaluation-resources-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.61fr) minmax(20rem, 0.39fr);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .route-steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.85rem;
+    padding: 0;
+    margin: 1.45rem 0 0;
+    list-style: none;
+  }
+
+  .route-steps::before {
+    position: absolute;
+    right: 8%;
+    left: 8%;
+    top: 1.7rem;
+    border-top: 2px dashed rgba(91, 54, 214, 0.28);
+    content: "";
+  }
+
+  .route-steps li {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: 0.35rem;
+    text-align: center;
+  }
+
+  .route-icon {
+    width: 3.6rem;
+    aspect-ratio: 1;
+    background: #ffffff;
+  }
+
+  .step-number {
+    display: grid;
+    width: 1.45rem;
+    height: 1.45rem;
+    place-items: center;
+    border-radius: 50%;
+    background: #4d35bf;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .route-steps h3 {
+    font-family: var(--font-body);
+    font-size: 0.83rem;
+    font-weight: 900;
+    line-height: 1.18;
+  }
+
+  .route-steps p {
+    margin: 0;
+    color: #3c3a45;
+    font-size: 0.69rem;
+    line-height: 1.45;
+  }
+
+  .available-list {
+    display: grid;
+    padding: 0;
+    margin: 1rem 0 0;
+    list-style: none;
+  }
+
+  .available-item {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr) auto;
+    gap: 0.85rem;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .available-list li:first-child .available-item {
+    padding-top: 0;
+  }
+
+  .available-item img {
+    width: 6rem;
+    height: 4.5rem;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+  }
+
+  .available-title-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .available-item h3 {
+    font-family: var(--font-body);
+    font-size: 0.86rem;
+    font-weight: 900;
+  }
+
+  .available-item p {
+    margin: 0.3rem 0 0;
+    color: #172b49;
+    font-size: 0.72rem;
+    line-height: 1.45;
+  }
+
+  .available-item ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    padding: 0;
+    margin: 0.42rem 0 0;
+    color: var(--color-blue-dark);
+    font-size: 0.64rem;
+    font-weight: 800;
+    list-style: none;
+  }
+
+  .item-link {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 50%;
+  }
+
+  .panel-button {
+    justify-self: center;
+    margin-top: 0.7rem;
+    border-color: rgba(91, 54, 214, 0.42);
+    color: #2217a0;
+  }
+
+  .focus-panel {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    background:
+      linear-gradient(105deg, rgba(255, 255, 255, 0.88), rgba(244, 239, 255, 0.78)),
+      #ffffff;
+  }
+
+  .focus-copy p {
+    max-width: 42rem;
+    margin: 0.5rem 0 0 3.25rem;
+    color: #172b49;
+    font-size: 0.86rem;
+  }
+
+  .focus-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .focus-grid li {
+    display: grid;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border-right: 1px solid rgba(91, 54, 214, 0.16);
+  }
+
+  .focus-grid li:last-child {
+    border-right: 0;
+  }
+
+  .focus-grid span {
+    color: #321b9b;
+  }
+
+  .focus-grid h3 {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 900;
+  }
+
+  .focus-grid p {
+    margin: 0;
+    color: #3f3b4a;
+    font-size: 0.68rem;
+    line-height: 1.45;
+  }
+
+  .bridge-art {
+    position: absolute;
+    right: 0.4rem;
+    bottom: -0.35rem;
+    width: min(28rem, 45%);
+    color: rgba(11, 47, 85, 0.22);
+  }
+
+  .evaluation-resources-grid {
+    grid-template-columns: minmax(0, 0.46fr) minmax(0, 0.54fr);
+  }
+
+  .evaluation-panel,
+  .resources-panel {
+    min-height: 100%;
+  }
+
+  .evaluation-panel > p {
+    margin: 0.45rem 0 0 3.25rem;
+    color: var(--color-blue-dark);
+    font-size: 0.82rem;
+  }
+
+  .criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.5rem;
+    padding: 0;
+    margin: 1rem 0 0;
+    list-style: none;
+  }
+
+  .criteria-grid li {
+    display: grid;
+    gap: 0.45rem;
+    justify-items: center;
+    padding: 0.45rem;
+    color: #261e9b;
+    text-align: center;
+  }
+
+  .criteria-grid span {
+    color: var(--color-blue-dark);
+    font-size: 0.65rem;
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .resources-panel {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .resource-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-right: 9rem;
+  }
+
+  .resource-columns h3 {
+    margin-bottom: 0.55rem;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 900;
+  }
+
+  .resource-columns ul {
+    display: grid;
+    gap: 0.36rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .resource-columns li {
+    color: #172b49;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .resource-columns li::before {
+    margin-right: 0.45rem;
+    color: #2217a0;
+    content: "›";
+  }
+
+  .dome-art {
+    position: absolute;
+    right: 0.7rem;
+    bottom: 0.45rem;
+    width: 9rem;
+    color: rgba(11, 47, 85, 0.32);
+  }
+
+  .final-cta {
+    position: relative;
+    overflow: hidden;
+    padding: 1.2rem clamp(1rem, 4vw, 5rem);
+    background:
+      radial-gradient(circle at 95% 15%, rgba(216, 149, 18, 0.24), transparent 8rem),
+      linear-gradient(135deg, #052651, #083978);
+    color: #ffffff;
+  }
+
+  .travel-line {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: rgba(216, 149, 18, 0.86);
+    pointer-events: none;
+  }
+
+  .travel-line path {
+    fill: none;
+    stroke: currentColor;
+    stroke-dasharray: 6 8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  .travel-line path:nth-child(2) {
+    fill: currentColor;
+    stroke-dasharray: none;
+  }
+
+  .cta-cards {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(0.9rem, 3vw, 4rem);
+    align-items: stretch;
+  }
+
+  .cta-cards article {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.85rem;
+    min-height: 7.1rem;
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    color: var(--color-blue-dark);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .cta-cards article > span {
+    color: #321b9b;
+  }
+
+  .cta-cards h3 {
+    font-size: 1rem;
+  }
+
+  .cta-cards p {
+    margin: 0.25rem 0 0.45rem;
+    color: #172b49;
+    font-size: 0.73rem;
+    line-height: 1.45;
+  }
+
+  .travel-stamp {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    display: grid;
+    width: 5.6rem;
+    aspect-ratio: 1;
+    place-items: center;
+    border: 1.5px solid #d89512;
+    border-radius: 50%;
+    margin: 0;
+    color: #ffd35b;
+    font-size: 0.62rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    line-height: 1.35;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .b2-hero-grid,
+    .route-content-grid,
+    .evaluation-resources-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .paris-line-art {
+      right: 0;
+      width: min(52vw, 30rem);
+    }
+
+    .exam-skill-grid,
+    .focus-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .focus-grid li:nth-child(2) {
+      border-right: 0;
+    }
+
+    .route-steps {
+      grid-template-columns: repeat(5, minmax(6.8rem, 1fr));
+    }
+
+    .resource-columns {
+      padding-right: 10rem;
+    }
+  }
+
+  @media (max-width: 780px) {
+    .hero-copy h1 {
+      max-width: 15ch;
+    }
+
+    .paris-line-art {
+      display: none;
+    }
+
+    .path-card {
+      grid-row: auto;
+    }
+
+    .exam-metrics,
+    .criteria-grid,
+    .cta-cards {
+      grid-template-columns: 1fr;
+    }
+
+    .exam-metrics div {
+      min-height: 0;
+      border-right: 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .exam-metrics div:last-child {
+      border-bottom: 0;
+    }
+
+    .route-steps {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-left: 0.3rem;
+    }
+
+    .route-steps::before {
+      top: 0;
+      bottom: 0;
+      left: 1.8rem;
+      right: auto;
+      border-top: 0;
+      border-left: 2px dashed rgba(91, 54, 214, 0.28);
+    }
+
+    .route-steps li {
+      grid-template-columns: 3.6rem auto minmax(0, 1fr);
+      justify-items: start;
+      column-gap: 0.6rem;
+      text-align: left;
+    }
+
+    .route-steps h3,
+    .route-steps p {
+      grid-column: 3;
+    }
+
+    .route-icon {
+      grid-row: 1 / span 3;
+    }
+
+    .step-number {
+      align-self: center;
+    }
+
+    .focus-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .focus-grid li,
+    .focus-grid li:nth-child(2) {
+      border-right: 0;
+      border-bottom: 1px solid rgba(91, 54, 214, 0.16);
+    }
+
+    .focus-grid li:last-child {
+      border-bottom: 0;
+    }
+
+    .bridge-art,
+    .dome-art {
+      display: none;
+    }
+
+    .resource-columns {
+      grid-template-columns: 1fr;
+      padding-right: 0;
+    }
+
+    .travel-stamp {
+      display: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .breadcrumb {
+      font-size: 0.75rem;
+    }
+
+    .hero-copy {
+      padding-block: 1rem;
+    }
+
+    .hero-copy h1 {
+      max-width: 100%;
+      font-size: clamp(1.88rem, 10.5vw, 2.42rem);
+      line-height: 1.04;
+    }
+
+    .hero-actions {
+      display: grid;
+    }
+
+    .hero-actions .button {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .path-card-top {
+      padding-inline: 1rem;
+    }
+
+    .level-progress {
+      gap: 0.35rem;
+    }
+
+    .exam-skill-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .available-item {
+      grid-template-columns: 4.8rem minmax(0, 1fr);
+      gap: 0.7rem;
+    }
+
+    .available-item img {
+      width: 4.8rem;
+      height: 4rem;
+    }
+
+    .available-item .item-link {
+      grid-column: 2;
+      justify-self: start;
+    }
+
+    .focus-copy p,
+    .evaluation-panel > p {
+      margin-left: 0;
+    }
+
+    .numbered-heading {
+      align-items: flex-start;
+    }
+
+    .b2-panel,
+    .focus-panel,
+    .final-cta {
+      border-radius: var(--radius-sm);
+    }
+  }
+</style>
