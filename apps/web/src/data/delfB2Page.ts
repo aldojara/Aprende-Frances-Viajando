@@ -22,6 +22,7 @@ export type B2ExamSkill = {
   type: string;
   status: CoverageStatus;
   hrefSlug?: string;
+  href?: string;
   icon: B2IconName;
   tone: "blue" | "green" | "orange" | "violet";
 };
@@ -39,6 +40,7 @@ export type B2AvailableContent = {
   duration: string;
   status: CoverageStatus;
   hrefSlug?: string;
+  href?: string;
   image: string;
   alt: string;
 };
@@ -85,7 +87,8 @@ export const b2ExamSkills: B2ExamSkill[] = [
     duration: "1 hora aprox.",
     score: "/25",
     type: "Comprender documentos escritos y responder preguntas.",
-    status: "planned",
+    status: "available",
+    href: "/delf/b2/comprension-escrita/",
     icon: "book",
     tone: "green",
   },
@@ -95,7 +98,8 @@ export const b2ExamSkills: B2ExamSkill[] = [
     duration: "1 hora aprox.",
     score: "/25",
     type: "Redactar un texto argumentado de al menos 250 palabras.",
-    status: "planned",
+    status: "available",
+    href: "/delf/b2/produccion-escrita/",
     icon: "pen",
     tone: "orange",
   },
@@ -217,8 +221,9 @@ export const b2PreparationResources = {
   ] satisfies B2PreparationResource[],
   examPractice: [
     { label: "Audios y transcripciones", href: "/delf/b2/comprehension-orale/" },
-    { label: "Modelos de respuestas", href: "/delf/b2/production-orale/" },
-    { label: "Rúbricas y criterios" },
+    { label: "Comprensión de textos", href: "/delf/b2/comprension-escrita/" },
+    { label: "Modelos de respuestas", href: "/delf/b2/produccion-escrita/" },
+    { label: "Rúbricas y criterios", href: "/delf/b2/estructura-del-examen/" },
     { label: "Consejos y estrategias", href: "/delf/b2/estrategias-de-escucha/" },
     { label: "Descargables PDF" },
   ] satisfies B2PreparationResource[],

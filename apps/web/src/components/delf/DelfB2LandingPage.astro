@@ -157,7 +157,7 @@ const icons: Record<B2IconName, string> = {
       <ul class="exam-skill-grid">
         {
           b2ExamSkills.map((skill) => {
-            const href = skill.hrefSlug ? contentRoutesBySlug.get(skill.hrefSlug) : undefined;
+            const href = skill.href ? withBase(skill.href) : skill.hrefSlug ? contentRoutesBySlug.get(skill.hrefSlug) : undefined;
             return (
               <li>
                 <article class={`exam-skill-card tone-${skill.tone}`}>
@@ -216,8 +216,8 @@ const icons: Record<B2IconName, string> = {
 
         <ul class="available-list">
           {
-            b2AvailableContents.map((item) => {
-              const href = item.hrefSlug ? contentRoutesBySlug.get(item.hrefSlug) : undefined;
+          b2AvailableContents.map((item) => {
+              const href = item.href ? withBase(item.href) : item.hrefSlug ? contentRoutesBySlug.get(item.hrefSlug) : undefined;
               return (
                 <li>
                   <article class="available-item">

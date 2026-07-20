@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import DelfB2WrittenGuidePage from "../../../../components/delf/DelfB2WrittenGuidePage.astro";
+import { readingGuide } from "../../../../data/delfB2WrittenGuides";
+---
+
+<BaseLayout
+  title={readingGuide.seoTitle}
+  description={readingGuide.description}
+  canonical={readingGuide.canonical}
+>
+  <DelfB2WrittenGuidePage guide={readingGuide} />
+</BaseLayout>

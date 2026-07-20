@@ -20,6 +20,8 @@ const listeningHref =
   (listeningItem ? getContentRoute(listeningItem) : undefined) ?? withBase("/delf/b2/comprehension-orale/");
 const speakingHref =
   (speakingItem ? getContentRoute(speakingItem) : undefined) ?? withBase("/delf/b2/production-orale/");
+const readingHref = withBase("/delf/b2/comprension-escrita/");
+const writingHref = withBase("/delf/b2/produccion-escrita/");
 const nextHref = (nextItem ? getContentRoute(nextItem) : undefined) ?? listeningHref;
 
 const toc = [
@@ -64,6 +66,7 @@ const examSkills = [
     label: "Comprensión escrita",
     icon: "book",
     tone: "green",
+    href: readingHref,
     status: "Disponible para practicar",
     objective:
       "Comprender textos complejos de la vida cotidiana, académica o profesional.",
@@ -79,6 +82,7 @@ const examSkills = [
     label: "Producción escrita",
     icon: "pen",
     tone: "orange",
+    href: writingHref,
     status: "Disponible para practicar",
     objective:
       "Expresarse por escrito de manera clara, detallada y argumentada sobre temas generales.",
@@ -134,6 +138,8 @@ const frequentErrors = [
 
 const nextLinks = [
   { label: "Entrenar Comprensión oral", href: listeningHref, primary: true },
+  { label: "Entrenar Comprensión escrita", href: readingHref },
+  { label: "Entrenar Producción escrita", href: writingHref },
   { label: "Entrenar Producción oral", href: speakingHref },
   { label: "Volver a DELF B2", href: levelHref },
 ];
