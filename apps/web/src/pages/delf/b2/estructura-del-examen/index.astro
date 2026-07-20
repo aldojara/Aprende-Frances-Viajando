@@ -15,7 +15,7 @@ const allEntries = (await getCollection("content"))
   .sort((a, b) => (a.data.examOrder ?? 999) - (b.data.examOrder ?? 999));
 
 const relatedItems = allEntries.filter((item) =>
-  ["delf/b2/comprehension-orale", "delf/b2/estrategias-de-escucha"].includes(item.id),
+  ["delf/b2/comprehension-orale", "delf/b2/estrategias-de-escucha", "delf/b2/production-orale"].includes(item.id),
 );
 const nextItem = allEntries.find((item) => item.id === "delf/b2/comprehension-orale");
 const entry = {

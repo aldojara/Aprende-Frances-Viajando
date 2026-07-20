@@ -1,0 +1,1580 @@
+---
+import { withBase } from "../../utils/paths";
+import {
+  listeningAudioTypes,
+  listeningDocuments,
+  listeningErrors,
+  listeningEvaluation,
+  listeningPracticeLinks,
+  listeningRoute,
+  listeningStrategy,
+  listeningTips,
+  speakingErrors,
+  speakingEvaluation,
+  speakingParts,
+  speakingPrepSteps,
+  speakingResources,
+  speakingRoute,
+  speakingStrategies,
+  type OralGuide,
+  type OralIcon,
+} from "../../data/delfB2OralGuides";
+
+interface Props {
+  guide: OralGuide;
+}
+
+const { guide } = Astro.props;
+const isSpeaking = guide.kind === "speaking";
+const levelHref = withBase("/delf/b2/");
+const structureHref = withBase("/delf/b2/estructura-del-examen/");
+const guideHref = structureHref;
+
+const icons: Record<OralIcon, string> = {
+  audio: '<path d="M4 13a8 8 0 0 1 16 0"/><path d="M6 13v5a2 2 0 0 0 2 2h1v-7z"/><path d="M18 13v5a2 2 0 0 1-2 2h-1v-7z"/>',
+  award: '<circle cx="12" cy="8" r="5"/><path d="m8.5 12-1.5 8 5-3 5 3-1.5-8"/><path d="m10 8 1.5 1.5L15 6"/>',
+  book: '<path d="M5 4c2.7-.8 5-.4 7 1.2 2-1.6 4.3-2 7-1.2v15c-2.7-.8-5-.4-7 1.2-2-1.6-4.3-2-7-1.2z"/><path d="M12 5.2v15"/>',
+  check: '<circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16.5 8"/>',
+  chat: '<path d="M5 6h14v9H9l-4 4z"/><path d="M9 10h6"/><path d="M9 13h4"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  compass: '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 5-4.8 2 2.2-5z"/>',
+  document: '<path d="M6 3h10l3 3v15H6z"/><path d="M16 3v4h4"/><path d="M9 12h6M9 16h5"/>',
+  download: '<path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/>',
+  edit: '<path d="m4 20 4.5-1 10-10a2.1 2.1 0 0 0-3-3l-10 10z"/><path d="m14 7 3 3"/>',
+  eye: '<path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="3"/>',
+  flag: '<path d="M6 21V4"/><path d="M6 5h10l-1.2 4L18 13H6"/>',
+  link: '<path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7-7.1l-1.2 1.2"/><path d="M14 11a5 5 0 0 0-7.1-.1l-2 2a5 5 0 0 0 7 7.1l1.2-1.2"/>',
+  list: '<path d="M8 6h12M8 12h12M8 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
+  mic: '<path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>',
+  person: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/>',
+  shield: '<path d="M12 3 19 6v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6z"/><path d="m9 12 2 2 4-5"/>',
+  spark: '<path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M5 19h.01M19 5h.01"/>',
+  star: '<path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
+  target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 2v3M22 12h-3M12 22v-3M2 12h3"/>',
+  trophy: '<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4"/><path d="M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v4"/><path d="M9 21h6"/><path d="M10 17h4"/>',
+};
+---
+
+<main class:list={["b2-oral-page", `b2-oral-${guide.kind}`]}>
+  <div class="container page-wrap">
+    <nav class="breadcrumb" aria-label="Miga de pan">
+      <a href={withBase("/")}>Inicio</a>
+      <span aria-hidden="true">›</span>
+      <a href={withBase("/delf/")}>DELF</a>
+      <span aria-hidden="true">›</span>
+      <a href={levelHref}>B2</a>
+      <span aria-hidden="true">›</span>
+      <span>{guide.breadcrumb}</span>
+    </nav>
+
+    <div class="guide-layout">
+      <aside class="page-index" aria-label="Índice de la página">
+        <div class="index-head">
+          <span aria-hidden="true">B2</span>
+          <h2>DELF B2</h2>
+        </div>
+        <nav>
+          <p>Índice de la página</p>
+          <ol>
+            {guide.toc.map((item) => (
+              <li>
+                <a href={`#${item.id}`}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons[item.icon]} />
+                  <span>{item.label}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+        <a class="download-card" href={guideHref}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons.download} />
+          <strong>Guía completa DELF B2</strong>
+          <small>Todo lo que necesitas saber para aprobar.</small>
+          <span>Descargar PDF (22 págs.)</span>
+        </a>
+      </aside>
+
+      <div class="guide-main">
+        <details class="mobile-index">
+          <summary>Índice de la página</summary>
+          <ol>
+            {guide.toc.map((item) => <li><a href={`#${item.id}`}>{item.label}</a></li>)}
+          </ol>
+        </details>
+
+        <section id={isSpeaking ? "resumen-seccion" : "resumen-examen"} class="hero-section" aria-labelledby="page-title">
+          <div class="hero-copy">
+            <div class="hero-badges" aria-label="Metadatos de la guía">
+              <span class="badge badge-level">B2</span>
+              <span class="badge">Guía del examen</span>
+              <span class="badge badge-time">{guide.durationBadge}</span>
+              <span class="badge badge-ready">Disponible</span>
+            </div>
+            <h1 id="page-title">{guide.title}</h1>
+            <p>{guide.intro}</p>
+            <a class="button hero-action" href={guide.ctaHref}>
+              {guide.ctaLabel}
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+          <figure class="paris-visual" aria-label="Ilustración de París con la Torre Eiffel">
+            <svg viewBox="0 0 720 330" role="img" aria-labelledby={`${guide.kind}-paris-title`} focusable="false">
+              <title id={`${guide.kind}-paris-title`}>Paisaje parisino con la Torre Eiffel y arquitectura francesa</title>
+              <path class="wash wash-blue" d="M392 145c56-65 149-73 213-16 51 46 48 118-1 154-63 46-164 19-220-41-38-41-35-70 8-97z" />
+              <path class="wash wash-gold" d="M58 251c68-65 159-72 238-21 95 61 202 65 325 7 23 34-11 66-98 80H78c-45-8-52-30-20-66z" />
+              <path class="bird" d="M418 64c8-7 17-7 25 0M454 86c8-7 17-7 25 0M504 73c6-5 13-5 19 0" />
+              <path class="tower" d="M462 298 523 48l61 250" />
+              <path class="tower" d="M493 148h60M480 196h86M468 246h112M523 48V27M512 70h22M506 96h34" />
+              <path class="tower" d="M495 298c16-48 35-72 58-72s42 24 58 72" />
+              <path class="city" d="M72 298v-95h78v95M92 239h18M120 239h18M177 298v-126h105v126M196 213h20M234 213h20M196 250h20M234 250h20M610 298v-116h70v116M627 220h17M656 220h17M627 254h17M656 254h17" />
+              <path class="bridge" d="M22 297c80-48 154-54 224-18 65-34 131-34 198 0 77-42 154-37 232 16" />
+              <path class="bridge" d="M88 284h505M130 284c34-44 75-44 124 0M290 284c38-46 82-46 134 0M463 284c35-40 72-40 111 0" />
+            </svg>
+          </figure>
+        </section>
+
+        <section class="stats-section" aria-label="Resumen rápido">
+          <ul class="stats-grid">
+            {guide.stats.map((item) => (
+              <li class={`tone-${item.tone}`}>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons[item.icon]} />
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {isSpeaking ? (
+          <>
+            <div class="split-grid first-split">
+              <section id="partes-produccion-oral" class="panel parts-panel" aria-labelledby="parts-title">
+                <header class="section-title">
+                  <span>1</span>
+                  <h2 id="parts-title">Las 3 partes de la Producción oral</h2>
+                </header>
+                <ul class="part-grid">
+                  {speakingParts.map((part) => (
+                    <li>
+                      <article class={`part-card tone-${part.tone}`}>
+                        <div class="part-top">
+                          <strong>{part.part}</strong>
+                          <h3>{part.title}</h3>
+                        </div>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons[part.icon]} />
+                        <dl>
+                          <div><dt>Objetivo</dt><dd>{part.objective}</dd></div>
+                          <div><dt>Duración</dt><dd>{part.duration}</dd></div>
+                          <div><dt>Preparación</dt><dd>{part.preparation}</dd></div>
+                        </dl>
+                      </article>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              <section id="que-se-evalua" class="panel list-panel" aria-labelledby="eval-title">
+                <header class="section-title">
+                  <span>2</span>
+                  <h2 id="eval-title">¿Qué se evalúa?</h2>
+                </header>
+                <ul class="check-list">
+                  {speakingEvaluation.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}
+                </ul>
+              </section>
+            </div>
+
+            <div class="split-grid second-split">
+              <section id="preparar-respuesta" class="panel prep-panel" aria-labelledby="prep-title">
+                <header class="section-title">
+                  <span>3</span>
+                  <h2 id="prep-title">Cómo preparar una buena respuesta</h2>
+                </header>
+                <ol class="prep-steps">
+                  {speakingPrepSteps.map((step) => (
+                    <li>
+                      <span class="round-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false" set:html={icons[step.icon as OralIcon]} />
+                      </span>
+                      <strong>{step.title}</strong>
+                      <p>{step.text}</p>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+
+              <section id="estrategias-clave" class="panel strategy-card" aria-labelledby="strategy-title">
+                <header class="section-title">
+                  <span>4</span>
+                  <h2 id="strategy-title">Estrategias clave para hablar mejor</h2>
+                </header>
+                <ul class="star-list">
+                  {speakingStrategies.map((item) => <li><span aria-hidden="true">★</span>{item}</li>)}
+                </ul>
+              </section>
+            </div>
+
+            <div class="split-grid third-split">
+              <section id="practica-recursos" class="panel resources-panel" aria-labelledby="resources-title">
+                <header class="section-title">
+                  <span>5</span>
+                  <h2 id="resources-title">Práctica y recursos</h2>
+                </header>
+                <ul class="resource-grid">
+                  {speakingResources.map((item) => (
+                    <li>
+                      <article>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons[item.icon as OralIcon]} />
+                        <h3>{item.title}</h3>
+                        <p>{item.text}</p>
+                        <a href={item.href}>{item.action} <span aria-hidden="true">→</span></a>
+                      </article>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              <section id="errores-frecuentes" class="panel errors-panel" aria-labelledby="errors-title">
+                <header class="section-title">
+                  <span>6</span>
+                  <h2 id="errors-title">Errores frecuentes</h2>
+                </header>
+                <ul class="error-list">
+                  {speakingErrors.map((item) => <li><span aria-hidden="true">×</span>{item}</li>)}
+                </ul>
+              </section>
+            </div>
+
+            <div class="bottom-grid">
+              <section id="ruta-preparacion" class="panel route-panel" aria-labelledby="route-title">
+                <header class="section-title">
+                  <span>7</span>
+                  <h2 id="route-title">Tu ruta de preparación DELF B2</h2>
+                </header>
+                <ol class="route-track speaking-route">
+                  {speakingRoute.map((item) => (
+                    <li class:list={[{ done: item.done, active: item.active }]}>
+                      <span class="round-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false" set:html={icons[item.icon as OralIcon]} />
+                      </span>
+                      <strong>{item.title}</strong>
+                      <small>{item.status}</small>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+
+              <section id="siguiente-paso" class="next-card" aria-labelledby="next-title">
+                <div>
+                  <h2 id="next-title">Tu siguiente paso</h2>
+                  <p>Sigue avanzando y perfecciona tu expresión oral.</p>
+                  <a class="next-link primary" href={structureHref}>Revisar criterios de evaluación <span aria-hidden="true">→</span></a>
+                  <a class="next-link" href="#practica-recursos">Hacer simulación completa <span aria-hidden="true">→</span></a>
+                </div>
+                <svg class="compass-art" viewBox="0 0 180 140" aria-hidden="true" focusable="false" set:html={icons.compass} />
+              </section>
+            </div>
+
+            <p class="source-note">
+              Esta información se basa en el formato oficial del DELF B2 (France Éducation international). Los detalles pueden variar ligeramente según la convocatoria. Consulta siempre la guía oficial antes del examen.
+            </p>
+          </>
+        ) : (
+          <>
+            <div class="listening-layout">
+              <section id="estructura-prueba" class="panel documents-panel" aria-labelledby="docs-title">
+                <h2 id="docs-title">Estructura de la prueba</h2>
+                <p>La prueba incluye 3 documentos de audio con diferentes situaciones de comunicación.</p>
+                <ul class="document-grid">
+                  {listeningDocuments.map((doc) => (
+                    <li>
+                      <article class={`document-card tone-${doc.tone}`}>
+                        <div class="doc-head">
+                          <span>{doc.number}</span>
+                          <div>
+                            <h3>{doc.title}</h3>
+                            <strong>{doc.subtitle}</strong>
+                          </div>
+                        </div>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons[doc.icon as OralIcon]} />
+                        <dl>
+                          <div><dt>Objetivo</dt><dd>{doc.objective}</dd></div>
+                        </dl>
+                        <ul>
+                          {doc.facts.map((fact) => <li>{fact}</li>)}
+                        </ul>
+                        <p>{doc.situation}</p>
+                      </article>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              <aside class="info-rail" aria-label="Información de la comprensión oral">
+                <section id="que-se-evalua" class="panel rail-panel">
+                  <h2>¿Qué se evalúa?</h2>
+                  <ul class="check-list">{listeningEvaluation.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul>
+                </section>
+                <section class="panel rail-panel">
+                  <h2>Tipos de audios</h2>
+                  <ul class="icon-list">{listeningAudioTypes.map((item) => <li><span aria-hidden="true">▣</span>{item}</li>)}</ul>
+                </section>
+                <section id="errores-frecuentes" class="panel rail-panel">
+                  <h2>Errores frecuentes</h2>
+                  <ul class="error-list">{listeningErrors.map((item) => <li><span aria-hidden="true">×</span>{item}</li>)}</ul>
+                </section>
+              </aside>
+            </div>
+
+            <section id="estrategias-exito" class="panel listening-strategy" aria-labelledby="success-title">
+              <h2 id="success-title">Estrategias para tener éxito</h2>
+              <ol>
+                {listeningStrategy.map((item) => (
+                  <li>
+                    <span class="round-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false" set:html={icons[item.icon as OralIcon]} />
+                    </span>
+                    <strong>{item.title}</strong>
+                    <p>{item.text}</p>
+                  </li>
+                ))}
+              </ol>
+              <svg class="dome-art" viewBox="0 0 170 120" aria-hidden="true" focusable="false">
+                <path d="M22 104h126M38 104V58h96v46M54 104V79h18v25M98 104V79h18v25" />
+                <path d="M48 58c8-27 20-41 37-41s29 14 37 41M58 58h54M85 17V4M78 9h14" />
+              </svg>
+            </section>
+
+            <div class="practice-grid">
+              <section id="practica-simulaciones" class="panel practice-list" aria-labelledby="practice-title">
+                <h2 id="practice-title">Practica con simulaciones</h2>
+                <p>Mejora tu comprensión con ejercicios guiados y exámenes completos.</p>
+                <ul>
+                  {listeningPracticeLinks.map((item) => (
+                    <li>
+                      <a href={item.href}>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons[item.icon as OralIcon]} />
+                        <span><strong>{item.title}</strong><small>{item.text}</small></span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              <section class="panel tips-panel" aria-labelledby="tips-title">
+                <h2 id="tips-title">Consejos rápidos</h2>
+                <ul class="check-list">{listeningTips.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul>
+              </section>
+
+              <section class="question-card" aria-labelledby="question-title">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons.audio} />
+                <h2 id="question-title">Ejemplo de pregunta</h2>
+                <p>Escucha el documento y responde la pregunta.</p>
+                <p><strong>¿Cuál es la opinión del hablante sobre la propuesta?</strong></p>
+                <ol type="A">
+                  <li>La considera muy innovadora.</li>
+                  <li>La encuentra interesante pero costosa.</li>
+                  <li>No está de acuerdo con la idea.</li>
+                  <li>Piensa que es difícil de implementar.</li>
+                </ol>
+              </section>
+            </div>
+
+            <section id="ruta-preparacion" class="panel listening-route-panel" aria-labelledby="listen-route-title">
+              <div class="route-copy">
+                <h2 id="listen-route-title">Tu ruta de preparación DELF B2</h2>
+                <p>Sigue este orden recomendado para dominar cada competencia.</p>
+                <ol class="route-track listening-route">
+                  {listeningRoute.map((item, index) => (
+                    <li>
+                      <span class="round-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false" set:html={icons[item.icon as OralIcon]} />
+                      </span>
+                      <strong>{index + 1}. {item.title}</strong>
+                      <small>{item.text}</small>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <aside class="goal-card">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={icons.award} />
+                <h3>Tu meta: DELF B2</h3>
+                <p>Demuestra tu dominio del francés y obtén tu diploma oficial.</p>
+                <a href={structureHref}>Ver cómo se obtiene el diploma <span aria-hidden="true">→</span></a>
+              </aside>
+            </section>
+
+            <section id="franja-final" class="final-band" aria-labelledby="final-title">
+              <svg viewBox="0 0 120 60" aria-hidden="true" focusable="false">
+                <path d="M8 38 55 8l-16 45-10-16zM39 53l17-18" />
+              </svg>
+              <h2 id="final-title">Escucha, comprende y demuestra todo tu potencial.</h2>
+              <p>Cada audio te acerca más a tu diploma DELF B2.</p>
+              <a href={levelHref}>Ir al plan de estudio completo <span aria-hidden="true">→</span></a>
+            </section>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+</main>
+
+<style>
+  .b2-oral-page {
+    background:
+      radial-gradient(circle at 92% 8%, rgba(91, 54, 214, 0.07), transparent 21rem),
+      radial-gradient(circle at 12% 34%, rgba(216, 149, 18, 0.07), transparent 24rem),
+      #fdfbf8;
+  }
+
+  .page-wrap {
+    padding-block: 1rem 1.5rem;
+  }
+
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    align-items: center;
+    color: #1d2672;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .breadcrumb a:hover {
+    color: #4a25c7;
+  }
+
+  .guide-layout {
+    display: grid;
+    grid-template-columns: minmax(13.5rem, 0.23fr) minmax(0, 1fr);
+    gap: 1.3rem;
+    align-items: start;
+    margin-top: 1.25rem;
+  }
+
+  .page-index,
+  .panel,
+  .next-card,
+  .question-card,
+  .goal-card,
+  .final-band,
+  .source-note {
+    border: 1px solid rgba(34, 23, 160, 0.13);
+    border-radius: 0.62rem;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 10px 28px rgba(30, 24, 96, 0.05);
+  }
+
+  .page-index {
+    position: sticky;
+    top: 6rem;
+    overflow: hidden;
+  }
+
+  .index-head {
+    display: flex;
+    gap: 0.85rem;
+    align-items: center;
+    padding: 1rem 1rem 0.8rem;
+    background: linear-gradient(135deg, rgba(238, 232, 255, 0.86), rgba(255, 255, 255, 0.72));
+  }
+
+  .index-head > span,
+  .section-title > span {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5a28c9, #30107d);
+    color: #ffffff;
+    font-weight: 900;
+  }
+
+  .index-head > span {
+    border-radius: 0.52rem;
+  }
+
+  .index-head h2 {
+    font-size: 1.2rem;
+  }
+
+  .page-index nav {
+    padding: 0.9rem 1rem;
+  }
+
+  .page-index p {
+    margin: 0 0 0.7rem;
+    color: #071a68;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  .page-index ol,
+  .mobile-index ol,
+  .stats-grid,
+  .part-grid,
+  .check-list,
+  .star-list,
+  .error-list,
+  .resource-grid,
+  .route-track,
+  .document-grid,
+  .icon-list,
+  .listening-strategy ol,
+  .practice-list ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .page-index ol {
+    display: grid;
+    gap: 0.18rem;
+  }
+
+  .page-index a {
+    display: grid;
+    grid-template-columns: 1.1rem minmax(0, 1fr);
+    gap: 0.55rem;
+    min-height: 2.15rem;
+    align-items: center;
+    padding: 0.42rem 0.5rem;
+    border-radius: 0.44rem;
+    color: #101760;
+    font-size: 0.74rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .page-index nav a:hover,
+  .page-index nav a:focus-visible {
+    background: #efe9ff;
+    color: #3515a4;
+  }
+
+  svg {
+    overflow: visible;
+  }
+
+  .page-index svg,
+  .stats-grid svg,
+  .part-card svg,
+  .round-icon svg,
+  .resource-grid svg,
+  .document-card svg,
+  .practice-list svg,
+  .question-card > svg,
+  .goal-card > svg,
+  .compass-art {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+
+  .page-index .download-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+    margin: 0 1rem 1rem;
+    padding: 0.85rem;
+    background: #f4f0ff;
+  }
+
+  .download-card svg {
+    width: 1.65rem;
+    height: 1.65rem;
+    color: #4420bb;
+  }
+
+  .download-card strong,
+  .download-card small,
+  .download-card span {
+    display: block;
+  }
+
+  .download-card strong {
+    color: #071a68;
+    font-size: 0.82rem;
+  }
+
+  .download-card small,
+  .download-card span {
+    color: #1d2672;
+    font-size: 0.68rem;
+    line-height: 1.45;
+  }
+
+  .guide-main {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .mobile-index {
+    display: none;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(34, 23, 160, 0.13);
+    border-radius: 0.62rem;
+    background: #ffffff;
+  }
+
+  .mobile-index summary {
+    cursor: pointer;
+    color: #071a68;
+    font-weight: 900;
+  }
+
+  .mobile-index ol {
+    display: grid;
+    gap: 0.45rem;
+    margin-top: 0.8rem;
+  }
+
+  .hero-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.48fr) minmax(19rem, 0.52fr);
+    gap: clamp(1rem, 2.8vw, 2.2rem);
+    align-items: center;
+    min-height: 18.5rem;
+  }
+
+  .hero-copy {
+    padding-block: 0.7rem;
+  }
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .badge {
+    display: inline-flex;
+    min-height: 1.9rem;
+    align-items: center;
+    padding: 0.25rem 0.78rem;
+    border-radius: 999px;
+    background: #f0ebff;
+    color: #3715a4;
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .badge-level {
+    background: linear-gradient(135deg, #5b28cd, #2d0b8a);
+    color: #ffffff;
+  }
+
+  .badge-time {
+    background: #fff0dc;
+    color: #a44900;
+  }
+
+  .badge-ready {
+    background: #e4f5e9;
+    color: #13713b;
+  }
+
+  .hero-copy h1 {
+    max-width: 16ch;
+    color: #071a68;
+    font-size: clamp(2.35rem, 4.3vw, 3.45rem);
+    line-height: 1.04;
+  }
+
+  .hero-copy p {
+    max-width: 41rem;
+    margin: 1rem 0 0;
+    color: #101760;
+    font-size: 0.98rem;
+    font-weight: 500;
+  }
+
+  .hero-action {
+    gap: 0.6rem;
+    margin-top: 1.2rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #5b28cd, #2d0b8a);
+    color: #ffffff;
+  }
+
+  .paris-visual {
+    margin: 0;
+    color: #071a68;
+  }
+
+  .paris-visual svg {
+    width: 100%;
+    min-height: 18rem;
+  }
+
+  .wash {
+    stroke: none;
+    opacity: 0.36;
+  }
+
+  .wash-blue {
+    fill: #bfe4ff;
+  }
+
+  .wash-gold {
+    fill: #f5c272;
+  }
+
+  .bird,
+  .tower,
+  .city,
+  .bridge,
+  .dome-art path,
+  .final-band path {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tower {
+    stroke-width: 3;
+  }
+
+  .city,
+  .bridge {
+    stroke-width: 2.1;
+    opacity: 0.72;
+  }
+
+  .bird {
+    stroke-width: 2;
+    color: #19399f;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .stats-grid li {
+    display: grid;
+    min-height: 8.7rem;
+    justify-items: center;
+    align-content: center;
+    gap: 0.45rem;
+    padding: 1rem;
+    border: 1px solid rgba(34, 23, 160, 0.13);
+    border-radius: 0.62rem;
+    background: #ffffff;
+    text-align: center;
+  }
+
+  .stats-grid svg {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  .stats-grid strong {
+    color: #071a68;
+    font-size: 0.95rem;
+    line-height: 1.25;
+  }
+
+  .stats-grid span {
+    color: #1d2672;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .tone-violet { color: #5124ca; }
+  .tone-blue { color: #1343b5; }
+  .tone-green { color: #168447; }
+  .tone-orange { color: #f07600; }
+  .tone-red { color: #d22e2e; }
+
+  .split-grid {
+    display: grid;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .first-split {
+    grid-template-columns: minmax(0, 0.68fr) minmax(18rem, 0.32fr);
+  }
+
+  .second-split,
+  .third-split {
+    grid-template-columns: minmax(0, 0.62fr) minmax(18rem, 0.38fr);
+  }
+
+  .panel {
+    padding: 1rem;
+    scroll-margin-top: 6.5rem;
+  }
+
+  .section-title {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.9rem;
+  }
+
+  .section-title h2,
+  .panel h2,
+  .next-card h2,
+  .question-card h2,
+  .goal-card h3,
+  .final-band h2 {
+    color: #071a68;
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+  }
+
+  .part-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .part-card,
+  .document-card {
+    overflow: hidden;
+    min-height: 100%;
+    border: 1px solid rgba(34, 23, 160, 0.13);
+    border-radius: 0.56rem;
+    background: #ffffff;
+  }
+
+  .part-top {
+    display: grid;
+    min-height: 4.15rem;
+    place-items: center;
+    padding: 0.75rem;
+    background: color-mix(in srgb, currentColor 12%, #ffffff);
+    text-align: center;
+  }
+
+  .part-top strong,
+  .doc-head span {
+    color: currentColor;
+    font-size: 0.72rem;
+    font-weight: 900;
+  }
+
+  .part-top h3,
+  .document-card h3,
+  .resource-grid h3 {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 900;
+    line-height: 1.22;
+  }
+
+  .part-card > svg,
+  .document-card > svg {
+    width: 3rem;
+    height: 3rem;
+    margin: 0.9rem auto 0;
+  }
+
+  .part-card dl,
+  .document-card dl {
+    display: grid;
+    gap: 0.55rem;
+    padding: 0.8rem 1rem 1rem;
+    margin: 0;
+  }
+
+  .part-card dt,
+  .document-card dt {
+    color: #071a68;
+    font-size: 0.68rem;
+    font-weight: 900;
+  }
+
+  .part-card dd,
+  .document-card dd {
+    margin: 0.1rem 0 0;
+    color: #101760;
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .check-list,
+  .star-list,
+  .error-list,
+  .icon-list {
+    display: grid;
+    gap: 0.62rem;
+  }
+
+  .check-list li,
+  .star-list li,
+  .error-list li,
+  .icon-list li {
+    display: grid;
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    gap: 0.55rem;
+    align-items: start;
+    color: #101760;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.45;
+  }
+
+  .check-list span {
+    color: #168447;
+  }
+
+  .star-list span {
+    color: #5124ca;
+  }
+
+  .error-list span {
+    color: #d22e2e;
+  }
+
+  .prep-steps,
+  .listening-strategy ol,
+  .route-track {
+    position: relative;
+    display: grid;
+  }
+
+  .prep-steps {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.8rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .prep-steps::before,
+  .speaking-route::before,
+  .listening-route::before {
+    position: absolute;
+    right: 8%;
+    left: 8%;
+    top: 2rem;
+    border-top: 2px dashed rgba(81, 36, 202, 0.34);
+    content: "";
+  }
+
+  .prep-steps li,
+  .route-track li,
+  .listening-strategy li {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: 0.42rem;
+    text-align: center;
+  }
+
+  .round-icon {
+    display: grid;
+    width: 4rem;
+    height: 4rem;
+    place-items: center;
+    padding: 1rem;
+    border: 1px solid rgba(81, 36, 202, 0.23);
+    border-radius: 50%;
+    background: #ffffff;
+    color: #5124ca;
+  }
+
+  .prep-steps strong,
+  .route-track strong,
+  .listening-strategy strong {
+    color: #071a68;
+    font-size: 0.72rem;
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .prep-steps p,
+  .listening-strategy p,
+  .route-track small {
+    margin: 0;
+    color: #1d2672;
+    font-size: 0.66rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .strategy-card,
+  .errors-panel {
+    align-content: start;
+  }
+
+  .resource-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .resource-grid article {
+    display: grid;
+    min-height: 100%;
+    justify-items: center;
+    gap: 0.45rem;
+    padding: 0.85rem 0.65rem;
+    border: 1px solid rgba(34, 23, 160, 0.13);
+    border-radius: 0.56rem;
+    background: #ffffff;
+    text-align: center;
+  }
+
+  .resource-grid svg {
+    width: 2.25rem;
+    height: 2.25rem;
+    color: #5124ca;
+  }
+
+  .resource-grid p {
+    margin: 0;
+    color: #1d2672;
+    font-size: 0.66rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .resource-grid a {
+    align-self: end;
+    min-height: 1.9rem;
+    padding: 0.3rem 0.65rem;
+    border: 1px solid rgba(81, 36, 202, 0.24);
+    border-radius: 0.42rem;
+    color: #5124ca;
+    font-size: 0.68rem;
+    font-weight: 900;
+  }
+
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.6fr) minmax(18rem, 0.4fr);
+    gap: 1rem;
+  }
+
+  .route-track {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .route-track .done .round-icon {
+    border-color: rgba(22, 132, 71, 0.28);
+    background: #eaf8ef;
+    color: #168447;
+  }
+
+  .route-track .active .round-icon {
+    border-color: rgba(81, 36, 202, 0.5);
+    box-shadow: 0 0 0 5px rgba(81, 36, 202, 0.08);
+  }
+
+  .next-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 9rem;
+    gap: 1rem;
+    align-items: center;
+    overflow: hidden;
+    padding: 1rem;
+    background: linear-gradient(135deg, #f5f1ff, #ffffff);
+  }
+
+  .next-card p {
+    margin: 0.45rem 0 0.85rem;
+    color: #101760;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .next-link,
+  .goal-card a,
+  .final-band a {
+    display: flex;
+    min-height: 2.45rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid rgba(81, 36, 202, 0.28);
+    border-radius: 0.55rem;
+    color: #5124ca;
+    font-size: 0.75rem;
+    font-weight: 900;
+  }
+
+  .next-link + .next-link {
+    margin-top: 0.55rem;
+  }
+
+  .next-link.primary,
+  .final-band a {
+    border-color: transparent;
+    background: linear-gradient(135deg, #5b28cd, #2d0b8a);
+    color: #ffffff;
+  }
+
+  .compass-art {
+    width: 8rem;
+    height: 8rem;
+    padding: 1.5rem;
+    border-radius: 50%;
+    background: #fff7e8;
+    color: #5124ca;
+  }
+
+  .source-note {
+    margin: 0;
+    padding: 0.85rem 1rem;
+    background: #f1edff;
+    color: #101760;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .listening-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.74fr) minmax(14rem, 0.26fr);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .documents-panel > p,
+  .practice-list > p,
+  .listening-route-panel p,
+  .question-card p,
+  .goal-card p,
+  .final-band p {
+    margin: 0.35rem 0 0;
+    color: #101760;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .document-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .doc-head {
+    display: flex;
+    gap: 0.7rem;
+    align-items: start;
+    min-height: 3.8rem;
+    padding: 0.85rem;
+  }
+
+  .doc-head > span {
+    display: grid;
+    width: 1.8rem;
+    height: 1.8rem;
+    place-items: center;
+    border-radius: 50%;
+    background: currentColor;
+    color: #ffffff;
+  }
+
+  .doc-head strong {
+    color: #071a68;
+    font-size: 0.74rem;
+  }
+
+  .document-card ul {
+    display: grid;
+    gap: 0.42rem;
+    padding: 0 1rem;
+    margin: 0;
+    list-style: none;
+  }
+
+  .document-card li {
+    color: #101760;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .document-card li::before {
+    margin-right: 0.45rem;
+    color: currentColor;
+    content: "▧";
+  }
+
+  .document-card > p {
+    margin: 0.85rem 1rem 1rem;
+    padding: 0.65rem;
+    border-radius: 0.45rem;
+    background: color-mix(in srgb, currentColor 10%, #ffffff);
+    color: #101760;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .info-rail {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .rail-panel {
+    padding: 0.85rem;
+  }
+
+  .rail-panel h2 {
+    margin-bottom: 0.7rem;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    font-weight: 900;
+  }
+
+  .listening-strategy {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(115deg, rgba(255, 255, 255, 0.94), rgba(243, 239, 255, 0.86));
+  }
+
+  .listening-strategy ol {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-right: 12rem;
+  }
+
+  .dome-art {
+    position: absolute;
+    right: 1rem;
+    bottom: 0.7rem;
+    width: 11rem;
+    color: rgba(81, 36, 202, 0.26);
+  }
+
+  .practice-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.28fr) minmax(0, 0.38fr);
+    gap: 1rem;
+  }
+
+  .practice-list ul {
+    display: grid;
+    gap: 0.55rem;
+    margin-top: 0.8rem;
+  }
+
+  .practice-list a {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr) auto;
+    gap: 0.6rem;
+    align-items: center;
+    min-height: 3.2rem;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid rgba(34, 23, 160, 0.12);
+    border-radius: 0.52rem;
+  }
+
+  .practice-list svg {
+    width: 1.65rem;
+    height: 1.65rem;
+    color: #5124ca;
+  }
+
+  .practice-list strong,
+  .practice-list small {
+    display: block;
+  }
+
+  .practice-list strong {
+    color: #071a68;
+    font-size: 0.74rem;
+  }
+
+  .practice-list small {
+    color: #1d2672;
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+
+  .question-card {
+    position: relative;
+    padding: 1rem;
+    background: linear-gradient(135deg, #fff8ec, #fff0d7);
+  }
+
+  .question-card > svg {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    width: 2.8rem;
+    height: 2.8rem;
+    padding: 0.6rem;
+    border-radius: 50%;
+    background: #ffe1a8;
+    color: #f07600;
+  }
+
+  .question-card ol {
+    display: grid;
+    gap: 0.48rem;
+    padding-left: 1.6rem;
+    margin: 0.75rem 0 0;
+  }
+
+  .question-card li {
+    color: #101760;
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+
+  .listening-route-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.32fr);
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .listening-route {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .goal-card {
+    padding: 1rem;
+    background: linear-gradient(135deg, #f3eeff, #ffffff);
+  }
+
+  .goal-card > svg {
+    width: 3.2rem;
+    height: 3.2rem;
+    margin-left: auto;
+    color: #f07600;
+  }
+
+  .goal-card h3 {
+    margin-top: -1.8rem;
+  }
+
+  .goal-card a {
+    margin-top: 0.85rem;
+    background: linear-gradient(135deg, #5b28cd, #2d0b8a);
+    color: #ffffff;
+  }
+
+  .final-band {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 1.3rem;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f2edff, #ffffff);
+  }
+
+  .final-band > svg {
+    width: 5.5rem;
+    color: #5124ca;
+  }
+
+  .final-band h2 {
+    font-size: 1.18rem;
+  }
+
+  .final-band p {
+    margin-top: 0.2rem;
+  }
+
+  @media (max-width: 1120px) {
+    .guide-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .page-index {
+      display: none;
+    }
+
+    .mobile-index {
+      display: block;
+    }
+  }
+
+  @media (max-width: 980px) {
+    .hero-section,
+    .first-split,
+    .second-split,
+    .third-split,
+    .bottom-grid,
+    .listening-layout,
+    .listening-route-panel,
+    .practice-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .part-grid,
+    .document-grid,
+    .resource-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .listening-strategy ol {
+      padding-right: 0;
+    }
+
+    .dome-art {
+      display: none;
+    }
+
+    .final-band {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .final-band a {
+      grid-column: 1 / -1;
+      justify-self: start;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .hero-section {
+      min-height: 0;
+    }
+
+    .hero-copy h1 {
+      max-width: 100%;
+      font-size: clamp(2rem, 11vw, 2.75rem);
+    }
+
+    .paris-visual svg {
+      min-height: 12rem;
+    }
+
+    .prep-steps,
+    .route-track,
+    .listening-strategy ol {
+      grid-template-columns: 1fr;
+      gap: 0.9rem;
+    }
+
+    .prep-steps::before,
+    .speaking-route::before,
+    .listening-route::before {
+      top: 0;
+      bottom: 0;
+      left: 2rem;
+      right: auto;
+      border-top: 0;
+      border-left: 2px dashed rgba(81, 36, 202, 0.34);
+    }
+
+    .prep-steps li,
+    .route-track li,
+    .listening-strategy li {
+      grid-template-columns: 4rem minmax(0, 1fr);
+      justify-items: start;
+      column-gap: 0.8rem;
+      text-align: left;
+    }
+
+    .prep-steps strong,
+    .prep-steps p,
+    .route-track strong,
+    .route-track small,
+    .listening-strategy strong,
+    .listening-strategy p {
+      grid-column: 2;
+    }
+
+    .round-icon {
+      grid-row: 1 / span 3;
+    }
+
+    .next-card {
+      grid-template-columns: 1fr;
+    }
+
+    .compass-art {
+      display: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .page-wrap {
+      padding-block: 0.85rem 1.2rem;
+    }
+
+    .breadcrumb {
+      font-size: 0.72rem;
+    }
+
+    .hero-badges {
+      gap: 0.42rem;
+    }
+
+    .badge {
+      min-height: 1.72rem;
+      padding-inline: 0.62rem;
+      font-size: 0.66rem;
+    }
+
+    .hero-action,
+    .next-link,
+    .goal-card a,
+    .final-band a {
+      width: 100%;
+    }
+
+    .stats-grid,
+    .part-grid,
+    .document-grid,
+    .resource-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stats-grid li {
+      min-height: 7rem;
+    }
+
+    .panel,
+    .next-card,
+    .question-card,
+    .goal-card,
+    .final-band {
+      padding: 0.85rem;
+    }
+
+    .practice-list a {
+      grid-template-columns: 1.8rem minmax(0, 1fr);
+    }
+
+    .practice-list a > span:last-child {
+      grid-column: 2;
+      justify-self: start;
+    }
+
+    .question-card > svg {
+      position: static;
+      margin-left: auto;
+      margin-bottom: -1.5rem;
+    }
+
+    .final-band {
+      grid-template-columns: 1fr;
+    }
+
+    .final-band > svg {
+      width: 4rem;
+    }
+  }
+</style>

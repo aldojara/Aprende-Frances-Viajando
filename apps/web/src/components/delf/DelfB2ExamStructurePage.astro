@@ -15,8 +15,11 @@ interface Props {
 const { entry, spec, relatedItems, nextItem } = Astro.props;
 const levelHref = withBase("/delf/b2/");
 const listeningItem = relatedItems.find((item: any) => item.id === "delf/b2/comprehension-orale");
+const speakingItem = relatedItems.find((item: any) => item.id === "delf/b2/production-orale");
 const listeningHref =
   (listeningItem ? getContentRoute(listeningItem) : undefined) ?? withBase("/delf/b2/comprehension-orale/");
+const speakingHref =
+  (speakingItem ? getContentRoute(speakingItem) : undefined) ?? withBase("/delf/b2/production-orale/");
 const nextHref = (nextItem ? getContentRoute(nextItem) : undefined) ?? listeningHref;
 
 const toc = [
@@ -91,7 +94,8 @@ const examSkills = [
     label: "Producción oral",
     icon: "chat",
     tone: "violet",
-    status: "Próximamente",
+    href: speakingHref,
+    status: "Disponible para practicar",
     objective:
       "Argumentar y expresar opiniones con fluidez y precisión en una situación de interacción.",
     duration: `${spec.skills[3].duration} + ${spec.skills[3].preparation} de preparación`,
@@ -130,8 +134,8 @@ const frequentErrors = [
 
 const nextLinks = [
   { label: "Entrenar Comprensión oral", href: listeningHref, primary: true },
+  { label: "Entrenar Producción oral", href: speakingHref },
   { label: "Volver a DELF B2", href: levelHref },
-  { label: "Ver recursos DELF B2", href: withBase("/contenidos/?domain=delf&level=b2") },
 ];
 ---
 

@@ -7,7 +7,7 @@ levels: ["B2"]
 contentKind: "exam-preparation"
 format: "article"
 domain: "delf"
-duration: "15 min"
+duration: "40 min"
 objectives:
   - "entrenar comprensión oral B2"
   - "tomar notas y detectar posiciones"
@@ -18,7 +18,7 @@ examVersion: "tout-public"
 examSkill: "listening"
 examContentType: "skill-guide"
 examOrder: 5
-sourceCheckedAt: "2026-07-18"
+sourceCheckedAt: "2026-07-20"
 relatedContent:
   - "delf/b2/estrategias-de-escucha"
 nextContent: "delf/b2/estrategias-de-escucha"

@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import DelfB2OralGuidePage from "../../../../components/delf/DelfB2OralGuidePage.astro";
+import { listeningGuide } from "../../../../data/delfB2OralGuides";
+---
+
+<BaseLayout
+  title={listeningGuide.seoTitle}
+  description={listeningGuide.description}
+  canonical={listeningGuide.canonical}
+>
+  <DelfB2OralGuidePage guide={listeningGuide} />
+</BaseLayout>

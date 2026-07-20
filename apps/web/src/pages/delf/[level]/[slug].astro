@@ -87,9 +87,15 @@ const defaultToc = [
 ];
 
 export async function getStaticPaths() {
+  const dedicatedDelfRoutes = new Set([
+    "delf/b2/comprehension-orale",
+    "delf/b2/production-orale",
+  ]);
+
   const entries = (await getCollection("content"))
     .filter(
       (item) =>
+        !dedicatedDelfRoutes.has(item.id) &&
         item.data.domain === "delf" &&
         item.data.publicationStatus === "published" &&
         item.data.demonstration === false &&
