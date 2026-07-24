@@ -51,18 +51,19 @@ export const readingGuide: WrittenGuide = {
   breadcrumb: "Comprensión escrita",
   durationBadge: "60 min aprox.",
   ctaLabel: "Quiero practicar la Comprensión escrita",
-  ctaHref: "#practica-simulaciones",
+  ctaHref: "#practica-recursos",
   intro:
     "Analiza y comprende diferentes tipos de textos escritos para identificar ideas principales, detalles relevantes, opiniones y la intención del autor.\n\nDemuestra tu capacidad para leer con autonomía y responder con precisión.",
   toc: [
-    { id: "resumen-examen", label: "Resumen del examen", icon: "check" },
-    { id: "estructura-prueba", label: "Las 4 pruebas del DELF B2", icon: "check" },
-    { id: "estrategias-exito", label: "Recorrido del día del examen", icon: "check" },
-    { id: "ruta-preparacion", label: "Cómo se obtiene el diploma", icon: "check" },
-    { id: "que-se-evalua", label: "Qué evalúa el DELF B2", icon: "check" },
-    { id: "errores-frecuentes", label: "Errores frecuentes", icon: "check" },
-    { id: "practica-simulaciones", label: "Recursos relacionados", icon: "check" },
-    { id: "franja-final", label: "Siguiente paso", icon: "check" },
+    { id: "resumen", label: "Resumen de la sección", icon: "check" },
+    { id: "partes-comprension-escrita", label: "Las partes de la Comprensión escrita", icon: "document" },
+    { id: "que-se-evalua", label: "¿Qué se evalúa?", icon: "check" },
+    { id: "abordar-un-texto", label: "Cómo abordar un texto", icon: "list" },
+    { id: "estrategias-clave", label: "Estrategias clave", icon: "star" },
+    { id: "practica-recursos", label: "Práctica y recursos", icon: "book" },
+    { id: "errores-frecuentes", label: "Errores frecuentes", icon: "shield" },
+    { id: "ruta-preparacion", label: "Tu ruta de preparación", icon: "link" },
+    { id: "siguiente-paso", label: "Siguiente paso", icon: "edit" },
   ],
   stats: [
     { icon: "book", value: "1 competencia", label: "Comprensión escrita", tone: "blue" },
@@ -180,8 +181,8 @@ export const readingStrategies = [
 ];
 
 export const readingPracticeLinks = [
-  { icon: "document", title: "Ejercicios por tipo de texto", text: "Practica cada parte de la prueba", href: "#estructura-prueba" },
-  { icon: "clipboard", title: "Simulación completa", text: "Prueba completa de 60 minutos", href: "#estrategias-exito" },
+  { icon: "document", title: "Ejercicios por tipo de texto", text: "Practica cada parte de la prueba", href: "#partes-comprension-escrita" },
+  { icon: "clipboard", title: "Simulación completa", text: "Prueba completa de 60 minutos", href: "#abordar-un-texto" },
   { icon: "list", title: "Banco de textos", text: "Accede a múltiples textos auténticos", href: "#que-se-evalua" },
 ];
 

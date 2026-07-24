@@ -19,4 +19,10 @@ const site =
 export default defineConfig({
   site,
   base,
+  redirects: {
+    "/proyecto/": {
+      status: 301,
+      destination: "/sobre-nosotros/",
+    },
+  },
 });

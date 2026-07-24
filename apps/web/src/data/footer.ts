@@ -36,7 +36,7 @@ export const footerSections: FooterSection[] = [
       { label: "Niveles", href: "/niveles/", status: "Disponible" },
       { label: "Gramática", href: "/gramatica/", status: "Disponible" },
       { label: "DELF", href: "/delf/", status: "En expansión" },
-      { label: "Proyecto", href: "/proyecto/", status: "Disponible" },
+      { label: "Sobre nosotros", href: "/sobre-nosotros/", status: "Disponible" },
       { label: "Catálogo", href: "/contenidos/", status: "Disponible" },
     ],
   },
@@ -52,11 +52,11 @@ export const footerSections: FooterSection[] = [
     ],
   },
   {
-    id: "proyecto",
-    title: "Proyecto",
+    id: "sobre-nosotros",
+    title: "Sobre nosotros",
     links: [
-      { label: "Sobre la plataforma", href: "/proyecto/", status: "Disponible" },
-      { label: "IA aplicada", href: "/proyecto/#ia-aplicada", status: "Disponible" },
+      { label: "Sobre la plataforma", href: "/sobre-nosotros/", status: "Disponible" },
+      { label: "IA aplicada", href: "/sobre-nosotros/#ia-aplicada", status: "Disponible" },
       {
         label: "Creador",
         href: "/autor/aldo-jara-pisconti/",
@@ -64,7 +64,7 @@ export const footerSections: FooterSection[] = [
       },
       {
         label: "Metodología",
-        href: "/proyecto/#construccion",
+        href: "/sobre-nosotros/#construccion",
         status: "Disponible",
       },
     ],

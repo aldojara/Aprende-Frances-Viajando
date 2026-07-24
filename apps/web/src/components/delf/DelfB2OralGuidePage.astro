@@ -103,7 +103,7 @@ const icons: Record<OralIcon, string> = {
           </ol>
         </details>
 
-        <section id={isSpeaking ? "resumen-seccion" : "resumen-examen"} class="hero-section" aria-labelledby="page-title">
+        <section id={isSpeaking ? "resumen-seccion" : "resumen"} class="hero-section" aria-labelledby="page-title">
           <div class="hero-copy">
             <div class="hero-badges" aria-label="Metadatos de la guía">
               <span class="badge badge-level">B2</span>
@@ -283,8 +283,8 @@ const icons: Record<OralIcon, string> = {
         ) : (
           <>
             <div class="listening-layout">
-              <section id="estructura-prueba" class="panel documents-panel" aria-labelledby="docs-title">
-                <h2 id="docs-title">Estructura de la prueba</h2>
+              <section id="partes-comprension-oral" class="panel documents-panel" aria-labelledby="docs-title">
+                <h2 id="docs-title">Las partes de la Comprensión oral</h2>
                 <p>La prueba incluye 3 documentos de audio con diferentes situaciones de comunicación.</p>
                 <ul class="document-grid">
                   {listeningDocuments.map((doc) => (
@@ -327,8 +327,8 @@ const icons: Record<OralIcon, string> = {
               </aside>
             </div>
 
-            <section id="estrategias-exito" class="panel listening-strategy" aria-labelledby="success-title">
-              <h2 id="success-title">Estrategias para tener éxito</h2>
+            <section id="abordar-prueba-audio" class="panel listening-strategy" aria-labelledby="success-title">
+              <h2 id="success-title">Cómo abordar una prueba de audio</h2>
               <ol>
                 {listeningStrategy.map((item) => (
                   <li>
@@ -347,8 +347,8 @@ const icons: Record<OralIcon, string> = {
             </section>
 
             <div class="practice-grid">
-              <section id="practica-simulaciones" class="panel practice-list" aria-labelledby="practice-title">
-                <h2 id="practice-title">Practica con simulaciones</h2>
+              <section id="practica-recursos" class="panel practice-list" aria-labelledby="practice-title">
+                <h2 id="practice-title">Práctica y recursos</h2>
                 <p>Mejora tu comprensión con ejercicios guiados y exámenes completos.</p>
                 <ul>
                   {listeningPracticeLinks.map((item) => (
@@ -363,8 +363,8 @@ const icons: Record<OralIcon, string> = {
                 </ul>
               </section>
 
-              <section class="panel tips-panel" aria-labelledby="tips-title">
-                <h2 id="tips-title">Consejos rápidos</h2>
+              <section id="estrategias-clave" class="panel tips-panel" aria-labelledby="tips-title">
+                <h2 id="tips-title">Estrategias clave</h2>
                 <ul class="check-list">{listeningTips.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul>
               </section>
 
@@ -406,7 +406,7 @@ const icons: Record<OralIcon, string> = {
               </aside>
             </section>
 
-            <section id="franja-final" class="final-band" aria-labelledby="final-title">
+            <section id="siguiente-paso" class="final-band" aria-labelledby="final-title">
               <svg viewBox="0 0 120 60" aria-hidden="true" focusable="false">
                 <path d="M8 38 55 8l-16 45-10-16zM39 53l17-18" />
               </svg>

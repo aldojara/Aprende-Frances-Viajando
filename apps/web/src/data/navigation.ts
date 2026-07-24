@@ -4,7 +4,7 @@ export const mainNavigation = [
   { label: "Gramática", href: "/gramatica/" },
   { label: "DELF", href: "/delf/" },
   { label: "Recursos", href: "/contenidos/" },
-  { label: "Proyecto", href: "/proyecto/" },
+  { label: "Sobre nosotros", href: "/sobre-nosotros/" },
 ] as const;
 
 export const primaryActions = [

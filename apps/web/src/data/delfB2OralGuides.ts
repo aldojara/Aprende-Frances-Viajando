@@ -84,18 +84,19 @@ export const listeningGuide: OralGuide = {
   breadcrumb: "Comprensión oral",
   durationBadge: "40 min aprox.",
   ctaLabel: "Quiero practicar la Comprensión oral",
-  ctaHref: "#practica-simulaciones",
+  ctaHref: "#practica-recursos",
   intro:
     "Escucha diversos documentos y demuestra tu capacidad para comprender información, ideas principales, detalles específicos, opiniones y puntos de vista.",
   toc: [
-    { id: "resumen-examen", label: "Resumen del examen", icon: "check" },
-    { id: "estructura-prueba", label: "Las 4 pruebas del DELF B2", icon: "check" },
-    { id: "estrategias-exito", label: "Recorrido del día del examen", icon: "check" },
-    { id: "ruta-preparacion", label: "Cómo se obtiene el diploma", icon: "check" },
-    { id: "que-se-evalua", label: "Qué evalúa el DELF B2", icon: "check" },
-    { id: "errores-frecuentes", label: "Errores frecuentes", icon: "check" },
-    { id: "practica-simulaciones", label: "Recursos relacionados", icon: "check" },
-    { id: "franja-final", label: "Siguiente paso", icon: "check" },
+    { id: "resumen", label: "Resumen de la sección", icon: "check" },
+    { id: "partes-comprension-oral", label: "Las partes de la Comprensión oral", icon: "audio" },
+    { id: "que-se-evalua", label: "¿Qué se evalúa?", icon: "check" },
+    { id: "abordar-prueba-audio", label: "Cómo abordar una prueba de audio", icon: "list" },
+    { id: "estrategias-clave", label: "Estrategias clave", icon: "star" },
+    { id: "practica-recursos", label: "Práctica y recursos", icon: "document" },
+    { id: "errores-frecuentes", label: "Errores frecuentes", icon: "shield" },
+    { id: "ruta-preparacion", label: "Tu ruta de preparación", icon: "link" },
+    { id: "siguiente-paso", label: "Siguiente paso", icon: "edit" },
   ],
   stats: [
     { icon: "audio", value: "1 competencia", label: "Comprensión oral", tone: "blue" },
@@ -251,8 +252,8 @@ export const listeningStrategy = [
 ];
 
 export const listeningPracticeLinks = [
-  { icon: "document", title: "Ejercicios por tipo de audio", text: "Practica con audios cortos y preguntas.", href: "#estructura-prueba" },
-  { icon: "document", title: "Simulación completa", text: "Prueba completa de Comprensión oral.", href: "#estrategias-exito" },
+  { icon: "document", title: "Ejercicios por tipo de audio", text: "Practica con audios cortos y preguntas.", href: "#partes-comprension-oral" },
+  { icon: "document", title: "Simulación completa", text: "Prueba completa de Comprensión oral.", href: "#abordar-prueba-audio" },
   { icon: "list", title: "Banco de audios", text: "Escucha audios auténticos clasificados.", href: "#que-se-evalua" },
 ];
 

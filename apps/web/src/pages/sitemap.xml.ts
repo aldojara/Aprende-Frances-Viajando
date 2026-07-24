@@ -3,7 +3,7 @@ import { absoluteUrl } from "../utils/seo";
 
 const routes = [
   "/",
-  "/proyecto/",
+  "/sobre-nosotros/",
   "/autor/aldo-jara-pisconti/",
   "/niveles/",
   "/gramatica/",

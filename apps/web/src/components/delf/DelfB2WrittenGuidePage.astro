@@ -102,7 +102,7 @@ const icons: Record<WrittenIcon, string> = {
           </ol>
         </details>
 
-        <section id={isWriting ? "resumen-seccion" : "resumen-examen"} class="hero-section" aria-labelledby="page-title">
+        <section id={isWriting ? "resumen-seccion" : "resumen"} class="hero-section" aria-labelledby="page-title">
           <div class="hero-copy">
             <div class="hero-badges" aria-label="Metadatos de la guía">
               <span class="badge badge-level">B2</span>
@@ -286,8 +286,8 @@ const icons: Record<WrittenIcon, string> = {
         ) : (
           <>
             <div class="reading-layout">
-              <section id="estructura-prueba" class="panel documents-panel" aria-labelledby="reading-structure-title">
-                <h2 id="reading-structure-title">Estructura de la prueba</h2>
+              <section id="partes-comprension-escrita" class="panel documents-panel" aria-labelledby="reading-structure-title">
+                <h2 id="reading-structure-title">Las partes de la Comprensión escrita</h2>
                 <p>La prueba se divide en 4 partes con textos de diferente longitud y propósito.</p>
                 <ul class="document-grid reading-parts">
                   {readingParts.map((part) => (
@@ -325,8 +325,8 @@ const icons: Record<WrittenIcon, string> = {
               </aside>
             </div>
 
-            <section id="estrategias-exito" class="panel reading-strategy" aria-labelledby="reading-success-title">
-              <h2 id="reading-success-title">Estrategias clave para tener éxito</h2>
+            <section id="abordar-un-texto" class="panel reading-strategy" aria-labelledby="reading-success-title">
+              <h2 id="reading-success-title">Cómo abordar un texto</h2>
               <ol>
                 {readingStrategies.map((item) => (
                   <li>
@@ -345,8 +345,8 @@ const icons: Record<WrittenIcon, string> = {
             </section>
 
             <div class="practice-grid">
-              <section id="practica-simulaciones" class="panel practice-list" aria-labelledby="reading-practice-title">
-                <h2 id="reading-practice-title">Practica con ejercicios y simulaciones</h2>
+              <section id="practica-recursos" class="panel practice-list" aria-labelledby="reading-practice-title">
+                <h2 id="reading-practice-title">Práctica y recursos</h2>
                 <p>Mejora tu velocidad y precisión con actividades guiadas.</p>
                 <ul>
                   {readingPracticeLinks.map((item) => (
@@ -361,8 +361,8 @@ const icons: Record<WrittenIcon, string> = {
                 </ul>
               </section>
 
-              <section class="panel tips-panel" aria-labelledby="reading-tips-title">
-                <h2 id="reading-tips-title">Consejos rápidos</h2>
+              <section id="estrategias-clave" class="panel tips-panel" aria-labelledby="reading-tips-title">
+                <h2 id="reading-tips-title">Estrategias clave</h2>
                 <ul class="check-list">{readingTips.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul>
               </section>
 
@@ -402,7 +402,7 @@ const icons: Record<WrittenIcon, string> = {
               </article>
             </section>
 
-            <section id="franja-final" class="final-band" aria-labelledby="final-title">
+            <section id="siguiente-paso" class="final-band" aria-labelledby="final-title">
               <svg viewBox="0 0 120 72" aria-hidden="true" focusable="false">
                 <path d="M8 44 72 12l-18 48-12-20-20 8z" />
               </svg>
