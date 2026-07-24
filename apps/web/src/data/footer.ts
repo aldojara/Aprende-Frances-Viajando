@@ -32,135 +32,56 @@ export const footerSections: FooterSection[] = [
     id: "explorar",
     title: "Explorar",
     links: [
-      {
-        label: "Inicio",
-        href: "/",
-        status: "Disponible",
-      },
-      {
-        label: "Niveles",
-        href: "/niveles/",
-        status: "Disponible",
-      },
-      {
-        label: "Gramática",
-        href: "/gramatica/",
-        status: "Disponible",
-      },
-      {
-        label: "DELF",
-        href: "/delf/",
-        status: "En expansión",
-      },
-      {
-        label: "Rutas de aprendizaje",
-        status: "Próximamente",
-      },
-      {
-        label: "Catálogo",
-        href: "/contenidos/",
-        status: "Disponible",
-      },
+      { label: "Inicio", href: "/", status: "Disponible" },
+      { label: "Niveles", href: "/niveles/", status: "Disponible" },
+      { label: "Gramática", href: "/gramatica/", status: "Disponible" },
+      { label: "DELF", href: "/delf/", status: "En expansión" },
+      { label: "Proyecto", href: "/proyecto/", status: "Disponible" },
+      { label: "Catálogo", href: "/contenidos/", status: "Disponible" },
     ],
   },
   {
     id: "recursos",
     title: "Recursos",
     links: [
-      {
-        label: "Todos los recursos",
-        status: "En construcción",
-      },
-      {
-        label: "Descargables",
-        status: "Próximamente",
-      },
-      {
-        label: "Mapas visuales",
-        status: "Próximamente",
-      },
-      {
-        label: "Checklists",
-        status: "Próximamente",
-      },
-      {
-        label: "Mini tests",
-        status: "Próximamente",
-      },
+      { label: "Todos los recursos", href: "/contenidos/", status: "Disponible" },
+      { label: "Descargables", status: "Próximamente" },
+      { label: "Mapas visuales", status: "Próximamente" },
+      { label: "Checklists", status: "Próximamente" },
+      { label: "Mini tests", status: "Próximamente" },
     ],
   },
   {
     id: "proyecto",
     title: "Proyecto",
     links: [
+      { label: "Sobre la plataforma", href: "/proyecto/", status: "Disponible" },
+      { label: "IA aplicada", href: "/proyecto/#ia-aplicada", status: "Disponible" },
       {
-        label: "Sobre la plataforma",
-        status: "En construcción",
-      },
-      {
-        label: "IA aplicada",
-        status: "Próximamente",
+        label: "Creador",
+        href: "/autor/aldo-jara-pisconti/",
+        status: "Disponible",
       },
       {
         label: "Metodología",
-        status: "En construcción",
-      },
-      {
-        label: "Contacto",
-        status: "En construcción",
+        href: "/proyecto/#construccion",
+        status: "Disponible",
       },
     ],
   },
 ];
 
 export const socialChannels: SocialChannel[] = [
-  {
-    id: "tiktok",
-    label: "TikTok",
-    status: "Próximamente",
-    icon: "video",
-  },
-  {
-    id: "youtube",
-    label: "YouTube",
-    status: "Próximamente",
-    icon: "play",
-  },
-  {
-    id: "instagram",
-    label: "Instagram",
-    status: "Próximamente",
-    icon: "camera",
-  },
-  {
-    id: "blog",
-    label: "Blog",
-    status: "Próximamente",
-    icon: "article",
-  },
-  {
-    id: "comunidad",
-    label: "Comunidad",
-    status: "Próximamente",
-    icon: "community",
-  },
+  { id: "tiktok", label: "TikTok", status: "Próximamente", icon: "video" },
+  { id: "youtube", label: "YouTube", status: "Próximamente", icon: "play" },
+  { id: "instagram", label: "Instagram", status: "Próximamente", icon: "camera" },
+  { id: "blog", label: "Blog", status: "Próximamente", icon: "article" },
+  { id: "comunidad", label: "Comunidad", status: "Próximamente", icon: "community" },
 ];
 
 export const legalLinks: FooterLink[] = [
-  {
-    label: "Aviso legal",
-    status: "En construcción",
-  },
-  {
-    label: "Privacidad",
-    status: "En construcción",
-  },
-  {
-    label: "Términos de uso",
-    status: "En construcción",
-  },
-  {
-    label: "Cookies",
-    status: "En construcción",
-  },
+  { label: "Aviso legal", status: "En construcción" },
+  { label: "Privacidad", status: "En construcción" },
+  { label: "Términos de uso", status: "En construcción" },
+  { label: "Cookies", status: "En construcción" },
 ];

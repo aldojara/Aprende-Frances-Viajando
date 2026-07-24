@@ -1,13 +1,13 @@
 export const mainNavigation = [
   { label: "Inicio", href: "/" },
   { label: "Niveles", href: "/niveles/" },
-  { label: "Gramatica", href: "/gramatica/", planned: true },
-  { label: "DELF", href: "/delf/", planned: true },
-  { label: "Recursos", href: "/recursos/", planned: true },
-  { label: "Proyecto", href: "/proyecto/", planned: true },
+  { label: "Gramática", href: "/gramatica/" },
+  { label: "DELF", href: "/delf/" },
+  { label: "Recursos", href: "/contenidos/" },
+  { label: "Proyecto", href: "/proyecto/" },
 ] as const;
 
 export const primaryActions = [
   { label: "Explorar", href: "/contenidos/" },
-  { label: "Empieza gratis", href: "/empieza/", planned: true },
+  { label: "Empieza gratis", href: "/niveles/" },
 ] as const;

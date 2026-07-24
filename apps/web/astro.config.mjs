@@ -1,7 +1,22 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 
-// https://astro.build/config
-// GitHub Preview uses a subpath, while the canonical local/Cloudflare app is served from root.
-// Do not copy deployment URL settings automatically between those projects.
-export default defineConfig({});
+const previewBase = "/Aprende-Frances-Viajando-Astro-Preview";
+// Astro config runs in Node; the project intentionally avoids adding @types/node.
+// @ts-ignore
+const env = process.env;
+const rawBase =
+  env.PUBLIC_BASE_PATH ??
+  env.BASE_PATH ??
+  (env.GITHUB_PAGES === "true" ? previewBase : "/");
+const base = rawBase === "/" ? "/" : `/${rawBase.replace(/^\/|\/$/g, "")}`;
+
+const site =
+  env.PUBLIC_SITE_URL ??
+  env.SITE ??
+  (base === previewBase ? "https://aldojara.github.io" : "http://localhost:4321");
+
+export default defineConfig({
+  site,
+  base,
+});

@@ -1,0 +1,434 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  creatorProfile,
+  creatorProfilePath,
+  getCreatorSameAs,
+} from "../../data/creator";
+import { absoluteUrl } from "../../utils/seo";
+import { withBase } from "../../utils/paths";
+
+const baseUrl = Astro.site ?? Astro.url;
+const authorUrl = absoluteUrl(creatorProfilePath, baseUrl);
+const authorImageUrl = absoluteUrl(creatorProfile.image, baseUrl);
+const sameAs = getCreatorSameAs();
+
+const principles = [
+  [
+    "Aprender para comunicarse",
+    "El francés debe servir para actuar, relacionarse y comprender contextos reales.",
+  ],
+  [
+    "Tecnología al servicio de la pedagogía",
+    "Las herramientas tecnológicas deben mejorar el aprendizaje, no sustituirlo.",
+  ],
+  [
+    "Contenido útil y estructurado",
+    "Cada recurso debe responder a una necesidad concreta dentro de una ruta progresiva.",
+  ],
+  [
+    "Evolución continua",
+    "La plataforma crecerá por fases manteniendo desde el inicio una visión integral A1-C1.",
+  ],
+];
+
+const professionalLinks = [
+  ["LinkedIn", creatorProfile.linkedinUrl],
+  ["GitHub", creatorProfile.githubUrl],
+  ["Contactar", creatorProfile.contactUrl],
+];
+
+const profileStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  name: "Aldo Jara Pisconti | Creador de Aprende Francés Viajando",
+  mainEntity: {
+    "@type": "Person",
+    name: creatorProfile.name,
+    url: authorUrl,
+    image: authorImageUrl,
+    jobTitle: creatorProfile.role,
+    description: "Ingeniero de sistemas y creador de Aprende Francés Viajando.",
+    knowsAbout: creatorProfile.knowsAbout,
+    sameAs,
+  },
+};
+---
+
+<BaseLayout
+  title="Aldo Jara Pisconti | Creador de Aprende Francés Viajando"
+  description="Perfil de Aldo Jara Pisconti, ingeniero de sistemas y creador de Aprende Francés Viajando, proyecto que integra tecnología, analítica, inteligencia artificial y educación."
+  canonical={creatorProfilePath}
+  image={creatorProfile.image}
+  type="profile"
+  robots="index,follow"
+  structuredData={profileStructuredData}
+>
+  <main class="author-page">
+    <section class="author-hero container" aria-labelledby="author-title">
+      <a class="back-link" href={withBase("/proyecto/")}>← Volver al Proyecto</a>
+
+      <div class="author-hero-grid">
+        <div class="author-copy">
+          <p class="eyebrow">Creador de Aprende Francés Viajando</p>
+          <h1 id="author-title">{creatorProfile.name}</h1>
+          <p class="author-subtitle">Creador de Aprende Francés Viajando</p>
+          <p class="author-descriptor">{creatorProfile.professionalDescriptor}</p>
+          <p>
+            Aldo Jara Pisconti es ingeniero de sistemas y creador de Aprende
+            Francés Viajando, una plataforma educativa en evolución que integra
+            aprendizaje del francés, preparación DELF, viajes, tecnología,
+            analítica e inteligencia artificial aplicada con criterio.
+          </p>
+          <p>
+            El proyecto parte de una experiencia real de aprendizaje y de la
+            necesidad de organizar contenidos dispersos en una ruta clara, útil y
+            progresiva desde A1 hasta C1.
+          </p>
+        </div>
+
+        <figure class="author-portrait">
+          <img
+            src={withBase(creatorProfile.image)}
+            alt={creatorProfile.imageAlt}
+            width="640"
+            height="720"
+          />
+        </figure>
+      </div>
+    </section>
+
+    <div class="author-shell container">
+      <section class="author-panel" aria-labelledby="tech-title">
+        <h2 id="tech-title">Tecnología, datos y educación</h2>
+        <p>
+          Su perfil combina experiencia en sistemas, analítica de información,
+          bases de datos, automatización y desarrollo de soluciones digitales.
+          Esta perspectiva tecnológica se aplica al proyecto para mejorar la
+          organización de contenidos, la reutilización multiformato y la futura
+          personalización de la experiencia educativa.
+        </p>
+      </section>
+
+      <section class="author-panel accent-panel" aria-labelledby="origin-title">
+        <h2 id="origin-title">Por qué nace Aprende Francés Viajando</h2>
+        <p>
+          Aprende Francés Viajando nace de la experiencia de aprender francés en
+          primera persona y de identificar dificultades frecuentes: recursos
+          dispersos, gramática descontextualizada, preparación DELF fragmentada y
+          falta de una ruta de aprendizaje consistente.
+        </p>
+        <p>
+          La plataforma busca transformar esas dificultades en una experiencia
+          estructurada, visual, comunicativa y conectada con situaciones reales.
+        </p>
+      </section>
+
+      <section class="author-section" aria-labelledby="expertise-title">
+        <h2 id="expertise-title">Áreas de experiencia e interés</h2>
+        <ul class="expertise-list">
+          {creatorProfile.expertise.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <section class="author-section" aria-labelledby="principles-title">
+        <h2 id="principles-title">Principios del proyecto</h2>
+        <div class="principle-grid">
+          {
+            principles.map(([title, text]) => (
+              <article>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="platform-return" aria-labelledby="return-title">
+        <div>
+          <h2 id="return-title">Una plataforma para aprender con dirección</h2>
+          <p>
+            Aprende Francés Viajando conecta niveles, gramática, DELF, recursos y
+            viajes dentro de una visión educativa progresiva.
+          </p>
+        </div>
+        <a class="button button-primary" href={withBase("/proyecto/")}>Volver a la plataforma</a>
+      </section>
+
+      <section class="presence-section" aria-label="Presencia profesional">
+        <h2>Presencia profesional</h2>
+        <div class="presence-actions">
+          {
+            professionalLinks.map(([label, href]) =>
+              href ? (
+                <a href={href} target="_blank" rel="noopener noreferrer">{label}</a>
+              ) : (
+                <span aria-disabled="true">{label}</span>
+              ),
+            )
+          }
+        </div>
+      </section>
+
+      <section class="author-final-cta" aria-labelledby="author-cta-title">
+        <h2 id="author-cta-title">Explora Aprende Francés Viajando</h2>
+        <p>
+          Empieza por tu nivel, refuerza gramática o prepara el DELF con una ruta
+          clara y recursos en expansión.
+        </p>
+        <div>
+          <a href={withBase("/niveles/")}>Niveles</a>
+          <a href={withBase("/gramatica/")}>Gramática</a>
+          <a href={withBase("/delf/")}>DELF</a>
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .author-page {
+    background:
+      radial-gradient(circle at 92% 12%, rgba(0, 85, 164, 0.07), transparent 22rem),
+      radial-gradient(circle at 6% 42%, rgba(184, 134, 11, 0.08), transparent 19rem),
+      var(--color-bg);
+  }
+
+  .author-hero {
+    display: grid;
+    gap: 1rem;
+    padding-block: 2rem 1.2rem;
+  }
+
+  .back-link {
+    justify-self: start;
+    color: var(--color-blue-dark);
+    font-size: 0.88rem;
+    font-weight: 900;
+  }
+
+  .author-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.42fr);
+    gap: 1.4rem;
+    align-items: center;
+    padding: 1.2rem;
+    border: 1px solid rgba(11, 47, 85, 0.12);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .author-copy h1 {
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+  }
+
+  .author-subtitle {
+    margin: 0.55rem 0 0;
+    color: var(--color-heading);
+    font-size: 1.1rem;
+    font-weight: 900;
+  }
+
+  .author-descriptor {
+    margin: 0.35rem 0 1rem;
+    color: #9a5d00;
+    font-weight: 900;
+  }
+
+  .author-copy p:not(.eyebrow) {
+    max-width: 54rem;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    line-height: 1.72;
+  }
+
+  .author-portrait {
+    overflow: hidden;
+    margin: 0;
+    border-radius: var(--radius-md);
+    background: #eef5fc;
+  }
+
+  .author-portrait img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 8 / 9;
+    object-fit: cover;
+  }
+
+  .author-shell {
+    display: grid;
+    gap: 1rem;
+    padding-block: 1rem 3rem;
+  }
+
+  .author-panel,
+  .author-section,
+  .platform-return,
+  .presence-section,
+  .author-final-cta {
+    padding: 1.2rem;
+    border: 1px solid rgba(11, 47, 85, 0.12);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .accent-panel {
+    background:
+      linear-gradient(120deg, rgba(255, 248, 234, 0.9), rgba(255, 255, 255, 0.74)),
+      var(--color-surface);
+  }
+
+  .author-panel h2,
+  .author-section h2,
+  .platform-return h2,
+  .presence-section h2,
+  .author-final-cta h2 {
+    font-size: clamp(1.45rem, 3vw, 2rem);
+  }
+
+  .author-panel p,
+  .platform-return p,
+  .author-final-cta p {
+    max-width: 64rem;
+    margin: 0.6rem 0 0;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+
+  .expertise-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    padding: 0;
+    margin: 1rem 0 0;
+    list-style: none;
+  }
+
+  .expertise-list li {
+    min-height: 2.35rem;
+    padding: 0.48rem 0.75rem;
+    border: 1px solid rgba(11, 47, 85, 0.16);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--color-heading);
+    font-size: 0.86rem;
+    font-weight: 800;
+  }
+
+  .principle-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .principle-grid article {
+    min-height: 9rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+  }
+
+  .principle-grid h3 {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 900;
+  }
+
+  .principle-grid p {
+    margin: 0.5rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+  }
+
+  .platform-return {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .presence-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .presence-actions a,
+  .presence-actions span,
+  .author-final-cta a {
+    display: inline-flex;
+    min-height: 2.65rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1rem;
+    border: 1px solid rgba(11, 47, 85, 0.28);
+    border-radius: var(--radius-sm);
+    color: var(--color-heading);
+    font-weight: 900;
+  }
+
+  .presence-actions span {
+    cursor: not-allowed;
+    opacity: 0.52;
+  }
+
+  .author-final-cta {
+    background: var(--color-blue-dark);
+    color: #ffffff;
+  }
+
+  .author-final-cta h2 {
+    color: #ffffff;
+  }
+
+  .author-final-cta p {
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .author-final-cta div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .author-final-cta a {
+    border-color: rgba(255, 255, 255, 0.28);
+    color: #ffffff;
+  }
+
+  @media (max-width: 900px) {
+    .author-hero-grid,
+    .platform-return {
+      grid-template-columns: 1fr;
+    }
+
+    .principle-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .author-portrait {
+      max-width: 22rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .principle-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .platform-return .button,
+    .presence-actions a,
+    .presence-actions span,
+    .author-final-cta a {
+      width: 100%;
+    }
+  }
+</style>

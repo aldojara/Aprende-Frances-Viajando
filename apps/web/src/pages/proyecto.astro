@@ -1,0 +1,749 @@
+---
+import CreatorSection from "../components/project/CreatorSection.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { creatorProfile, creatorProfilePath } from "../data/creator";
+import { absoluteUrl, siteName } from "../utils/seo";
+import { withBase } from "../utils/paths";
+
+const baseUrl = Astro.site ?? Astro.url;
+const projectUrl = absoluteUrl("/proyecto/", baseUrl);
+const creatorUrl = absoluteUrl(creatorProfilePath, baseUrl);
+
+const visionItems = [
+  ["A1-C1", "Un recorrido completo y progresivo para todos los niveles.", "level"],
+  ["Gramática + DELF", "Aprende gramática en contexto y prepárate para los exámenes DELF.", "book"],
+  ["Recursos multiformato", "Audios, guías, ejercicios, PDF, mapas visuales y otros formatos.", "media"],
+  ["IA aplicada progresivamente", "Tecnología educativa que apoya y potencia el aprendizaje, sin reemplazarlo.", "chip"],
+];
+
+const reasons = [
+  ["Contenido disperso", "Encontrar recursos de calidad en francés toma tiempo y puede dificultar la continuidad del aprendizaje.", "network"],
+  ["Gramática desconectada", "La gramática muchas veces se enseña sin contexto ni utilidad clara en la comunicación.", "puzzle"],
+  ["Preparación DELF fragmentada", "La preparación suele estar dividida por competencias sin una ruta integrada.", "file"],
+  ["Falta de una ruta clara", "Muchos estudiantes no saben por dónde empezar ni cómo avanzar con consistencia.", "route"],
+];
+
+const proposal = [
+  ["Progresión A1-C1", "Ruta estructurada con objetivos claros y contenidos graduados paso a paso.", "blue"],
+  ["Francés para comunicar", "Aprende a expresarte en situaciones reales de la vida diaria, del viaje y del trabajo.", "green"],
+  ["Preparación DELF", "Entrena por competencias con estrategias, modelos de examen y actividades específicas.", "gold"],
+  ["Aprendizaje en contexto", "El idioma unido a la cultura, los viajes, las ciudades y la vida francófona.", "violet"],
+];
+
+const steps = [
+  ["1. Contenido original", "Creación de guías, ejercicios y recursos propios basados en necesidades reales."],
+  ["2. Estructuración pedagógica", "Organización por niveles, competencias y objetivos de aprendizaje."],
+  ["3. Web y recursos", "Desarrollo de la plataforma, recursos interactivos y materiales descargables."],
+  ["4. Contenido multicanal", "Disponibilidad progresiva en web, PDF, audio, video y formatos complementarios."],
+  ["5. Futuras funciones EdTech", "Integración progresiva de inteligencia artificial y herramientas educativas."],
+];
+
+const aiItems = [
+  ["Estructuración de contenidos", "Apoyo en la organización y secuenciación pedagógica.", "Disponible"],
+  ["Reutilización multiformato", "Transformación de contenidos en múltiples formatos.", "Disponible"],
+  ["Automatización editorial", "Generación asistida de actividades y recursos.", "Próximamente"],
+  ["Personalización futura", "Práctica adaptativa y seguimiento inteligente.", "Próximamente"],
+];
+
+const finalCtas = [
+  ["Explorar niveles", "Elige tu nivel y continúa tu progreso paso a paso.", "/niveles/", "Ver niveles"],
+  ["Estudiar gramática", "Aprende gramática en contexto con ejemplos y ejercicios.", "/gramatica/", "Estudiar ahora"],
+  ["Preparar el DELF", "Entrena por competencias con estrategias y exámenes.", "/delf/", "Comenzar"],
+];
+
+const projectStructuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteName,
+    url: absoluteUrl("/", baseUrl),
+    description:
+      "Plataforma educativa A1-C1 para aprender francés, preparar el DELF y conectar el idioma con viajes y tecnología educativa.",
+    inLanguage: "es",
+    creator: {
+      "@type": "Person",
+      name: creatorProfile.name,
+      url: creatorUrl,
+    },
+    about: [
+      "Francés A1-C1",
+      "Preparación DELF",
+      "Gramática francesa",
+      "Tecnología educativa",
+      "Viajes",
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    name: siteName,
+    url: projectUrl,
+    description:
+      "Proyecto educativo progresivo para aprender francés desde A1 hasta C1 con gramática, DELF, recursos multiformato, viajes e inteligencia artificial aplicada con criterio.",
+    founder: {
+      "@type": "Person",
+      name: creatorProfile.name,
+      url: creatorUrl,
+    },
+    knowsAbout: [
+      "Francés",
+      "Niveles A1-C1",
+      "Preparación DELF",
+      "Gramática en contexto",
+      "Tecnología educativa",
+      "Inteligencia artificial aplicada a la educación",
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Aprende Francés Viajando | Proyecto creado por Aldo Jara Pisconti"
+  description="Conoce Aprende Francés Viajando, una plataforma educativa A1-C1 creada por Aldo Jara Pisconti que integra francés, preparación DELF, viajes y tecnología educativa."
+  canonical="/proyecto/"
+  type="website"
+  robots="index,follow"
+  structuredData={projectStructuredData}
+>
+  <main class="project-page">
+    <section class="project-hero container" aria-labelledby="project-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Conoce la plataforma</p>
+        <h1 id="project-title">Una plataforma para aprender francés, comunicarte y descubrir el mundo.</h1>
+        <p>
+          Un proyecto que combina progresión A1-C1, gramática, preparación DELF,
+          comunicación real, contexto de viaje y tecnología educativa aplicada de
+          forma progresiva para acompañarte en cada etapa.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href={withBase("/niveles/")}>Explorar la plataforma</a>
+          <a class="button button-secondary" href="#creador">Conocer al creador</a>
+        </div>
+      </div>
+
+      <div class="hero-scene" aria-hidden="true">
+        <svg viewBox="0 0 560 420" focusable="false">
+          <path class="line-gold" d="M68 76c52 46 114 45 186-5" />
+          <path class="paper" d="m254 55 54-28-22 62-13-25z" />
+          <path class="tower" d="M279 58c23 104 42 197 57 279M279 58c-33 107-57 200-72 279M232 240h78M218 291h107M194 337h158M254 118h45M242 170h66M224 218h95" />
+          <path class="city" d="M44 348h460M76 348v-70h54v70M96 306h14M158 348v-94h72v94M180 296h28M258 348v-55h55v55M352 348v-82h68v82M372 302h26M446 348v-62h42v62" />
+          <path class="water" d="M72 372c42-18 84-18 126 0s84 18 126 0 84-18 126 0" />
+        </svg>
+      </div>
+
+      <aside class="vision-card" aria-labelledby="vision-title">
+        <h2 id="vision-title">Visión del proyecto</h2>
+        <ul>
+          {
+            visionItems.map(([title, text, icon]) => (
+              <li>
+                <span class={`vision-icon vision-${icon}`} aria-hidden="true">{title === "A1-C1" ? "A1" : ""}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </aside>
+    </section>
+
+    <div class="project-shell container">
+      <section class="project-section" aria-labelledby="why-title">
+        <h2 id="why-title">Por qué existe este proyecto</h2>
+        <div class="card-grid four">
+          {
+            reasons.map(([title, text, icon]) => (
+              <article class={`info-card info-${icon}`}>
+                <span aria-hidden="true"></span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="project-section" aria-labelledby="proposal-title">
+        <h2 id="proposal-title">La propuesta educativa</h2>
+        <div class="proposal-grid">
+          {
+            proposal.map(([title, text, tone]) => (
+              <article class={`proposal-card proposal-${tone}`}>
+                <span aria-hidden="true"></span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section id="construccion" class="project-section" aria-labelledby="build-title">
+        <h2 id="build-title">Cómo se construye la plataforma</h2>
+        <ol class="timeline">
+          {
+            steps.map(([title, text], index) => (
+              <li>
+                <span class="timeline-dot">{index + 1}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section id="ia-aplicada" class="split-section" aria-labelledby="ai-title">
+        <div class="split-copy">
+          <h2 id="ai-title">Inteligencia artificial aplicada con criterio</h2>
+          <p>
+            La inteligencia artificial no reemplaza el aprendizaje, lo potencia.
+            Se integra de forma progresiva para mejorar la calidad, la
+            reutilización de contenidos, la adaptación y la experiencia educativa.
+          </p>
+        </div>
+        <div class="ai-list">
+          {
+            aiItems.map(([title, text, status]) => (
+              <article>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </div>
+                <span class:list={["ai-status", { "ai-status-soon": status === "Próximamente" }]}>
+                  {status}
+                </span>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="travel-section" aria-labelledby="travel-title">
+        <div>
+          <h2 id="travel-title">Francés y viajes</h2>
+          <p><strong>Aprender francés es también abrir la puerta al mundo.</strong></p>
+          <p>
+            Cada lección acerca al estudiante a situaciones reales: pedir en un
+            café, moverse por la ciudad, entender carteles, conocer personas y
+            descubrir culturas.
+          </p>
+          <p>
+            El idioma cobra sentido cuando se vive, se usa y se disfruta en cada
+            lugar.
+          </p>
+        </div>
+        <svg class="travel-visual" viewBox="0 0 420 280" aria-hidden="true" focusable="false">
+          <path d="M32 224h352" />
+          <path d="M74 218v-58h66v58M96 186h22M170 218v-86h78v86M194 164h30M278 218v-66h64v66" />
+          <path d="M266 224c4-48 26-74 64-76 42 4 63 30 65 76" />
+          <path d="M42 236c43-16 84-16 123 0s79 16 120 0 74-16 111 0" />
+          <rect x="92" y="96" width="72" height="42" rx="8" />
+          <path d="M104 110h48M104 124h48" />
+          <path d="M210 96h62v100h-62zM220 96v-18h42v18M228 126h26M228 152h26" />
+          <circle cx="329" cy="95" r="27" />
+          <path d="M308 95h42M329 68v54" />
+        </svg>
+      </section>
+
+      <CreatorSection />
+
+      <section class="project-final-cta" aria-label="Siguientes pasos">
+        {
+          finalCtas.map(([title, text, href, label]) => (
+            <article>
+              <h2>{title}</h2>
+              <p>{text}</p>
+              <a href={withBase(href)}>{label} <span aria-hidden="true">→</span></a>
+            </article>
+          ))
+        }
+        <div class="cta-seal" aria-hidden="true">Francés para vivir el mundo</div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .project-page {
+    background:
+      radial-gradient(circle at 94% 9%, rgba(99, 55, 199, 0.08), transparent 22rem),
+      radial-gradient(circle at 8% 34%, rgba(184, 134, 11, 0.08), transparent 18rem),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.58), transparent 22rem),
+      var(--color-bg);
+  }
+
+  .project-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.72fr) minmax(19rem, 0.78fr);
+    gap: 1.2rem;
+    align-items: center;
+    padding-block: 3.2rem 1.6rem;
+  }
+
+  .hero-copy h1 {
+    max-width: 44rem;
+    font-size: clamp(2.35rem, 5vw, 4.35rem);
+    letter-spacing: 0;
+  }
+
+  .hero-copy p:not(.eyebrow) {
+    max-width: 45rem;
+    margin: 1rem 0 0;
+    color: var(--color-heading);
+    font-size: clamp(1rem, 1.4vw, 1.12rem);
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 1.4rem;
+  }
+
+  .hero-scene {
+    align-self: end;
+  }
+
+  .hero-scene svg,
+  .travel-visual {
+    width: 100%;
+    height: auto;
+    color: var(--color-blue-dark);
+  }
+
+  .hero-scene path,
+  .travel-visual path,
+  .travel-visual rect,
+  .travel-visual circle {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3;
+  }
+
+  .hero-scene .line-gold,
+  .hero-scene .paper {
+    color: var(--color-gold);
+    stroke-dasharray: 8 10;
+  }
+
+  .hero-scene .paper {
+    fill: rgba(184, 134, 11, 0.08);
+    stroke-dasharray: none;
+  }
+
+  .hero-scene .city,
+  .hero-scene .water {
+    opacity: 0.42;
+  }
+
+  .vision-card {
+    padding: 1.1rem;
+    border: 1px solid rgba(11, 47, 85, 0.16);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .vision-card h2 {
+    font-size: clamp(1.35rem, 2vw, 1.65rem);
+  }
+
+  .vision-card ul {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0;
+    margin: 0.9rem 0 0;
+    list-style: none;
+  }
+
+  .vision-card li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: center;
+    padding-bottom: 0.72rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .vision-card li:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .vision-icon {
+    display: grid;
+    width: 3.45rem;
+    height: 3.45rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-blue-dark);
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-weight: 900;
+  }
+
+  .vision-book { background: var(--color-gold); }
+  .vision-media { background: #6337c7; }
+  .vision-chip { background: #128043; }
+
+  .vision-card h3 {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 900;
+  }
+
+  .vision-card p,
+  .project-section p,
+  .split-section p,
+  .travel-section p {
+    margin: 0.25rem 0 0;
+    color: var(--color-text-muted);
+  }
+
+  .project-shell {
+    display: grid;
+    gap: 1.55rem;
+    padding-block: 1rem 3rem;
+  }
+
+  .project-section {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .project-section h2,
+  .split-section h2,
+  .travel-section h2 {
+    font-size: clamp(1.55rem, 3vw, 2.05rem);
+  }
+
+  .card-grid,
+  .proposal-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .card-grid.four,
+  .proposal-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .info-card,
+  .proposal-card {
+    min-height: 8.2rem;
+    padding: 1rem;
+    border: 1px solid rgba(11, 47, 85, 0.12);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.84);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .info-card h3,
+  .proposal-card h3 {
+    margin-top: 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.96rem;
+    font-weight: 900;
+  }
+
+  .info-card span {
+    display: block;
+    width: 2.65rem;
+    height: 2.65rem;
+    border: 2px solid currentColor;
+    border-radius: 0.75rem;
+    color: var(--color-blue-dark);
+    opacity: 0.9;
+  }
+
+  .info-puzzle span { color: var(--color-gold); }
+  .info-file span { color: #6337c7; }
+  .info-route span { color: #128043; }
+
+  .proposal-card {
+    min-height: 12rem;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7)),
+      var(--color-surface);
+  }
+
+  .proposal-card span {
+    display: block;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    background: rgba(0, 85, 164, 0.11);
+  }
+
+  .proposal-green span { background: rgba(18, 128, 67, 0.12); }
+  .proposal-gold span { background: rgba(184, 134, 11, 0.16); }
+  .proposal-violet span { background: rgba(99, 55, 199, 0.13); }
+
+  .timeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding: 1.2rem;
+    margin: 0;
+    border: 1px solid rgba(11, 47, 85, 0.12);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.68);
+    list-style: none;
+  }
+
+  .timeline::before {
+    position: absolute;
+    top: 2.85rem;
+    right: 2rem;
+    left: 2rem;
+    border-top: 2px dotted rgba(11, 47, 85, 0.32);
+    content: "";
+  }
+
+  .timeline li {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .timeline-dot {
+    display: grid;
+    width: 3.35rem;
+    height: 3.35rem;
+    place-items: center;
+    border: 4px solid #ffffff;
+    border-radius: 50%;
+    background: var(--color-blue-dark);
+    color: #ffffff;
+    font-weight: 900;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .timeline li:nth-child(2) .timeline-dot { background: var(--color-gold); }
+  .timeline li:nth-child(3) .timeline-dot { background: #6337c7; }
+  .timeline li:nth-child(4) .timeline-dot { background: #128043; }
+
+  .timeline h3 {
+    margin-top: 0.8rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 900;
+  }
+
+  .timeline p {
+    margin: 0.35rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .split-section,
+  .travel-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(18rem, 1fr);
+    gap: 1rem;
+    align-items: center;
+    padding: 1.2rem;
+    border: 1px solid rgba(11, 47, 85, 0.12);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.66);
+  }
+
+  .ai-list {
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .ai-list article {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.8rem;
+    align-items: center;
+    padding: 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+  }
+
+  .ai-list h3 {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 900;
+  }
+
+  .ai-list p {
+    font-size: 0.78rem;
+  }
+
+  .ai-status {
+    display: inline-flex;
+    min-height: 1.55rem;
+    align-items: center;
+    padding: 0.16rem 0.55rem;
+    border-radius: 999px;
+    background: #e8f4ec;
+    color: #247144;
+    font-size: 0.66rem;
+    font-weight: 900;
+  }
+
+  .ai-status-soon {
+    background: #eef2f8;
+    color: var(--color-blue-dark);
+  }
+
+  .travel-section {
+    grid-template-columns: minmax(0, 0.72fr) minmax(18rem, 0.9fr);
+    background:
+      linear-gradient(120deg, rgba(255, 255, 255, 0.86), rgba(255, 248, 234, 0.72)),
+      var(--color-surface);
+  }
+
+  .travel-visual {
+    color: var(--color-blue-dark);
+    opacity: 0.72;
+  }
+
+  .project-final-cta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    background:
+      linear-gradient(135deg, rgba(0, 85, 164, 0.38), transparent 55%),
+      var(--color-blue-dark);
+    color: #ffffff;
+    box-shadow: var(--shadow-md);
+  }
+
+  .project-final-cta article {
+    min-height: 8rem;
+    padding: 0.6rem 1rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.22);
+  }
+
+  .project-final-cta h2 {
+    color: #ffffff;
+    font-size: 1.35rem;
+  }
+
+  .project-final-cta p {
+    margin: 0.45rem 0 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.88rem;
+  }
+
+  .project-final-cta a {
+    display: inline-flex;
+    margin-top: 0.65rem;
+    color: #f6c65b;
+    font-weight: 900;
+  }
+
+  .cta-seal {
+    display: grid;
+    width: 7.2rem;
+    height: 7.2rem;
+    place-items: center;
+    border: 2px solid var(--color-gold);
+    border-radius: 50%;
+    color: #f6c65b;
+    font-size: 0.72rem;
+    font-weight: 900;
+    line-height: 1.28;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1120px) {
+    .project-hero,
+    .split-section,
+    .travel-section {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-scene {
+      max-width: 34rem;
+      justify-self: center;
+    }
+
+    .card-grid.four,
+    .proposal-grid,
+    .project-final-cta {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cta-seal {
+      display: none;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .timeline {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .timeline::before {
+      top: 2rem;
+      bottom: 2rem;
+      left: 2.85rem;
+      right: auto;
+      border-top: 0;
+      border-left: 2px dotted rgba(11, 47, 85, 0.32);
+    }
+
+    .timeline li {
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: 1rem;
+      justify-items: start;
+      text-align: left;
+    }
+
+    .timeline-dot {
+      grid-row: span 2;
+    }
+
+    .timeline h3 {
+      margin-top: 0.2rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .project-hero {
+      padding-block: 2.2rem 1rem;
+    }
+
+    .card-grid.four,
+    .proposal-grid,
+    .project-final-cta {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-actions .button,
+    .project-final-cta article {
+      width: 100%;
+    }
+
+    .project-final-cta article {
+      border-right: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .ai-list article {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

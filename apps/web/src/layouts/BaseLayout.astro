@@ -3,60 +3,89 @@ import "../styles/global.css";
 import Header from "../components/global/Header.astro";
 import Footer from "../components/global/Footer.astro";
 import { withBase } from "../utils/paths";
+import {
+  absoluteUrl,
+  defaultDescription,
+  defaultOgImage,
+  serializeJsonLd,
+  siteName,
+} from "../utils/seo";
 
 interface Props {
   title?: string;
   description?: string;
   canonical?: string;
+  image?: string;
+  type?: string;
+  robots?: string;
+  structuredData?: unknown | unknown[];
 }
 
 const {
-  title = "Aprende Francés Viajando",
-  description = "Plataforma para aprender francés por niveles, preparar el DELF y practicar con recursos guiados.",
+  title = siteName,
+  description = defaultDescription,
   canonical,
+  image = defaultOgImage,
+  type = "website",
+  robots = "index,follow",
+  structuredData,
 } = Astro.props;
 
 const pageTitle =
-  title === "Aprende Francés Viajando"
-    ? title
-    : `${title} | Aprende Francés Viajando`;
-const canonicalHref = canonical ? withBase(canonical) : undefined;
+  title === siteName || title.includes(siteName) ? title : `${title} | ${siteName}`;
+const baseUrl = Astro.site ?? Astro.url;
+const canonicalHref = absoluteUrl(canonical ?? Astro.url.pathname, baseUrl);
+const imageHref = absoluteUrl(image, baseUrl);
+const jsonLdItems = Array.isArray(structuredData)
+  ? structuredData
+  : structuredData
+    ? [structuredData]
+    : [];
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1"
-    />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
 
     <title>{pageTitle}</title>
-    {canonicalHref && <link rel="canonical" href={canonicalHref} />}
+    <link rel="canonical" href={canonicalHref} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    {canonicalHref && <meta property="og:url" content={canonicalHref} />}
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalHref} />
+    <meta property="og:image" content={imageHref} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="es_PE" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageHref} />
 
     <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
     <link rel="icon" href={withBase("/favicon.ico")} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    {
+      jsonLdItems.map((item) => (
+        <script type="application/ld+json" set:html={serializeJsonLd(item)} />
+      ))
+    }
   </head>
 
-<body>
-  <Header />
-  <slot />
-  <Footer />
-</body>
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+  </body>
 </html>
