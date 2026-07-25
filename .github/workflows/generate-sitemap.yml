@@ -21,7 +21,7 @@ jobs:
           echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
 
           # URL base del sitio
-          BASE_URL="https://aldojara.github.io/Aprende-Frances-Viajando"
+          BASE_URL="https://aprendefrancesviajando.com"
 
           # Agrega la página principal
           echo "  <url><loc>${BASE_URL}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>" >> sitemap.xml
